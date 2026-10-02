@@ -88,6 +88,10 @@ def classify(blob: bytes) -> str:
     stripped = blob.lstrip(b"\xff")
     if stripped and stripped != blob and _is_ascii_string(stripped):
         return "string"
+    # Shift-JIS string (Japanese localisations). Tried after ASCII
+    # so a blob of pure ASCII never accidentally matches.
+    if _is_sjis_string(blob):
+        return "string"
     # A blob of all printable ASCII (no NUL terminator required) is a
     # string table - the strings may continue into the next label's
     # range.
@@ -203,14 +207,23 @@ def _is_all_printable_ascii(blob: bytes) -> bool:
 
 def _is_u16_array(blob: bytes) -> bool:
     """A blob is a packed big-endian u16 array if its length is a
-    multiple of 2 and no value, when interpreted as a 16-bit code
-    unit, has its high byte inside the RAM pointer range
-    0x80-0x81. (Anything outside that range is either a small
-    integer, an ASCII byte, or a CJK/BMP code unit.)
+    multiple of 2 and only a small fraction of its values, when
+    interpreted as 16-bit code units, have their high byte inside the
+    RAM pointer range 0x80-0x81. The 0x80-0x81 range is suspicious
+    because it overlaps the high byte of valid RAM addresses
+    (0x80000000-0x81800000); a blob consisting mostly of those values
+    is probably a pointer table that has been split into 16-bit
+    halves, not a u16 array.
 
     An odd-length blob is also accepted if dropping the last byte
     yields a valid u16 array - the trailing byte is then treated as
     alignment padding for whatever follows the incbin.
+
+    Threshold: fewer than 10% of the values may fall inside
+    0x8000-0x81FF. This catches CJK/font tables (where a few stray
+    CJK Unified Ideographs happen to land in U+8000-U+81FF) while
+    still rejecting genuine pointer-halves blobs (where most values
+    are 0x8000-0x81FF).
     """
     if len(blob) < 2:
         return False
@@ -218,7 +231,12 @@ def _is_u16_array(blob: bytes) -> bool:
         if size < 2 or size % 2 != 0:
             continue
         words = struct.unpack(f">{size // 2}H", blob[:size])
-        if all(not 0x8000 <= w <= 0x81FF for w in words):
+        if not words:
+            continue
+        bad = sum(1 for w in words if 0x8000 <= w <= 0x81FF)
+        # Less than 10% of values in the RAM-pointer high-byte
+        # range, so we treat the blob as a u16 array.
+        if bad * 10 < len(words):
             return True
     return False
 
@@ -244,6 +262,68 @@ def _is_utf16be_string(blob: bytes) -> bool:
         if 0xD800 <= cu <= 0xDFFF or cu in (0xFFFE, 0xFFFF):
             return False
     return True
+
+
+# Shift-JIS multibyte lead bytes. A lead byte can be 0x81-0x9F or
+# 0xEF; the trail byte follows 0x40-0x7E or 0x80-0xFC. Halfwidth
+# katakana (0xA1-0xDF) is a separate single-byte set.
+def _is_sjis_lead(b: int) -> bool:
+    return (0x81 <= b <= 0x9F) or b == 0xEF
+
+
+def _is_sjis_string(blob: bytes) -> bool:
+    """A blob is a Shift-JIS string if it ends with NUL (after
+    optional whitespace such as ``\\n``) and every non-NUL byte
+    follows valid Shift-JIS character boundaries.
+
+    The pattern is:
+      * ASCII bytes (0x20-0x7E, plus whitespace controls 0x09/0x0A/0x0D)
+        are standalone characters.
+      * Halfwidth katakana (0xA1-0xDF) is also standalone.
+      * Multibyte characters start with a Shift-JIS lead byte
+        (0x81-0x9F or 0xEF) followed by a valid trail byte
+        (0x40-0x7E or 0x80-0xFC).
+
+    The blob must contain at least one multibyte Shift-JIS character;
+    a blob that is purely ASCII would have already been caught by
+    ``_is_ascii_string``.
+    """
+    if len(blob) < 2:
+        return False
+    # Trim trailing NUL padding so we don't reject a string that
+    # happened to be padded with extra terminators. Shift-JIS error
+    # strings in this binary are typically ``\\n\\0\\0\\0``-terminated.
+    stripped = blob.rstrip(b"\x00")
+    if not stripped or stripped[-1] not in (0, 9, 10, 13):
+        return False
+    body = stripped.rstrip(b"\x00\t\n\r")
+    if not body:
+        return False
+    saw_lead = False
+    i = 0
+    while i < len(body):
+        b = body[i]
+        if b < 0x20:
+            return False
+        if b < 0x80:
+            i += 1
+            continue
+        if 0xA1 <= b <= 0xDF:
+            i += 1
+            continue
+        if _is_sjis_lead(b):
+            if i + 1 >= len(body):
+                return False
+            trail = body[i + 1]
+            if not (0x40 <= trail <= 0x7E or 0x80 <= trail <= 0xFC):
+                return False
+            saw_lead = True
+            i += 2
+            continue
+        # Anything else (e.g. 0xE0-0xEE, 0xF0+) is not valid in this
+        # simple Shift-JIS subset, so reject the whole blob.
+        return False
+    return saw_lead
 
 
 def render(inc: Incbin) -> str:
