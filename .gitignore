@@ -19,3 +19,5 @@
 build
 .idea
 *.dump
+.venv
+__pycache__
