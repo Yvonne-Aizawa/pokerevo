@@ -2225,7 +2225,8 @@ lbl_806410DA:
 	.byte 0x0A
 .global lbl_806410DB
 lbl_806410DB:
-	.incbin "baserom.dol", 0x4730FB, 0x5
+	.2byte 0x0B00, 0x0000
+	.byte 0x00
 .global lbl_806410E0
 lbl_806410E0:
 	.ascii "C0"
@@ -3520,7 +3521,8 @@ lbl_806416F2:
 	.byte 0x0D
 .global lbl_806416F3
 lbl_806416F3:
-	.incbin "baserom.dol", 0x473713, 0x5
+	.2byte 0x1000, 0x0000
+	.byte 0x00
 .global lbl_806416F8
 lbl_806416F8:
 	.skip 0x8

@@ -134,6 +134,17 @@ def classify(blob: bytes) -> str:
             for i in range(0, n, 4)
         ):
             return "struct_ff"
+        # Small vtable: a few ptrs followed by a single 0xFFFFFFFF
+        # sentinel (e.g. 3 entries + 4-byte terminator = 16 bytes).
+        sentinel_idx = -1
+        for i, v in enumerate(ints):
+            if v == 0xFFFFFFFF:
+                sentinel_idx = i
+                break
+        if sentinel_idx >= 1 and all(
+            _looks_like_addr(ints[i]) for i in range(sentinel_idx)
+        ) and all(ints[i] == 0 for i in range(sentinel_idx + 1, n)):
+            return "vtable"
         # Float: every value is finite (no NaN/Inf), and most are
         # non-zero. The "pointers" check above already rules out
         # all-RAM-address blobs. We allow the full IEEE-754 single
@@ -195,14 +206,21 @@ def _is_u16_array(blob: bytes) -> bool:
     multiple of 2 and no value, when interpreted as a 16-bit code
     unit, has its high byte inside the RAM pointer range
     0x80-0x81. (Anything outside that range is either a small
-    integer, an ASCII byte, or a CJK/BMP code unit.)"""
-    if len(blob) < 2 or len(blob) % 2 != 0:
+    integer, an ASCII byte, or a CJK/BMP code unit.)
+
+    An odd-length blob is also accepted if dropping the last byte
+    yields a valid u16 array - the trailing byte is then treated as
+    alignment padding for whatever follows the incbin.
+    """
+    if len(blob) < 2:
         return False
-    words = struct.unpack(f">{len(blob) // 2}H", blob)
-    for w in words:
-        if 0x8000 <= w <= 0x81FF:
-            return False
-    return True
+    for size in (len(blob), len(blob) - 1):
+        if size < 2 or size % 2 != 0:
+            continue
+        words = struct.unpack(f">{size // 2}H", blob[:size])
+        if all(not 0x8000 <= w <= 0x81FF for w in words):
+            return True
+    return False
 
 
 def _is_utf16be_string(blob: bytes) -> bool:
@@ -344,14 +362,19 @@ def render(inc: Incbin) -> str:
         v = struct.unpack(">H", blob)[0]
         return f"\t.2byte 0x{v:04X}\n"
     if kind == "u16s":
-        # Packed big-endian u16 array.
-        words = struct.unpack(f">{len(blob) // 2}H", blob)
+        # Packed big-endian u16 array. If the blob has an odd
+        # number of bytes, the trailing byte is alignment padding
+        # and is emitted as a separate .byte directive.
+        size = len(blob) & ~1  # round down to even
+        words = struct.unpack(f">{size // 2}H", blob[:size])
         lines = []
         for i in range(0, len(words), 8):
             chunk = words[i : i + 8]
             lines.append(
                 "\t.2byte " + ", ".join(f"0x{v:04X}" for v in chunk)
             )
+        if size < len(blob):
+            lines.append(f"\t.byte 0x{blob[-1]:02X}")
         return "\n".join(lines) + "\n"
     if kind == "doubles":
         # 8-byte big-endian double. Use .8byte with the raw hex value
@@ -372,22 +395,60 @@ def render(inc: Incbin) -> str:
             )
         return "\n".join(lines) + "\n"
     if kind == "vtable":
-        # Repeated (0, 0xFFFFFFFF, ptr) triple.
+        # Either a repeated (0, 0xFFFFFFFF, ptr) triple (full
+        # vtable) or a small list of ptrs terminated by a single
+        # 0xFFFFFFFF sentinel.
         ints = struct.unpack(f">{inc.size // 4}I", blob)
+        # Detect which pattern we're dealing with by looking at the
+        # structure: 0xFFFFFFFF tokens at every 3rd word means the
+        # triple pattern; a single 0xFFFFFFFF after a run of
+        # pointers means the sentinel pattern.
+        sentinel_count = sum(1 for i, v in enumerate(ints) if v == 0xFFFFFFFF)
+        is_triple = sentinel_count > 1 and all(
+            (i % 3 != 2) or v == 0xFFFFFFFF for i, v in enumerate(ints)
+        ) and all(
+            ints[i] == 0 and ints[i + 1] == 0xFFFFFFFF and _looks_like_addr(ints[i + 2])
+            for i in range(0, len(ints) - 2, 3)
+            if i + 2 < len(ints)
+        )
+        if is_triple:
+            lines = []
+            for i in range(0, len(ints), 3 * 4):
+                chunk = ints[i : i + 12]
+                if not chunk:
+                    break
+                rendered = []
+                for j in range(0, len(chunk), 3):
+                    _, _, ptr = chunk[j : j + 3]
+                    addr = f"{ptr:08X}"
+                    label = _label_for_addr(addr)
+                    rendered.append("0x00000000")
+                    rendered.append("0xFFFFFFFF")
+                    rendered.append(label if label else f"0x{ptr:08X}")
+                lines.append("\t.4byte " + ", ".join(rendered))
+            return "\n".join(lines) + "\n"
+        # Sentinel form: ptrs, then 0xFFFFFFFF, then any trailing
+        # padding (zeros) we encountered.
+        sent_at = ints.index(0xFFFFFFFF)
+        ptrs = ints[:sent_at]
         lines = []
-        for i in range(0, len(ints), 3 * 4):
-            chunk = ints[i : i + 12]
-            if not chunk:
-                break
-            rendered = []
-            for j in range(0, len(chunk), 3):
-                _, _, ptr = chunk[j : j + 3]
-                addr = f"{ptr:08X}"
-                label = _label_for_addr(addr)
-                rendered.append("0x00000000")
-                rendered.append("0xFFFFFFFF")
-                rendered.append(label if label else f"0x{ptr:08X}")
+        for i in range(0, len(ptrs), 4):
+            chunk = ptrs[i : i + 4]
+            rendered = [
+                (
+                    _label_for_addr(f"{v:08X}")
+                    if _label_for_addr(f"{v:08X}")
+                    else f"0x{v:08X}"
+                )
+                for v in chunk
+            ]
             lines.append("\t.4byte " + ", ".join(rendered))
+        lines.append("\t.4byte 0xFFFFFFFF")
+        for i in range(sent_at + 1, len(ints), 4):
+            chunk = ints[i : i + 4]
+            lines.append(
+                "\t.4byte " + ", ".join(f"0x{v:08X}" for v in chunk)
+            )
         return "\n".join(lines) + "\n"
     if kind == "struct_ff":
         # Repeated (ptr, 0xFFFFFFFF, 0, 0) 16-byte record.
