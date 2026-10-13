@@ -511,7 +511,17 @@ lbl_80406EC4:
 	.float 3.843503293410322e-11
 .global lbl_804071C8
 lbl_804071C8:
-	.incbin "baserom.dol", 0x4032C8, 0xDA
+	.4byte 0x80014CD8, 0x80014CE8, 0x80014CE8, 0x80014CE8
+	.4byte 0x80014CE8, 0x80014CE8, 0x80014CE8, 0x80014CE8
+	.4byte 0x80014CE8, 0x80014CE8, 0x80014C80, 0x80014CE8
+	.4byte 0x80014CA0, 0x80014C88, 0x80014CE8, 0x80014C98
+	.4byte 0x80014CE8, 0x80014C90
+	.ascii "[Jikkyo] Play Wait Input Sound Message : %u (SoundMsg Id)\n"
+	.byte 0x00
+	.ascii "[Jikkyo] #### FAILURE #### Play SoundMsg Id : %u\n"
+	.byte 0x00
+	.ascii "[Jikkyo] (WAIT INPUT MSG is empty.)\n"
+	.byte 0x00
 .global lbl_804072A2
 lbl_804072A2:
 	.ascii "playing wait count error"
@@ -9375,7 +9385,11 @@ lbl_80422B98:
 	.float -9.191890144258782e-39, -5.858772827403487e-39, -5.858896141668348e-39, -9.19187332867721e-39
 .global lbl_80422D48
 lbl_80422D48:
-	.incbin "baserom.dol", 0x41EE48, 0x48
+	.4byte 0x00000000, 0x43000000, 0x00000000, 0x00000000
+	.4byte 0x00000000, 0x00000000, 0x00000000, 0x00000000
+	.4byte 0x00000000, 0x00000000, 0x00000000, 0x00000000
+	.4byte 0x00000000, 0x80422CB8, 0x80422BD0, 0x80422CD4
+	.4byte 0x80422D08, 0x80422D20
 .global lbl_80422D90
 lbl_80422D90:
 	.4byte 0x801CAC14, 0x801CAD74, 0x801CAD74, 0x801CAD74
