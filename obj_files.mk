@@ -356,7 +356,7 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/asm/SDK/OS/OS.o                                  \
 	$(BUILD_DIR)/asm/SDK/OS/OSAlarm.o                             \
 	$(BUILD_DIR)/src/SDK/OS/OSAlloc.o                             \
-	$(BUILD_DIR)/asm/SDK/OS/OSArena.o                             \
+	$(BUILD_DIR)/src/SDK/OS/OSArena.o                             \
 	$(BUILD_DIR)/asm/SDK/OS/OSAudioSystem.o                       \
 	$(BUILD_DIR)/asm/SDK/OS/OSCache.o                             \
 	$(BUILD_DIR)/asm/SDK/OS/OSContext.o                           \

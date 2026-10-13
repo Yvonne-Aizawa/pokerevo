@@ -915,11 +915,11 @@ lbl_8063FA70:
 .global HeapArray
 HeapArray:
 	.skip 0x8
-.global lbl_8063FA80
-lbl_8063FA80:
+.global __OSArenaHi
+__OSArenaHi:
 	.skip 0x4
-.global lbl_8063FA84
-lbl_8063FA84:
+.global __OSMEM2ArenaHi
+__OSMEM2ArenaHi:
 	.skip 0x4
 .global lbl_8063FA88
 lbl_8063FA88:

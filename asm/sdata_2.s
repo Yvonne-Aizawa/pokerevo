@@ -298,11 +298,11 @@ lbl_8063DA68:
 	.byte 0x00
 	.byte 0x00
 	.byte 0x00
-.global lbl_8063DA70
-lbl_8063DA70:
+.global __OSArenaLo
+__OSArenaLo:
 	.4byte 0xFFFFFFFF
-.global lbl_8063DA74
-lbl_8063DA74:
+.global __OSMEM2ArenaLo
+__OSMEM2ArenaLo:
 	.4byte 0xFFFFFFFF
 .global lbl_8063DA78
 lbl_8063DA78:
