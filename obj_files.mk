@@ -373,7 +373,7 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/asm/SDK/OS/OSReset.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSRtc.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSSemaphore.o                              \
-	$(BUILD_DIR)/asm/SDK/OS/OSSync.o                              \
+	$(BUILD_DIR)/src/SDK/OS/OSSync.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSThread.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSTime.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSUtf.o                              \

@@ -13,6 +13,7 @@ extern "C" {
 #include "SDK/OS/OSIpc.h"
 #include "SDK/OS/OSLink.h"
 #include "SDK/OS/OSReboot.h"
+#include "SDK/OS/OSSync.h"
 
 #ifdef __cplusplus
 }
