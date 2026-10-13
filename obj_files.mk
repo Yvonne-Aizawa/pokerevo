@@ -365,11 +365,11 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/asm/SDK/OS/OSFatal.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSFont.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSInterrupt.o                              \
-	$(BUILD_DIR)/asm/SDK/OS/OSLink.o                              \
+	$(BUILD_DIR)/src/SDK/OS/OSLink.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSMessage.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSMemory.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSMutex.o                              \
-	$(BUILD_DIR)/asm/SDK/OS/OSReboot.o                              \
+	$(BUILD_DIR)/src/SDK/OS/OSReboot.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSReset.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSRtc.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSSemaphore.o                              \
@@ -377,7 +377,7 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/asm/SDK/OS/OSThread.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSTime.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSUtf.o                              \
-	$(BUILD_DIR)/asm/SDK/OS/OSIpc.o                              \
+	$(BUILD_DIR)/src/SDK/OS/OSIpc.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSStateTM.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSPlayRecord.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSStateFlags.o                              \

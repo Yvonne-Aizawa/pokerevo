@@ -346,9 +346,9 @@ lbl_8063DA98:
 .global lbl_8063DAA0
 lbl_8063DAA0:
 	.8byte 0x8027106000000000
-.global lbl_8063DAA8
-lbl_8063DAA8:
-	.ascii "\xff\xff\xff\xff"
+.global __OSIpcBufferLo
+__OSIpcBufferLo:
+	.4byte 0xFFFFFFFF
 	.byte 0x00
 	.byte 0x00
 	.byte 0x00

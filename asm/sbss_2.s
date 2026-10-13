@@ -972,11 +972,11 @@ lbl_8063FAC4:
 .global lbl_8063FAC8
 lbl_8063FAC8:
 	.skip 0x8
-.global lbl_8063FAD0
-lbl_8063FAD0:
+.global SaveStart
+SaveStart:
 	.skip 0x4
-.global lbl_8063FAD4
-lbl_8063FAD4:
+.global SaveEnd
+SaveEnd:
 	.skip 0x4
 .global lbl_8063FAD8
 lbl_8063FAD8:
@@ -993,8 +993,8 @@ lbl_8063FAEC:
 .global lbl_8063FAF0
 lbl_8063FAF0:
 	.skip 0x8
-.global lbl_8063FAF8
-lbl_8063FAF8:
+.global __OSIpcBufferHi
+__OSIpcBufferHi:
 	.skip 0x8
 .global lbl_8063FB00
 lbl_8063FB00:
