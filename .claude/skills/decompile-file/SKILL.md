@@ -68,6 +68,12 @@ compare their codegen in one pass — much faster than editing in place.
   - `cmp; bne NEXT; b END` ⇐ `if (x <= A || x == B) { return; }` — the
     early-return `||` form keeps the two-instruction shape. (`&&`, empty
     `else`, and `switch` all fold it away; tested exhaustively for OSNet.)
+  - `cntlzw; srwi` where the target has `cmpwi; beq OK; li r3,0; b END; ...
+    OK: li r3,1` ⇐ MWCC folded `if (x != 0) return FALSE; return TRUE;` into
+    `return x == 0`. Every plain-`return` shape folds (nesting, `else`,
+    `goto`, other compiler versions). What kept the branches in
+    OSStateFlags: a `BOOL ret` set in an `else if` chain, with the success
+    arm doing `goto ok;` to a trailing `ok: return TRUE;`.
 - **`addi r3, rBase, 0` (not `mr`)** addressing a data symbol means the
   original had **in-TU data** (string literals / static data) addressed via a
   literal-pool base register. `extern` references compile to `mr` for offset

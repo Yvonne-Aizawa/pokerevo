@@ -273,8 +273,8 @@ lbl_80515280:
 .global lbl_805152A0
 lbl_805152A0:
 	.skip 0x200
-.global lbl_805154A0
-lbl_805154A0:
+.global StateFlags
+StateFlags:
 	.skip 0x20
 .global lbl_805154C0
 lbl_805154C0:

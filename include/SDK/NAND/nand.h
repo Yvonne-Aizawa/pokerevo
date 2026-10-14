@@ -28,6 +28,7 @@ void* NANDGetUserData(const NANDCommandBlock* block);
 void NANDSetUserData(NANDCommandBlock* block, void* data);
 s32 NANDCreate(const char* fileName, u8 perm, u8 attr);
 s32 NANDWrite(NANDFileInfo* info, const void* buf, u32 length);
+s32 NANDDelete(const char* path);
 
 
 

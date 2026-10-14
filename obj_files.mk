@@ -380,8 +380,8 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/src/SDK/OS/OSIpc.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSStateTM.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSPlayRecord.o                              \
-	$(BUILD_DIR)/asm/SDK/OS/OSStateFlags.o                              \
 	$(BUILD_DIR)/asm/data_2.o                                    \
+	$(BUILD_DIR)/src/SDK/OS/OSStateFlags.o                              \
 	$(BUILD_DIR)/src/SDK/OS/OSNet.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSNandbootInfo.o                              \
 	$(BUILD_DIR)/asm/Runtime/__ppc_eabi_init.o                              \
