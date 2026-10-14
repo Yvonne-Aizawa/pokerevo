@@ -24,6 +24,8 @@ typedef volatile s64 vs64;
 
 typedef float f32;
 typedef volatile f32 vf32;
+typedef double f64;
+typedef volatile f64 vf64;
 
 typedef unsigned long size_t;
 
