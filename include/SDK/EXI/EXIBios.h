@@ -10,6 +10,11 @@ extern "C" {
 
 typedef void (*EXICallback)(s32 chan, OSContext *context);
 
+#define EXIClearInterrupts(chan, exi, tc, ext)                                                                    \
+    (__EXIRegs[(chan) * 5] = (__EXIRegs[(chan) * 5] & 0x7F5) | ((exi) << 1) | ((tc) << 3) | ((ext) << 11))
+
+extern vu32 __EXIRegs[16];
+
 // EXIBios.c is still asm
 EXICallback EXISetExiCallback(s32 chan, EXICallback exiCallback);
 BOOL EXILock(s32 chan, u32 dev, EXICallback unlockedCallback);
@@ -20,8 +25,15 @@ BOOL EXIImm(s32 chan, void *buf, s32 len, u32 type, EXICallback callback);
 BOOL EXIImmEx(s32 chan, void *buf, s32 len, u32 mode);
 BOOL EXIDma(s32 chan, void *buf, s32 len, u32 type, EXICallback callback);
 BOOL EXISync(s32 chan);
+BOOL EXIAttach(s32 chan, EXICallback extCallback);
+BOOL EXIDetach(s32 chan);
+s32 EXIGetID(s32 chan, u32 dev, u32 *id);
+void EXIInit(void);
 
-// EXICommon.c is still asm
+// EXIUart.c
+void __OSEnableBarnacle(s32 chan, u32 dev);
+
+// EXICommon.c
 BOOL EXIWriteReg(s32 chan, u32 dev, u32 exiCmd, void *reg, s32 size);
 
 #ifdef __cplusplus
