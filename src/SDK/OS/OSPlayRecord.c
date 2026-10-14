@@ -51,9 +51,14 @@ static BOOL PlayRecordGet;
 
 static void PlayRecordCallback(s32 result, NANDCommandBlock *block);
 
+// TODO(match): this helper is a workaround, not known original code; revisit to find what the SDK really had.
 // Not static and not in the original asm: the linker stripped it, as it does any C function nothing
 // calls (its uses are inlined). Being emitted first is what puts PlayRecord ahead of PlayRecordAlarm in
 // .bss, since MWCC lays out a file's statics in order of first use. The name is made up.
+// Without it (as a static inline helper), PlayRecordAlarm lands at 0x805152A0 and PlayRecord at
+// 0x805152E0, and every r31-relative offset in PlayRecordCallback and __OSStopPlayRecord changes.
+// Ideas to try: a real public PlayRecord function the linker stripped (check other RVL SDK builds for
+// one), or a source order in which PlayRecord is used first without an extra function.
 void UpdatePlayRecord(void);
 
 void UpdatePlayRecord(void)
