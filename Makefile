@@ -149,8 +149,10 @@ $(TOOLDIRS):
 clean-tools:
 	$(foreach tool,$(TOOLDIRS),$(MAKE) clean -C $(tool);)
 
+# The object list goes through a response file: on the command line it outgrows Wine's 32 KiB limit.
 $(ELF): $(O_FILES) $(LDSCRIPT)
-	$(LD) $(LDFLAGS) -o $@ -lcf $(LDSCRIPT) $(O_FILES)
+	$(file >$(BUILD_DIR)/o_files,$(O_FILES))
+	$(LD) $(LDFLAGS) -o $@ -lcf $(LDSCRIPT) @$(BUILD_DIR)/o_files
 # The Metrowerks linker doesn't generate physical addresses in the ELF program headers. This fixes it somehow.
 	$(OBJCOPY) $@ $@
 $(BUILD_DIR)/%.o: %.s

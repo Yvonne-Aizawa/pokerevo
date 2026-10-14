@@ -1,5 +1,5 @@
 // NOT LINKED YET: obj_files.mk still builds asm/SDK/OS/OSExec.s. Check with
-//   tools/decomp/tu_diff.py src/SDK/OS/OSExec.c --flags "-inline noauto"
+//   tools/decomp/tu_diff.py src/SDK/OS/OSExec.c --flags="-inline noauto"
 // This file only lines up without automatic inlining (unlike the rest of src/SDK/OS/), so linking it needs
 // a Makefile rule giving OSExec.o -inline noauto. With that, 8 of 12 functions match. Left:
 // - __OSLaunchMenu, __OSReLaunchFirmware: the original stores a 4-byte array {FF,FF,FF,00} (copied byte by

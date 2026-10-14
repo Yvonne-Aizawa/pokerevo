@@ -12,7 +12,7 @@ usage:
   tu_diff.py SRC -f FUNC --variants V   # score each definition of FUNC in V (blocks split by lines
                                         # of =====) without touching SRC; --keep N writes variant N
   tu_diff.py SRC --ref other.s          # compare against another asm file
-  tu_diff.py SRC --flags "-inline auto" # try extra compiler flags
+  tu_diff.py SRC --flags="-inline auto" # extra compiler flags (with =, since they start with -)
   tu_diff.py SRC --compiler Wii/1.0     # try another compiler version
   tu_diff.py SRC --sdk                  # build with -inline auto, as src/SDK/OS/ is built
 

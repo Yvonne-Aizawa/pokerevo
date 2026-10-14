@@ -95,7 +95,7 @@ def main():
         sys.exit(f"{mono_obj} already links before {args.tu}, so the TU's data can't be in it; split the continuation that follows it instead")
     mono_line = mk[mono[0]]
     mk[mono[0]] = mono_line.replace(mono_obj, os.path.splitext(cont_rel)[0] + ".o")
-    mk.insert(tu[0], mono_line)
+    mk.insert(tu[0], list_entry(mono_line))
 
     print(f"{args.asm}: moving {len(removed)} lines ({args.start} .. before {args.end}) to the TU")
     print(f"{cont_rel}: {len(lines) - end} lines, .balign {args.align}")
@@ -106,6 +106,12 @@ def main():
     open(asm_path, "w").write("\n".join(lines[:start]).rstrip("\n") + "\n")
     open(os.path.join(ROOT, cont_rel), "w").write("\n".join(cont))
     open(mk_path, "w").write("\n".join(mk))
+
+
+def list_entry(line):
+    """obj_files.mk's line for an object in the middle of a list: tab-indented, ending in a backslash.
+    The last entry of a list has no backslash, so it can't be moved into the middle as it is."""
+    return "\t" + line.strip().rstrip("\\").rstrip() + " \\"
 
 
 def split_to_eof(args, asm_path, lines, start):
@@ -120,7 +126,7 @@ def split_to_eof(args, asm_path, lines, start):
     if mono[0] < tu[0]:
         sys.exit(f"{mono_obj} already links before {args.tu}, so the TU's data can't be in it; split the continuation that follows it instead")
     mono_line = mk.pop(mono[0])
-    mk.insert(tu[0], mono_line)
+    mk.insert(tu[0], list_entry(mono_line))
     print(f"{args.asm}: moving {len(lines) - start} lines ({args.start} .. end of file) to the TU")
     print(f"obj_files.mk: {mono_obj} now before {args.tu}; no continuation needed")
     if args.dry_run:
