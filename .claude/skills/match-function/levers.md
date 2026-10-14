@@ -105,6 +105,10 @@ and add the function. Add new levers through the `record-lesson` skill.
   pointer itself is reloaded every iteration (its address was taken), is a local set before the loop:
   `colorIndex = &font->c0;` (OSFont.c's `OSGetFontTexel`).
 
+- A value from low memory (`OS_BUS_CLOCK`, `*(u32 *)0x800000F8`) loaded once in the original but reloaded
+  after every store in yours: stores to statics may alias it, so the original read it into a local first
+  (`ticks = OS_TIMER_CLOCK / 125000;` before five `OSNanosecondsToTicks`-style stores, ai.c's `AIInit`).
+
 ## Branches and block layout
 
 - Blocks are laid out in source order. **(bw2)** `if (!f()) return FALSE; n++;` puts the return before
@@ -172,6 +176,10 @@ and add the function. Add new levers through the `record-lesson` skill.
   declaration order. OSPlayRecord.c's `.bss` puts PlayRecord before PlayRecordAlarm only once a
   function using PlayRecord is emitted first: a non-static helper (inlined into its callers, then
   stripped by the linker). Check the layout with `powerpc-eabi-nm -n` on the object.
+
+- In an `asm` function with `fralloc`, a `register` parameter is moved to r31 by the compiler, so
+  `mr r31, cb` assembles as `mr r31, r31`. Name the incoming register (`mr r31, r3`) and mark the
+  parameter `#pragma unused` (ai.c's `__AICallbackStackSwitch`).
 
 ## 64-bit arithmetic
 
