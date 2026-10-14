@@ -3,6 +3,7 @@
 #include "SDK/OS/OSInterrupt.h"
 #include "SDK/OS/OSThread.h"
 #include "SDK/OS/OSError.h"
+#include "SDK/OS/OS.h"
 
 #define __OSInterruptMaskGlobal (*(OSInterruptMask *)0x800000C4)
 #define __OSInterruptMaskLocal  (*(OSInterruptMask *)0x800000C8)

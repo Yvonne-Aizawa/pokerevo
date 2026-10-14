@@ -57,6 +57,10 @@ and add the function. Add new levers through the `record-lesson` skill.
 - A reload of a field the compiler would CSE (two `lwz` from the same address with no call or store
   between) means the field is `volatile` in the struct (OSSemaphore's `count`). Make the field volatile
   rather than casting at the access, then check the TU's other functions still match.
+- Loads of the same two addresses scheduled in different orders in two functions (a function and its
+  inlined copy) means they aren't `volatile`; volatile reads keep source order everywhere (OS.c's IOS
+  version words at 0xC0003140/4). A second read of a hardware value where C would CSE it means it is
+  (OS.c's device code at 0x800030E6).
 - Absolute low-memory globals (0x8000xxxx) are macros: `#define __OSStringTable (*(void **)0x800030D0)`.
   Accesses to nearby addresses share one `lis` on their own. Repeating an absolute constant like
   `(void *)0x80000C00` at each use lets MWCC CSE the `@ha` half (one `lis r31, 0x8000`, then
@@ -75,6 +79,9 @@ and add the function. Add new levers through the `record-lesson` skill.
 
 - Blocks are laid out in source order. **(bw2)** `if (!f()) return FALSE; n++;` puts the return before
   the code that goes on.
+- A `switch` keeps its compare tree (`cmpwi 0x81; beq CASE; bge END; b END`) when it has a second,
+  empty case, even though the empty case leaves no compare of its own; with one case it folds to a single
+  test (OS.c's boot-program check, `case OS_APP_TYPE_DVD: break; case OS_APP_TYPE_CHANNEL: ...`).
 - `cmp; beq END` comes from `if (a && b)` or nested `if`s. The optimizer folds an empty `else` and a
   single-case `switch` into this too.
 - `cmp; bne NEXT; b END` comes from the early-return `||` form,

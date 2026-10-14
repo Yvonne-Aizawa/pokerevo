@@ -146,6 +146,8 @@ discoverable while decompiling the code that uses them.
 - Known-good reference points: `src/SDK/OS/*.c` (C, all matching),
   `src/*.cpp` + `src/GScamera.cpp` (C++), `asm/GSvolume_*.s` and
   `data_2b.s` (earlier data splits).
+- Parked: `src/SDK/OS/OS.c` is written but not linked (19 of 20 functions
+  match; see its header comment for OSInit and the data splits still to do).
 - Good next targets: the code-only files left in `asm/SDK/OS/` (OSAlarm,
   OSTime, OSThread, ...), then MTX/VI/DVD. Files with their own strings or
   tables (OSUtf, OSFatal, OSFont, OSError, OSExec, OSRtc) need a data split.

@@ -3,6 +3,7 @@
 #include "SDK/OS/OSAlarm.h"
 #include "SDK/OS/OSThread.h"
 #include "SDK/OS/OSError.h"
+#include "SDK/OS/OS.h"
 #include "SDK/OS/OSReset.h"
 #include "SDK/base/PPCArch.h"
 

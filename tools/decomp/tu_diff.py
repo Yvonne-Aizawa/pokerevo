@@ -138,6 +138,19 @@ def parse_object(obj):
     return order, {f: [(w, m, t) for _, w, m, t in v] for f, v in funcs.items()}
 
 
+def merge_entries(order, funcs, ref):
+    """Fold symbols the original doesn't have back into the function before them: `entry` points
+    inside an asm function (OS.c's __OSEVSetNumber) split it in objdump's listing."""
+    out, merged = [], dict(funcs)
+    for name in order:
+        prev = out[-1] if out else None
+        if name not in ref and prev in ref and len(merged[prev]) < len(ref[prev]):
+            merged[prev] = merged[prev] + merged.pop(name)
+            continue
+        out.append(name)
+    return out, merged
+
+
 def compare(mine, ref):
     """(score, rows): differing aligned lines, with masked comparison."""
     a = [w & ~m for w, m, _ in mine]
@@ -179,7 +192,8 @@ def score_source(src_text, src_path, func, ref, tmp):
     path = os.path.join(tmp, os.path.basename(src_path))
     open(path, "w").write(src_text)
     msgs = compile_tu(path, os.path.join(tmp, "v.o"))
-    _, mine = parse_object(os.path.join(tmp, "v.o"))
+    order, mine = parse_object(os.path.join(tmp, "v.o"))
+    _, mine = merge_entries(order, mine, ref)
     if func not in mine:
         return None, msgs, []
     score, rows = compare(mine[func], ref[func])
@@ -235,6 +249,7 @@ def main():
         if msgs:
             print(msgs)
         mine_order, mine = parse_object(os.path.join(tmp, "t.o"))
+        mine_order, mine = merge_entries(mine_order, mine, ref)
 
     print(f"reference: {ref_name}")
     names = [args.function] if args.function else ref_order

@@ -26,8 +26,6 @@ typedef void (*OSErrorHandler)(OSError error, OSContext *context, ...);
 extern void *__OSErrorTable[];
 extern u32 __OSFpscrEnableBits;
 
-__OSExceptionHandler __OSSetExceptionHandler(__OSException exception, __OSExceptionHandler handler);
-__OSExceptionHandler __OSGetExceptionHandler(__OSException exception);
 OSErrorHandler OSSetErrorHandler(OSError error, OSErrorHandler handler);
 void OSReport(const char *msg, ...);
 void OSPanic(const char *file, int line, const char *msg, ...);

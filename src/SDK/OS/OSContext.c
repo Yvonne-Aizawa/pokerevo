@@ -2,6 +2,7 @@
 #include "SDK/OS/OSInterrupt.h"
 #include "SDK/OS/OSContext.h"
 #include "SDK/OS/OSError.h"
+#include "SDK/OS/OS.h"
 
 void DBPrintf(const char *msg, ...);
 
