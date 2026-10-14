@@ -9,6 +9,7 @@
 #include "string.h"
 #include "SDK/OS/OS.h"
 #include "SDK/DB/db.h"
+#include "SDK/EXI/EXIBios.h"
 #include "SDK/OS/OSPlayRecord.h"
 #include "SDK/OS/OSStateTM.h"
 #include "SDK/SI/SIBios.h"
@@ -102,7 +103,6 @@ void __OSGetExecParams(OSExecParams *params);
 void __OSInitIPCBuffer(void);
 void __OSInitSystemCall(void);
 void __OSModuleInit(void);
-void EXIInit(void);
 void __OSInitSram(void);
 void __OSInitAudioSystem(void);
 void EnableMetroTRKInterrupts(void);

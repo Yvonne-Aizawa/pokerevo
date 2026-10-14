@@ -195,6 +195,12 @@ and add the function. Add new levers through the `record-lesson` skill.
   `mr r31, cb` assembles as `mr r31, r31`. Name the incoming register (`mr r31, r3`) and mark the
   parameter `#pragma unused` (ai.c's `__AICallbackStackSwitch`).
 
+- A fixed low-memory slot addressed as `lis r0, 0x8000; add rX, r0, idx*4` plus a `lwz/stw 0x30c0(rX)`
+  displacement (rather than `addis rX, rX, -0x8000`) is an MWCC absolute-address array too:
+  `s32 __EXIProbeStartTime[2] : 0x800030C0;`. About 25 cast and arithmetic spellings all fold to `addis`
+  (EXIBios.c).
+- `cond ? Func : 0` and `cond ? Func : NULL` differ: `0` gives the branchless mask (`neg; or; srawi;
+  and`), `NULL` a branch with `li`/`cmpwi`/`beq` (EXIBios.c's EXILock call in EXIGetID).
 - Hardware register blocks the SDK declares as MWCC absolute-address arrays (`vu32 __SIRegs[64] :
   0xCD006400;`) compile differently from a pointer macro (`((vu32 *)0xCD006400)`): with the array, loops
   over registers step a pointer (`addi r4, r29, 0x6400` then `lwz 0x80(r4)`); with the macro, MWCC

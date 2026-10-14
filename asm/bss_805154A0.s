@@ -6,6 +6,3 @@
 .global StateFlags
 StateFlags:
 	.skip 0x20
-.global lbl_805154C0
-lbl_805154C0:
-	.skip 0xC0

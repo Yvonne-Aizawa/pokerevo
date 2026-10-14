@@ -9,6 +9,7 @@
 #include "SDK/OS/OSCache.h"
 #include "SDK/OS/OSContext.h"
 #include "SDK/OS/OSRtc.h"
+#include "SDK/EXI/EXIBios.h"
 
 #define RTC_CHAN      0
 #define RTC_DEV       1
@@ -21,18 +22,6 @@
 
 #define EXI_READ  0
 #define EXI_WRITE 1
-
-typedef void (*EXICallback)(s32 chan, OSContext *context);
-
-// EXIBios.c is still asm
-BOOL EXILock(s32 chan, u32 dev, EXICallback unlockedCallback);
-BOOL EXIUnlock(s32 chan);
-BOOL EXISelect(s32 chan, u32 dev, u32 freq);
-BOOL EXIDeselect(s32 chan);
-BOOL EXIImm(s32 chan, void *buf, s32 len, u32 type, EXICallback callback);
-BOOL EXIImmEx(s32 chan, void *buf, s32 len, u32 mode);
-BOOL EXIDma(s32 chan, void *buf, s32 len, u32 type, EXICallback callback);
-BOOL EXISync(s32 chan);
 
 typedef struct SramControl
 {

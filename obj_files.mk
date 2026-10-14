@@ -400,13 +400,10 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/asm/data_2b.o \
 	$(BUILD_DIR)/src/SDK/OS/OSNandbootInfo.o                              \
 	$(BUILD_DIR)/asm/Runtime/__ppc_eabi_init.o                              \
-	$(BUILD_DIR)/asm/SDK/EXI/EXIBios.o                              \
-	$(BUILD_DIR)/asm/sbss_8063FB48.o \
+	$(BUILD_DIR)/asm/bss_805154A0.o \
+	$(BUILD_DIR)/src/SDK/EXI/EXIBios.o                              \
 	$(BUILD_DIR)/src/SDK/EXI/EXIUart.o                              \
 	$(BUILD_DIR)/src/SDK/EXI/EXICommon.o                              \
-	$(BUILD_DIR)/asm/data_80433F28.o \
-	$(BUILD_DIR)/asm/sdata_8063DAB8.o \
-	$(BUILD_DIR)/asm/bss_805154A0.o \
 	$(BUILD_DIR)/src/SDK/SI/SIBios.o                              \
 	$(BUILD_DIR)/src/SDK/SI/SISamplingRate.o                              \
 	$(BUILD_DIR)/src/SDK/DB/db.o                              \

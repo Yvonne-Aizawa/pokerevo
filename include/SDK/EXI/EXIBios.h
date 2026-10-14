@@ -15,7 +15,6 @@ typedef void (*EXICallback)(s32 chan, OSContext *context);
 
 extern vu32 __EXIRegs[16];
 
-// EXIBios.c is still asm
 EXICallback EXISetExiCallback(s32 chan, EXICallback exiCallback);
 BOOL EXILock(s32 chan, u32 dev, EXICallback unlockedCallback);
 BOOL EXIUnlock(s32 chan);
