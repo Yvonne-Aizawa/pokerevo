@@ -390,9 +390,10 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/src/SDK/OS/OSTime.o                              \
 	$(BUILD_DIR)/src/SDK/OS/OSUtf.o                              \
 	$(BUILD_DIR)/src/SDK/OS/OSIpc.o                              \
-	$(BUILD_DIR)/asm/SDK/OS/OSStateTM.o                              \
+	$(BUILD_DIR)/asm/sbss_8063FAF8.o \
+	$(BUILD_DIR)/src/SDK/OS/OSStateTM.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSPlayRecord.o                              \
-	$(BUILD_DIR)/asm/data_80433C68.o                                    \
+	$(BUILD_DIR)/asm/data_80433D30.o                                    \
 	$(BUILD_DIR)/src/SDK/OS/OSStateFlags.o                              \
 	$(BUILD_DIR)/src/SDK/OS/OSNet.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSNandbootInfo.o                              \
@@ -835,9 +836,9 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/asm/text_11_2.o \
 	$(BUILD_DIR)/asm/ctors_2.o \
 	$(BUILD_DIR)/asm/data_2b.o \
-	$(BUILD_DIR)/asm/bss_805151E0.o \
+	$(BUILD_DIR)/asm/bss_805152A0.o \
 	$(BUILD_DIR)/asm/sdata_8063DAA8.o \
-	$(BUILD_DIR)/asm/sbss_8063FAF8.o  \
+	$(BUILD_DIR)/asm/sbss_8063FB20.o  \
     $(BUILD_DIR)/asm/sdata2_80642660.o
 
 

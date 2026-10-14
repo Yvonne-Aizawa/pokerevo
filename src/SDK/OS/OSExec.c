@@ -13,6 +13,7 @@
 #include "string.h"
 #include "stdio.h"
 #include "SDK/OS/OS.h"
+#include "SDK/OS/OSStateTM.h"
 #include "SDK/OS/OSArena.h"
 #include "SDK/OS/OSCache.h"
 #include "SDK/OS/OSError.h"
@@ -81,7 +82,6 @@ typedef void (*AppLoaderEntry)(AppLoaderInit *init, AppLoaderMain *main, AppLoad
 
 // Owned by files that are still asm
 extern u32 __DVDLayoutFormat;
-void __OSHotReset(void);
 
 static s32 _ES_GetTicketViews(s32 *fd, u64 titleId, ESTicketView *views, u32 *count);
 static s32 _ES_LaunchTitle(s32 *fd, u64 titleId, ESTicketView *view);

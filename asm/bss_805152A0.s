@@ -1,26 +1,8 @@
 	.section .bss, "wa"  # 0x80474F00 - 0x80643050
 
-# Continuation of bss_2.s after OSThread.c's statics (0x805151E0).
+# Continuation of bss_805151E0.s after OSStateTM.c's buffers (0x805152A0).
 	.balign 32
 
-.global lbl_805151E0
-lbl_805151E0:
-	.skip 0x20
-.global lbl_80515200
-lbl_80515200:
-	.skip 0x20
-.global lbl_80515220
-lbl_80515220:
-	.skip 0x20
-.global lbl_80515240
-lbl_80515240:
-	.skip 0x20
-.global lbl_80515260
-lbl_80515260:
-	.skip 0x20
-.global lbl_80515280
-lbl_80515280:
-	.skip 0x20
 .global lbl_805152A0
 lbl_805152A0:
 	.skip 0x200

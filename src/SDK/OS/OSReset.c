@@ -1,6 +1,7 @@
 #include "types.h"
 #include "string.h"
 #include "SDK/OS/OS.h"
+#include "SDK/OS/OSStateTM.h"
 #include "SDK/OS/OSInterrupt.h"
 #include "SDK/OS/OSError.h"
 #include "SDK/OS/OSThread.h"
@@ -52,9 +53,6 @@ BOOL __OSSyncSram(void);
 BOOL __OSGetRTCFlags(u32 *flags);
 BOOL __OSClearRTCFlags(void);
 void __OSStopPlayRecord(void);
-void __OSUnRegisterStateEvent(void);
-void __OSHotReset(void);
-void __OSShutdownToSBY(void);
 void __OSLaunchMenu(void);
 void __OSWriteNandbootInfo(NANDBootInfo *info);
 void func_8027430C(NANDBootInfo *info);

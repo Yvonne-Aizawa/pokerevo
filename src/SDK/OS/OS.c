@@ -8,6 +8,7 @@
 #include "types.h"
 #include "string.h"
 #include "SDK/OS/OS.h"
+#include "SDK/OS/OSStateTM.h"
 #include "SDK/OS/OSAlarm.h"
 #include "SDK/OS/OSArena.h"
 #include "SDK/OS/OSCache.h"
@@ -104,7 +105,6 @@ void __OSInitSram(void);
 void __OSInitAudioSystem(void);
 void EnableMetroTRKInterrupts(void);
 void IPCCltInit(void);
-void __OSInitSTM(void);
 void SCInit(void);
 u32 SCCheckStatus(void);
 void __OSInitNet(void);
