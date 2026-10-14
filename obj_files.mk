@@ -379,10 +379,10 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/src/SDK/OS/OSReboot.o                              \
 	$(BUILD_DIR)/asm/sbss_8063FAD0.o  \
 	$(BUILD_DIR)/src/SDK/OS/OSReset.o                              \
-	$(BUILD_DIR)/asm/SDK/OS/OSRtc.o                              \
+	$(BUILD_DIR)/asm/bss_80503D40.o \
+	$(BUILD_DIR)/src/SDK/OS/OSRtc.o                              \
 	$(BUILD_DIR)/src/SDK/OS/OSSemaphore.o                              \
 	$(BUILD_DIR)/src/SDK/OS/OSSync.o                              \
-	$(BUILD_DIR)/asm/bss_80503D40.o \
 	$(BUILD_DIR)/asm/sdata_8063DA80.o \
 	$(BUILD_DIR)/src/SDK/OS/OSThread.o                              \
 	$(BUILD_DIR)/src/SDK/OS/OSTime.o                              \

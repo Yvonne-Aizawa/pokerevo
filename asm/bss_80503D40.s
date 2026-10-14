@@ -15,6 +15,3 @@ lbl_805144A0:
 .global lbl_80514768
 lbl_80514768:
 	.skip 0x18
-.global lbl_80514780
-lbl_80514780:
-	.skip 0x58

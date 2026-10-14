@@ -40,7 +40,10 @@ and add the function. Add new levers through the `record-lesson` skill.
   store in each branch splits it.
 - **(bw2)** Variables of an inner block are allocated apart from the function's.
 - `tools/pragma`'s `#pragma regswap` patches registers after compiling. It is a last resort and should be
-  said in a comment; it cannot fix instruction-count differences.
+  said in a comment; it cannot fix instruction-count differences. Its addresses are DOL addresses taken
+  relative to the given file start, applied to the object before linking, so they are only right when the
+  object's layout equals the DOL's: functions the linker strips must come after the patched one
+  (OSRtc.c defines its stripped wrappers last for this).
 
 ## Instructions in another order (scheduling)
 
@@ -69,8 +72,14 @@ and add the function. Add new levers through the `record-lesson` skill.
 - `lis r0, 0x8027; addic. r0, r0, -3844` with no symbol in the listing (the disassembler printed a raw
   address) is a NULL test on a function's address, `func == NULL`; MWCC doesn't fold it, even for a
   function of the same file (OSMemory.c's `BATConfig`, on the address of `OSGetPhysicalMem1Size`).
+- A value narrowed again (`clrlwi r3, r30, 16`) before a compare, though it was loaded zero-extended: it
+  passed through a `u16` parameter of an inlined function. OSRtc.c's `__OSInitSram` is
+  `OSSetGbsMode(OSGetGbsMode())`, both global SDK functions the linker then strips.
 - `clrlwi rN, rN, 31` on a flags parameter before a loop is `flags & 1` hoisted out of the loop, as in
   OSMessage.c's `!(flags & OS_MESSAGE_BLOCK)`.
+- A trip count computed unsigned (`addi r3, end, 1; subf; srwi 1`) for a `u16 *` loop: the bound was
+  compared as bytes, `(u8 *)p < end` (OSRtc.c's checksum loop); a `u16 *` compare counts signed and
+  unrolls differently.
 - `cmplwi` against a size where the C compares a signed result: the comparison is with `sizeof(...)`,
   which is unsigned (OSStateFlags.c's `NANDRead(...) != sizeof(OSStateFlags)`).
 - **(bw2)** A local holding a constant keeps its own register, while a literal is hoisted.
