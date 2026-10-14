@@ -2,15 +2,9 @@
 
 	.section .sdata, "wa"  # 0x8063D2C0 - 0x8063E8E0
 
-# Continuation of sdata_8063DBA8.s after dsp.c's __DSPVersion (0x8063DBC8).
+# Continuation of sdata_8063DBC8.s after TPL.c's file name (0x8063DBD0).
 	.balign 8
 
-.global lbl_8063DBC8
-lbl_8063DBC8:
-	.ascii "TPL.c"
-	.byte 0x00
-	.byte 0x00
-	.byte 0x00
 .global lbl_8063DBD0
 lbl_8063DBD0:
 	.8byte 0x8043BEF000000000

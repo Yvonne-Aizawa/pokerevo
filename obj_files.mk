@@ -477,7 +477,8 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/src/SDK/DSP/dsp.o                                     \
 	$(BUILD_DIR)/src/SDK/DSP/dsp_debug.o                                     \
 	$(BUILD_DIR)/src/SDK/DSP/dsp_task.o                                     \
-	$(BUILD_DIR)/asm/SDK/TPL/TPL.o                                     \
+	$(BUILD_DIR)/asm/sdata2_80642660.o \
+	$(BUILD_DIR)/src/SDK/TPL/TPL.o                                     \
 	$(BUILD_DIR)/asm/SDK/THP/THPDec.o                                     \
 	$(BUILD_DIR)/asm/SDK/THP/THPAudio.o                                     \
 	$(BUILD_DIR)/asm/SDK/KPAD/KPAD.o                                     \
@@ -847,11 +848,11 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/asm/code_803D9208.o \
 	$(BUILD_DIR)/asm/text_11_2.o \
 	$(BUILD_DIR)/asm/ctors_2.o \
-	$(BUILD_DIR)/asm/data_8043BEC0.o \
+	$(BUILD_DIR)/asm/data_8043BEF0.o \
 	$(BUILD_DIR)/asm/bss_805157A0.o \
-	$(BUILD_DIR)/asm/sdata_8063DBC8.o \
+	$(BUILD_DIR)/asm/sdata_8063DBD0.o \
 	$(BUILD_DIR)/asm/sbss_8063FF48.o  \
-    $(BUILD_DIR)/asm/sdata2_80642660.o
+    $(BUILD_DIR)/asm/sdata2_80642980.o
 
 
 DTORS_O_FILES :=                                                  \

@@ -2,18 +2,11 @@
 
 	.section .data, "wa"  # 0x80405D60 - 0x80474F00
 
-# Continuation of data_804372E0.s after dsp_task.c's strings (0x8043BEC0).
+# Continuation of data_8043BEC0.s after TPL.c's string (0x8043BEF0).
 	.balign 8
 
-.global lbl_8043BEC0
-lbl_8043BEC0:
-	.ascii "invalid version number for texture palette"
-	.byte 0x00
-	.byte 0x00
-	.byte 0x00
-	.byte 0x00
-	.byte 0x00
-	.byte 0x00
+.global lbl_8043BEF0
+lbl_8043BEF0:
 	.ascii "<< RVL_SDK - THP \trelease build: Nov 30 2006 03:09:42 (0x4199_60831) >>"
 	.byte 0x00
 	.ascii "<< RVL_SDK - KPAD \trelease build: May 17 2007 15:52:00 (0x4199_60831) >>"

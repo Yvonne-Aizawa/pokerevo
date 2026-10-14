@@ -30,8 +30,20 @@ typedef struct GXRenderModeObj {
     u8 vfilter[7];              // 0x32
 } GXRenderModeObj;
 
+typedef u8 GXBool;
+
+typedef struct GXTexObj {
+    u32 dummy[8];
+} GXTexObj;
+
 // GXMisc.c is still asm
 void GXAbortFrame(void);
+
+// GXTexture.c is still asm
+void GXInitTexObj(GXTexObj *obj, void *image, u16 width, u16 height, u32 format, u32 wrapS, u32 wrapT,
+                  GXBool mipmap);
+void GXInitTexObjLOD(GXTexObj *obj, u32 minFilter, u32 magFilter, f32 minLOD, f32 maxLOD, f32 lodBias,
+                     GXBool biasClamp, GXBool doEdgeLOD, u32 maxAniso);
 
 #ifdef __cplusplus
 }
