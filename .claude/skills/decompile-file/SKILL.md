@@ -18,81 +18,20 @@ the built DOL stays byte-identical (`sha1sum -c pbr_pal.sha1` passes).
 3. Swap the object in `obj_files.mk`: change `$(BUILD_DIR)/asm/X.o` to
    `$(BUILD_DIR)/src/X.o` **in place** (link order = memory layout; never
    reorder). `git rm` the asm file.
-4. `make && sha1sum -c pbr_pal.sha1`.
-5. On mismatch, diff the compiled object against the asm listing:
-   `/opt/devkitpro/devkitPPC/bin/powerpc-eabi-objdump -d build/pbr_pal/src/.../X.o`
-   and compare instruction-by-instruction with the deleted `.s` (get it from
-   git history). Externally-resolved operands show as `0(0)` / `lis rN,0` —
-   that's fine, compare the opcodes around them.
-6. Iterate on source shape (see "compiler behavior") until identical, then
-   commit. One commit per matched file or small group, message
-   "Decompile <path> (matching)".
-
-### Fast iteration without a full make
-
-Compile a single TU directly (seconds instead of a full link):
-
-```sh
-S=<scratch dir>
-wine tools/mwcc_compiler/GC/3.0/mwcceppc.exe -Cpp_exceptions off -proc gekko \
-  -fp hard -O4,p -nodefaults -msgstyle gcc -ipa file \
-  -i . -I- -i include -i include/SDK -i include/MSL_C \
-  -include include/types.h -W all -w nopragmas -lang c99 -c \
-  -o $S/test.o $S/test.c
-powerpc-eabi-objdump -d $S/test.o
-```
-
-Use `-lang c++` for .cpp. Write several source variants to the scratch dir and
-compare their codegen in one pass — much faster than editing in place.
-
-## MWCC 3.0 compiler behavior (observed, load-bearing)
-
-- **No automatic inlining**, even with `-O4,p -ipa file`. If the target has no
-  `bl`, the original accessed the variable/expression directly, or the helper
-  was `static inline` in the original source (see OSAlloc.c). Getter/setter
-  calls that look inlined in the asm mean: write the direct access.
-- **Callee-saved register allocation follows declaration order** (roughly:
-  earlier-declared locals get higher registers, r31 downward). If two locals
-  sit in swapped registers (r30↔r31), swap their declaration order. Pattern
-  that worked: declare `BOOL enabled; s32 count;` then assign
-  `enabled = OSDisableInterrupts();` as a statement, not an initializer.
-- **CSE of memory loads is aggressive.** A re-read like `sem->count--` after a
-  loop that already loaded `sem->count` gets CSE'd into one load. If the
-  target reloads (two `lwz` from the same address with no call between), the
-  original field was `volatile` (OSSemaphore.count) — prefer making the struct
-  field volatile over cast hacks, then confirm the other functions in the TU
-  still match (volatile is fine for single-read/single-write patterns).
-- **Branch shapes encode source shape:**
-  - `cmp; beq END` ⇐ `if (a && b)` / nested ifs. The optimizer folds
-    empty-else and single-case-switch forms into this too.
-  - `cmp; bne NEXT; b END` ⇐ `if (x <= A || x == B) { return; }` — the
-    early-return `||` form keeps the two-instruction shape. (`&&`, empty
-    `else`, and `switch` all fold it away; tested exhaustively for OSNet.)
-  - `cntlzw; srwi` where the target has `cmpwi; beq OK; li r3,0; b END; ...
-    OK: li r3,1` ⇐ MWCC folded `if (x != 0) return FALSE; return TRUE;` into
-    `return x == 0`. Every plain-`return` shape folds (nesting, `else`,
-    `goto`, other compiler versions). What kept the branches in
-    OSStateFlags: a `BOOL ret` set in an `else if` chain, with the success
-    arm doing `goto ok;` to a trailing `ok: return TRUE;`.
-- **`addi r3, rBase, 0` (not `mr`)** addressing a data symbol means the
-  original had **in-TU data** (string literals / static data) addressed via a
-  literal-pool base register. `extern` references compile to `mr` for offset
-  0 and separate `lis/addi` per symbol — if you see the pooled pattern, the
-  TU's data must be carved out of the monolithic data files (next section).
-- Absolute low-memory globals (0x8000xxxx) are written as macros:
-  `#define __OSStringTable (*(void **)0x800030D0)`. Several accesses to
-  nearby addresses share one `lis` automatically. Repeating an absolute
-  constant like `(void *)0x80000C00` at each use lets MWCC CSE the `@ha` half
-  (one `lis r31, 0x8000` + `addi r3, r31, 0xc00` per use) — don't hoist it
-  into a local unless the target shows a full-address register.
-- Assignment placement matters at `-O4,p`: `u32 x = 0;` at declaration emits
-  the store early; `x = 0;` just before use emits it there (OSReboot).
-- Raw asm blobs (exception vectors etc.) are `asm void f(void)` functions with
-  `nofralloc` as the first line; an end-marker "function" can be a lone `nop`.
-  Compare with `asm/SDK/OS/` history: OSSync.c matched first try.
-- Argument-register `mr` scheduling (e.g. `mr r4,r3` before vs. after a
-  branch) usually falls out of getting the surrounding structure right; don't
-  fight it directly, change the enclosing control flow.
+4. Check it per function before linking:
+   `python3 tools/decomp/tu_diff.py src/X.c` compiles the file and compares
+   each function with the asm it replaces (from git history once deleted),
+   masking relocated operands. For a function that doesn't match, use the
+   `match-function` skill, whose [levers](../match-function/levers.md) hold
+   everything known about how MWCC 3.0 compiles.
+5. `make && sha1sum -c pbr_pal.sha1` is the final check: it also catches
+   wrong call targets, symbols and data placement, which `tu_diff` masks.
+6. For files of more than about 10 functions, or changes to shared headers,
+   start the `decomp-reviewer` agent on the diff before committing, and fix
+   what it finds that is real.
+7. Commit: one commit per matched file or small group, message
+   "Decompile <path> (matching)", staging files by name. Anything learned
+   goes in through `record-lesson`, in the same commit.
 
 ## Data: the monolithic files and when to split
 
@@ -132,15 +71,26 @@ Three cases:
      are 8-aligned before starting, and check the map
      (`grep "1 .data" build/pbr_pal/pbr_pal.map | grep -vE " 000000 "`) after.
 
+Two simpler shapes of case 3:
+
+- **The TU's data is the end of a monolithic file**: delete it there and
+  move the monolithic object in `obj_files.mk` to just before the TU. No
+  continuation file is needed (OSStateFlags.c's path string was the last
+  40 bytes of `data_2.s`).
+- **The TU has `.bss` statics**: `bss_2.o` and `sbss_2.o` link after every
+  TU, so a C `static` would land at the wrong address. Keep the object in
+  the asm file, rename its label to the static's name, and declare it
+  `extern` in the C (OSStateFlags.c's `StateFlags`).
+
 Never do a big upfront split: TU boundaries inside the data files are only
 discoverable while decompiling the code that uses them.
 
 ## Repo facts
 
-- Verification is whole-DOL only: build with `make`, check
-  `sha1sum -c pbr_pal.sha1`. There is no per-object matching tool; the map
-  file (`build/pbr_pal/pbr_pal.map`) plus `powerpc-eabi-objdump` fill that
-  role.
+- Per-function checking: `tools/decomp/tu_diff.py` (see `match-function`).
+  Final verification is the whole DOL: `make`, then
+  `sha1sum -c pbr_pal.sha1`. The map (`build/pbr_pal/pbr_pal.map`) shows
+  where each object's sections landed.
 - Compiler: CodeWarrior GC 3.0 via wine; flags in `Makefile` (`CFLAGS`,
   `-lang c99` / `-lang c++`). devkitPPC binutils at
   `/opt/devkitpro/devkitPPC/bin/`.
@@ -155,7 +105,8 @@ discoverable while decompiling the code that uses them.
 - Known-good reference points: `src/SDK/OS/*.c` (C, all matching),
   `src/*.cpp` + `src/GScamera.cpp` (C++), `asm/GSvolume_*.s` and
   `data_2b.s` (earlier data splits).
-- Good next targets after SDK/OS: remaining small `asm/SDK/OS/*.s`
-  (OSStateFlags, OSMessage, OSUtf, OSMutex), then MTX/VI/DVD; game code
-  continues at `asm/code_801E0A54.s` (contiguous with the decompiled
-  801DAxxx–801E07E8 cluster).
+- Good next targets: the code-only files left in `asm/SDK/OS/` (OSAlarm,
+  OSTime, OSThread, ...), then MTX/VI/DVD. Files with their own strings or
+  tables (OSUtf, OSFatal, OSFont, OSError, OSExec, OSRtc) need a data split.
+  Game code continues at `asm/code_801E0A54.s` (contiguous with the
+  decompiled 801DAxxx–801E07E8 cluster).
