@@ -6,8 +6,6 @@
 #include "SDK/OS/OSMemory.h"
 #include "SDK/OS/OSReset.h"
 
-#define OS_ERROR_PROTECTION 15
-
 #define __MEMRegs ((vu16 *)0xCC004000)
 
 #define OS_PHYSICAL_MEM1_SIZE  (*(u32 *)0x80003100)
@@ -16,8 +14,6 @@
 #define OS_SIMULATED_MEM2_SIZE (*(u32 *)0x8000311C)
 #define OS_MEM2_END            (*(u32 *)0x80003120)
 #define OS_BOOT_CONFIG         (*(u32 *)0x80003138)
-
-void __OSUnhandledException(__OSException exception, OSContext *context, u32 dsisr, u32 dar);
 
 static BOOL OnShutdown(BOOL final, u32 event);
 
@@ -65,7 +61,7 @@ static void MEMIntrruptHandler(__OSInterrupt interrupt, OSContext *context)
     __MEMRegs[0x10] = 0;
 
     if (__OSErrorTable[OS_ERROR_PROTECTION]) {
-        ((OSErrorHandler)__OSErrorTable[OS_ERROR_PROTECTION])(OS_ERROR_PROTECTION, context, cause, addr);
+        __OSErrorTable[OS_ERROR_PROTECTION](OS_ERROR_PROTECTION, context, cause, addr);
         return;
     }
 

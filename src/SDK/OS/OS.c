@@ -113,7 +113,6 @@ BOOL DVDInquiryAsync(DVDCommandBlock *block, DVDDriveInfo *info, DVDCBCallback c
 void __OSStartPlayRecord(void);
 BOOL __DBIsExceptionMarked(__OSException exception);
 void DBPrintf(const char *msg, ...);
-void __OSUnhandledException(__OSException exception, OSContext *context, u32 dsisr, u32 dar);
 
 static void OSExceptionInit(void);
 static asm void OSExceptionVector(void);

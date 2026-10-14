@@ -2,67 +2,9 @@
 
 	.section .data, "wa"  # 0x80405D60 - 0x80474F00
 
-# Continuation of data_804269E0.s after OSContext.c's strings (0x80426E78).
+# Continuation of .data after OSError.c's strings (0x80427198).
 	.balign 8
 
-.global lbl_80426E78
-lbl_80426E78:
-	.ascii " in \"%s\" on line %d.\n"
-	.byte 0x00
-	.byte 0x00
-	.byte 0x00
-	.ascii "\nAddress:      Back Chain    LR Save\n"
-	.byte 0x00
-	.byte 0x00
-	.byte 0x00
-	.ascii "0x%08x:   0x%08x    0x%08x\n"
-	.byte 0x00
-	.ascii "Non-recoverable Exception %d"
-	.byte 0x00
-	.byte 0x00
-	.byte 0x00
-	.byte 0x00
-	.ascii "Unhandled Exception %d"
-	.byte 0x00
-	.byte 0x00
-	.ascii "\nDSISR = 0x%08x                   DAR  = 0x%08x\n"
-	.byte 0x00
-	.byte 0x00
-	.byte 0x00
-	.byte 0x00
-	.ascii "TB = 0x%016llx\n"
-	.byte 0x00
-	.ascii "\nInstruction at 0x%x (read from SRR0) attempted to access invalid address 0x%x (read from DAR)\n"
-	.byte 0x00
-	.ascii "\nAttempted to fetch instruction from invalid address 0x%x (read from SRR0)\n"
-	.byte 0x00
-	.ascii "\nInstruction at 0x%x (read from SRR0) attempted to access unaligned address 0x%x (read from DAR)\n"
-	.byte 0x00
-	.byte 0x00
-	.byte 0x00
-	.ascii "\nProgram exception : Possible illegal instruction/operation at or around 0x%x (read from SRR0)\n"
-	.byte 0x00
-	.ascii "AI DMA Address =   0x%04x%04x\n"
-	.byte 0x00
-	.byte 0x00
-	.ascii "ARAM DMA Address = 0x%04x%04x\n"
-	.byte 0x00
-	.byte 0x00
-	.ascii "DI DMA Address =   0x%08x\n"
-	.byte 0x00
-	.byte 0x00
-	.ascii "\nLast interrupt (%d): SRR0 = 0x%08x  TB = 0x%016llx\n"
-	.byte 0x00
-	.byte 0x00
-	.byte 0x00
-	.byte 0x00
-.global lbl_80427154
-lbl_80427154:
-	.float -3.556843024475538e-39, -3.556843024475538e-39, -3.556607606333532e-39, -3.5566412374966755e-39
-	.float -3.556843024475538e-39, -3.556669263465962e-39, -3.556702894629106e-39, -3.556843024475538e-39
-	.float -3.556843024475538e-39, -3.556843024475538e-39, -3.556843024475538e-39, -3.556843024475538e-39
-	.float -3.556843024475538e-39, -3.556843024475538e-39, -3.556843024475538e-39, -3.5567365257922496e-39
-	.float 0.0
 .global lbl_80427198
 lbl_80427198:
 	.ascii "\nsecurity error(%d) has occurred"

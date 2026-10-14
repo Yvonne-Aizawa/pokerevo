@@ -222,21 +222,3 @@ __OSRebootParams:
 .global lbl_80503CA0
 lbl_80503CA0:
 	.skip 0x50
-.global __OSErrorTable
-__OSErrorTable:
-	.skip 0x50
-.global lbl_80503D40
-lbl_80503D40:
-	.skip 0xC2C4
-.global lbl_80510004
-lbl_80510004:
-	.skip 0x449C
-.global lbl_805144A0
-lbl_805144A0:
-	.skip 0x2C8
-.global lbl_80514768
-lbl_80514768:
-	.skip 0x18
-.global lbl_80514780
-lbl_80514780:
-	.skip 0x58
