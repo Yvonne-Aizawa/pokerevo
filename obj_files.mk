@@ -384,11 +384,11 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/asm/sdata_2.o \
 	$(BUILD_DIR)/src/SDK/OS/OSThread.o                              \
 	$(BUILD_DIR)/src/SDK/OS/OSTime.o                              \
-	$(BUILD_DIR)/asm/SDK/OS/OSUtf.o                              \
+	$(BUILD_DIR)/src/SDK/OS/OSUtf.o                              \
 	$(BUILD_DIR)/src/SDK/OS/OSIpc.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSStateTM.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSPlayRecord.o                              \
-	$(BUILD_DIR)/asm/data_80427E28.o                                    \
+	$(BUILD_DIR)/asm/data_80433C68.o                                    \
 	$(BUILD_DIR)/src/SDK/OS/OSStateFlags.o                              \
 	$(BUILD_DIR)/src/SDK/OS/OSNet.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSNandbootInfo.o                              \

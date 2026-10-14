@@ -26,6 +26,7 @@ extern "C" {
 #include "SDK/OS/OSReset.h"
 #include "SDK/OS/OSSync.h"
 #include "SDK/OS/OSTime.h"
+#include "SDK/OS/OSUtf.h"
 
 #ifdef __cplusplus
 }

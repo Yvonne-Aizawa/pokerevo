@@ -74,6 +74,10 @@ and add the function. Add new levers through the `record-lesson` skill.
 - `cmplwi` against a size where the C compares a signed result: the comparison is with `sizeof(...)`,
   which is unsigned (OSStateFlags.c's `NANDRead(...) != sizeof(OSStateFlags)`).
 - **(bw2)** A local holding a constant keeps its own register, while a literal is hoisted.
+- A result built in place (`clrlwi r6; rlwimi r6; addis r6, r6, 1`) where ours goes through a temporary:
+  the addition was its own statement, `result = hi | lo; result += 0x10000;` (OSUtf.c's `OSUTF16to32`).
+- A small search loop fully unrolled where the original keeps a `bdnz` loop: the counter was `int`, not
+  `u8` (OSUtf.c's `OSUTF32toANSI`).
 
 ## Branches and block layout
 
@@ -121,6 +125,9 @@ and add the function. Add new levers through the `record-lesson` skill.
   function that is only inlined is compiled at its use, so its strings come late; a global function is
   compiled where it is defined. OSCache.c's L2 string is first in the pool because `L2GlobalInvalidate`
   is global (and then dead-stripped by the linker, being unreferenced).
+- A large table is best generated from the DOL bytes (OSUtf.c's 93 Shift-JIS subtables came from a short
+  script reading `build/pbr_pal/pbr_pal.dol` through its section header); MWCC lays out `.data` objects
+  in definition order.
 - `.sbss` variables are emitted in reverse declaration order (OSThread.c: `RunQueueBits`, `RunQueueHint`,
   `Reschedule` declared, emitted `Reschedule` first), globals before statics: OSInterrupt.c's static
   `InterruptHandlerTable`, declared first, comes after its three globals. Its `.bss` objects matched declared as
