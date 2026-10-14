@@ -106,8 +106,10 @@ discoverable while decompiling the code that uses them.
 ## Repo facts
 
 - Per-function checking: `tools/decomp/tu_diff.py` (see `match-function`).
-  Final verification is the whole DOL: `make`, then
-  `sha1sum -c pbr_pal.sha1`. The map (`build/pbr_pal/pbr_pal.map`) shows
+  Final verification is the whole DOL: `rm -f build/pbr_pal/pbr_pal.dol &&
+  make -j8 && sha1sum -c pbr_pal.sha1`. A failed `make` leaves the old DOL in
+  place, and `sha1sum` still passes on it (a link error once went unseen this
+  way), so delete the DOL first and chain the commands with `&&`. The map (`build/pbr_pal/pbr_pal.map`) shows
   where each object's sections landed.
 - Compiler: CodeWarrior GC 3.0 via wine; flags in `Makefile` (`CFLAGS`,
   `-lang c99` / `-lang c++`). `src/SDK/OS/` adds `-inline auto` (see
