@@ -90,7 +90,11 @@ PRAGMAPROC := tools/pragma/pragma.py
 INCLUDES := -i . -I- -i include -i include/SDK -i include/MSL_C -include include/types.h
 ASFLAGS := -mgekko -I include
 LDFLAGS := -map $(MAP) -fp hard -nodefaults
-CFLAGS  := -Cpp_exceptions off -proc gekko -fp hard -O4,p -nodefaults -msgstyle gcc -ipa file $(INCLUDES) -W all -w nopragmas
+CFLAGS_OPT := -Cpp_exceptions off -proc gekko -fp hard -O4,p -nodefaults -msgstyle gcc -ipa file
+CFLAGS   = $(CFLAGS_OPT) $(INCLUDES) -W all -w nopragmas
+# The OS library was built with automatic inlining (proven on src/SDK/OS; GameSpy in DWC was not).
+# It has to come before the include options.
+$(BUILD_DIR)/src/SDK/OS/%.o: CFLAGS_OPT += -inline auto
 
 # for postprocess.py
 PROCFLAGS := -fsymbol-fixup

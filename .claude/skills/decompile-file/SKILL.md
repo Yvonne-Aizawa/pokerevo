@@ -78,13 +78,22 @@ Two simpler shapes of case 3:
   continuation file is needed (OSStateFlags.c's path string was the last
   40 bytes of `data_2.s`).
 - **The TU has `.bss`/`.sbss`/`.sdata` statics**: these live in `bss_2.s`,
-  `sbss_2.s` and `sdata_2.s`, linked near the end of `obj_files.mk`. The
-  quick route keeps the object in asm, renames its label to the static's
-  name, and declares it `extern` in the C (OSStateFlags.c's `StateFlags`,
-  OSAlarm.c's `AlarmQueue`). A split works the same way as for `.data`
-  whenever no object between the TU and the monolith contributes to that
-  section (check the map): move the monolith's prefix up to just before the
-  TU. Not yet tried for these sections.
+  `sbss_2.s` and `sdata_2.s`, linked near the end of `obj_files.mk`, and
+  split the same way as `.data` whenever no object between the TU and the
+  monolith contributes to that section (check the map). OSThread.c split
+  all three. The quick route, keeping the object in asm with its label
+  renamed and an `extern` in the C, matches only when the code addresses
+  each object separately (OSStateFlags.c's `StateFlags`, OSAlarm.c's
+  `AlarmQueue`).
+
+`tools/decomp/split_data.py` does a split: it cuts the labels from START
+up to END out of the monolithic file, writes the continuation named by
+END's address with the `.balign` you give, and moves the objects in
+`obj_files.mk`. Check the object's layout first (`powerpc-eabi-objdump -t`)
+and the map afterwards. The continuation's alignment is the alignment of
+the object at END: 8 usually, 32 where that object is 32-aligned (the pad
+before it in the original shows this: OSThread's `.bss` is 0x9F8 bytes,
+followed by 0x10 of padding before 0x805151E0).
 - **A `static` function referenced only from the TU's data** (a callback
   in a table or record) is dropped by the compiler while that data is still
   in asm, because nothing in the C refers to it. Define the data in C (a
@@ -101,7 +110,8 @@ discoverable while decompiling the code that uses them.
   `sha1sum -c pbr_pal.sha1`. The map (`build/pbr_pal/pbr_pal.map`) shows
   where each object's sections landed.
 - Compiler: CodeWarrior GC 3.0 via wine; flags in `Makefile` (`CFLAGS`,
-  `-lang c99` / `-lang c++`). devkitPPC binutils at
+  `-lang c99` / `-lang c++`). `src/SDK/OS/` adds `-inline auto` (see
+  match-function's levers); other directories don't. devkitPPC binutils at
   `/opt/devkitpro/devkitPPC/bin/`.
 - `tools/pragma` provides `#pragma regswap` / `#pragma iswap` (post-compile
   instruction patching) as a last resort for register/scheduling mismatches —

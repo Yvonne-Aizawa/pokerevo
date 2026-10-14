@@ -12,6 +12,9 @@ usage:
   tu_diff.py SRC -f FUNC --variants V   # score each definition of FUNC in V (blocks split by lines
                                         # of =====) without touching SRC; --keep N writes variant N
   tu_diff.py SRC --ref other.s          # compare against another asm file
+  tu_diff.py SRC --flags "-inline auto" # try extra compiler flags
+  tu_diff.py SRC --compiler Wii/1.0     # try another compiler version
+  tu_diff.py SRC --sdk                  # build with -inline auto, as src/SDK/OS/ is built
 
 Variant blocks replace the function's whole definition, so a block may start with a static inline
 helper it needs. Lower scores are better; 0 is a match.
@@ -27,7 +30,7 @@ import tempfile
 
 ROOT = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
 OBJDUMP = "/opt/devkitpro/devkitPPC/bin/powerpc-eabi-objdump"
-CC = "wine tools/mwcc_compiler/GC/3.0/mwcceppc.exe"
+COMPILER = "GC/3.0"
 CFLAGS = ("-Cpp_exceptions off -proc gekko -fp hard -O4,p -nodefaults -msgstyle gcc -ipa file "
           "-i . -I- -i include -i include/SDK -i include/MSL_C -include include/types.h -W all -w nopragmas")
 
@@ -85,10 +88,19 @@ def parse_reference(text):
     return order, funcs
 
 
+EXTRA_FLAGS = ""
+SDK_SOURCE = False
+
+
 def compile_tu(src, obj):
     lang = "c++" if src.endswith(".cpp") else "c99"
-    flags = f"{CFLAGS} -lang {lang} -c"
-    res = run([sys.executable, "tools/pragma/pragma.py", CC, flags, obj, src])
+    sdk = "-inline auto" if SDK_SOURCE else ""  # as the Makefile builds src/SDK/OS/
+    base = CFLAGS.replace(" -ipa file", "") if "-ipa" in EXTRA_FLAGS else CFLAGS  # a second -ipa is an error
+    # Extra flags go before the include options: MWCC treats an -ipa after -include as a late pragma
+    head, includes = base.split(" -i . ", 1)
+    flags = f"{head} {sdk} {EXTRA_FLAGS} -i . {includes} -lang {lang} -c"
+    cc = f"wine tools/mwcc_compiler/{COMPILER}/mwcceppc.exe"
+    res = run([sys.executable, "tools/pragma/pragma.py", cc, flags, obj, src])
     msgs = "\n".join(l for l in (res.stdout + res.stderr).splitlines() if "fixme:" not in l and l.strip())
     if res.returncode != 0 or not os.path.exists(obj):
         sys.exit(f"compile failed:\n{msgs}")
@@ -181,7 +193,14 @@ def main():
     ap.add_argument("--ref")
     ap.add_argument("--variants")
     ap.add_argument("--keep", type=int)
+    ap.add_argument("--compiler", default="GC/3.0", help="directory under tools/mwcc_compiler, e.g. Wii/1.0")
+    ap.add_argument("--sdk", action="store_true", help="build as SDK code (-inline auto) though outside src/SDK/OS/")
+    ap.add_argument("--flags", default="", help="extra compiler flags, e.g. '-inline auto'")
     args = ap.parse_args()
+    global EXTRA_FLAGS, COMPILER, SDK_SOURCE
+    EXTRA_FLAGS = args.flags
+    SDK_SOURCE = os.path.relpath(os.path.abspath(args.src), ROOT).startswith("src/SDK/OS/") or args.sdk
+    COMPILER = args.compiler
 
     if args.ref:
         ref_name, ref_text = args.ref, open(args.ref).read()

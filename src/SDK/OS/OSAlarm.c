@@ -1,6 +1,7 @@
 #include "types.h"
 #include "SDK/OS/OSInterrupt.h"
 #include "SDK/OS/OSAlarm.h"
+#include "SDK/OS/OSThread.h"
 
 #define __OS_EXCEPTION_DECREMENTER 8
 
@@ -27,12 +28,6 @@ __OSExceptionHandler __OSGetExceptionHandler(__OSException exception);
 __OSExceptionHandler __OSSetExceptionHandler(__OSException exception, __OSExceptionHandler handler);
 void OSRegisterShutdownFunction(OSShutdownFunctionInfo *info);
 void PPCMtdec(u32 value);
-void OSLoadContext(OSContext *context);
-void OSClearContext(OSContext *context);
-void OSSetCurrentContext(OSContext *context);
-s32 OSDisableScheduler(void);
-s32 OSEnableScheduler(void);
-void __OSReschedule(void);
 BOOL __DVDTestAlarm(const OSAlarm *alarm);
 
 // Still defined in sbss_2.s, which links after every TU; static in the original.

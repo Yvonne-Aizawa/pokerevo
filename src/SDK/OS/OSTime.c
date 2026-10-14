@@ -1,4 +1,5 @@
 #include "types.h"
+#include "SDK/OS/OSAssert.h"
 #include "SDK/OS/OSInterrupt.h"
 #include "SDK/OS/OSTime.h"
 
@@ -83,6 +84,10 @@ static void GetDates(int days, OSCalendarTime *td)
     int n;
     int month;
     int *p_days;
+
+    // Compiled out, and its text is a guess; the original had at least one assertion here, since
+    // GetDates is not inlined into its only caller.
+    ASSERT(0 <= days);
 
     td->wday = (days + 6) % WEEK_DAY_MAX;
 

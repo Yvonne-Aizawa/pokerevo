@@ -11,6 +11,7 @@ extern "C" {
 #include "SDK/OS/OSInterrupt.h"
 #include "SDK/OS/OSSemaphore.h"
 #include "SDK/OS/OSStateFlags.h"
+#include "SDK/OS/OSThread.h"
 #include "SDK/OS/OSArena.h"
 #include "SDK/OS/OSIpc.h"
 #include "SDK/OS/OSLink.h"

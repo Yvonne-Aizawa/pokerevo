@@ -7,10 +7,21 @@ and add the function. Add new levers through the `record-lesson` skill.
 
 ## Inlining and calls
 
-- No automatic inlining, even with `-ipa file`. If the target has no `bl` where the C would call a helper,
-  the original accessed the expression directly, or the helper was `static inline` in the original source
-  (OSAlloc.c's list helpers, OSStateFlags.c's `CheckSum`). Getter calls that look inlined in the asm mean:
-  write the access directly, or a `static inline`.
+- The OS library (`src/SDK/OS/`) is built with `-inline auto` (set per directory in the Makefile;
+  `tu_diff.py` applies it there too). Small functions of the file are inlined into every caller in the
+  file, before or after their definition, and still emitted on their own (OSThread.c's
+  `OSGetCurrentThread`, `__OSReschedule`, `__OSGetEffectivePriority`, `OSInitThreadQueue`).
+- Under `-inline auto`, a function containing a statement that generates nothing is never inlined: a
+  compiled-out `ASSERT(...)` (`((void)0)`, from `SDK/OS/OSAssert.h`) is enough. A small static function
+  that stays a `bl` in an OS file had an assertion (OSThread.c's `UnsetRun`, OSTime.c's `GetDates`).
+  Their text can't be recovered from the release build; say so in a comment.
+- Game code, and GameSpy inside DWC, are built without automatic inlining (GameSpy's `darray.c` and
+  `hashtable.c` grow under `-inline auto`). There, a missing `bl` means the original accessed the
+  expression directly, or the helper was `static inline` (OSAlloc.c's list helpers, OSStateFlags.c's
+  `CheckSum`). Getter calls that look inlined in the asm mean: write the access directly, or a
+  `static inline`.
+- `tu_diff.py --flags` and `--compiler` test other settings; extra flags go before the include options,
+  where MWCC accepts `-ipa`. The Wii compilers in `tools/mwcc_compiler/Wii/` don't match this SDK.
 - A function that is only `b OtherFunction` is a one-line wrapper that tail-calls (OSMutex.c's `OSInitCond`).
 - Argument-register `mr` scheduling (`mr r4,r3` before or after a branch) usually falls out of the
   surrounding structure; change the enclosing control flow rather than fighting the `mr`.
@@ -94,6 +105,14 @@ and add the function. Add new levers through the `record-lesson` skill.
 - Identical string literals in one TU are merged into one object (OSStateFlags.c's path, used three
   times).
 - **(bw2)** String literals are laid out in the order they first appear in the source.
+- `.sbss` statics are emitted in reverse declaration order (OSThread.c: `RunQueueBits`, `RunQueueHint`,
+  `Reschedule` declared, emitted `Reschedule` first). Its `.bss` objects matched declared as
+  `IdleContext`, `IdleThread`, `RunQueue`, `DefaultThread`, emitted `DefaultThread`, `RunQueue`,
+  `IdleContext`, `IdleThread`; the rule behind that is not known yet. Check with
+  `powerpc-eabi-objdump -t` on the object before splitting.
+- Several statics addressed from one base register (`addi r30, r31, 0` then `r31 + 0x318`, `+ 0x418`) are
+  in-TU data of one section; `extern` declarations would load each address separately (OSThread.c's
+  `__OSThreadInit`).
 
 ## 64-bit arithmetic
 

@@ -47,11 +47,11 @@ lbl_8026F154:
 .global MEMIntrruptHandler
 MEMIntrruptHandler:
 /* 8026F168 0026ADC8  3D 00 CC 00 */	lis r8, 0xCC00401E@ha
-/* 8026F16C 0026ADCC  3C 60 80 50 */	lis r3, lbl_80503CF0@ha
+/* 8026F16C 0026ADCC  3C 60 80 50 */	lis r3, __OSErrorTable@ha
 /* 8026F170 0026ADD0  A0 A8 40 1E */	lhz r5, 0xCC00401E@l(r8)
 /* 8026F174 0026ADD4  38 00 00 00 */	li r0, 0
 /* 8026F178 0026ADD8  A0 E8 40 24 */	lhz r7, 0x4024(r8)
-/* 8026F17C 0026ADDC  38 63 3C F0 */	addi r3, r3, lbl_80503CF0@l
+/* 8026F17C 0026ADDC  38 63 3C F0 */	addi r3, r3, __OSErrorTable@l
 /* 8026F180 0026ADE0  A0 C8 40 22 */	lhz r6, 0x4022(r8)
 /* 8026F184 0026ADE4  50 E6 81 9E */	rlwimi r6, r7, 0x10, 6, 0xf
 /* 8026F188 0026ADE8  B0 08 40 20 */	sth r0, 0x4020(r8)

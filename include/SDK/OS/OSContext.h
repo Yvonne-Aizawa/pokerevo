@@ -24,6 +24,17 @@ typedef struct OSContext
     f64 psf[32];        // 0x1C8
 } OSContext;
 
+#define OS_CONTEXT_STATE_FPSAVED 0x01
+#define OS_CONTEXT_STATE_EXC     0x02
+
+void OSSetCurrentContext(OSContext *context);
+OSContext *OSGetCurrentContext(void);
+u32 OSSaveContext(OSContext *context);
+void OSLoadContext(OSContext *context);
+u32 OSGetStackPointer(void);
+void OSClearContext(OSContext *context);
+void OSInitContext(OSContext *context, u32 pc, u32 sp);
+
 #ifdef __cplusplus
 }
 #endif

@@ -2,9 +2,6 @@
 #include "SDK/OS/OSInterrupt.h"
 #include "SDK/OS/OSMutex.h"
 
-void __OSPromoteThread(OSThread *thread, s32 priority);
-s32 __OSGetEffectivePriority(OSThread *thread);
-
 #define PushTail(queue, mutex, link)        \
     do {                                    \
         OSMutex *__prev;                    \

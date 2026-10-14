@@ -375,7 +375,10 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/asm/SDK/OS/OSRtc.o                              \
 	$(BUILD_DIR)/src/SDK/OS/OSSemaphore.o                              \
 	$(BUILD_DIR)/src/SDK/OS/OSSync.o                              \
-	$(BUILD_DIR)/asm/SDK/OS/OSThread.o                              \
+	$(BUILD_DIR)/asm/bss_2.o \
+	$(BUILD_DIR)/asm/sbss_2.o  \
+	$(BUILD_DIR)/asm/sdata_2.o \
+	$(BUILD_DIR)/src/SDK/OS/OSThread.o                              \
 	$(BUILD_DIR)/asm/data_804269E0.o                                    \
 	$(BUILD_DIR)/src/SDK/OS/OSTime.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSUtf.o                              \
@@ -825,9 +828,9 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/asm/text_11_2.o \
 	$(BUILD_DIR)/asm/ctors_2.o \
 	$(BUILD_DIR)/asm/data_2b.o \
-	$(BUILD_DIR)/asm/bss_2.o \
-	$(BUILD_DIR)/asm/sdata_2.o \
-	$(BUILD_DIR)/asm/sbss_2.o  \
+	$(BUILD_DIR)/asm/bss_805151E0.o \
+	$(BUILD_DIR)/asm/sdata_8063DAA8.o \
+	$(BUILD_DIR)/asm/sbss_8063FAF8.o  \
     $(BUILD_DIR)/asm/sdata2_2.o
 
 
