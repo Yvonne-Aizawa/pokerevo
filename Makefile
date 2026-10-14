@@ -95,7 +95,7 @@ CFLAGS   = $(CFLAGS_OPT) $(INCLUDES) -W all -w nopragmas
 # The RVL SDK libraries were built with automatic inlining (their static helpers are inlined); DWC's
 # GameSpy code was not. Add each SDK directory here as it gets C files. The flag has to come before the
 # include options, hence CFLAGS_OPT.
-RVL_SDK_DIRS := AI ARC CX DB DSP EUART OS PAD SI TPL base
+RVL_SDK_DIRS := AI ARC CX DB DSP EUART OS PAD SI TPL WENC base
 $(foreach d,$(RVL_SDK_DIRS),$(BUILD_DIR)/src/SDK/$(d)/%.o): CFLAGS_OPT += -inline auto
 
 # for postprocess.py
