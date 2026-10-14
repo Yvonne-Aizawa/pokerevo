@@ -870,8 +870,8 @@ lbl_8063FA18:
 .global lbl_8063FA20
 lbl_8063FA20:
 	.skip 0x8
-.global lbl_8063FA28
-lbl_8063FA28:
+.global __OSInIPL
+__OSInIPL:
 	.skip 0x4
 .global lbl_8063FA2C
 lbl_8063FA2C:
