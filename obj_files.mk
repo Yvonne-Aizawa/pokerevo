@@ -469,9 +469,12 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/asm/SDK/MEM/mem_list.o                                     \
 	$(BUILD_DIR)/asm/SDK/MIX/mix.o                                     \
 	$(BUILD_DIR)/asm/SDK/MIX/remote.o                                     \
-	$(BUILD_DIR)/asm/SDK/DSP/dsp.o                                     \
-	$(BUILD_DIR)/asm/SDK/DSP/dsp_debug.o                                     \
-	$(BUILD_DIR)/asm/SDK/DSP/dsp_task.o                                     \
+	$(BUILD_DIR)/asm/data_804372E0.o \
+	$(BUILD_DIR)/asm/sdata_8063DBA8.o \
+	$(BUILD_DIR)/asm/sbss_8063FDD0.o \
+	$(BUILD_DIR)/src/SDK/DSP/dsp.o                                     \
+	$(BUILD_DIR)/src/SDK/DSP/dsp_debug.o                                     \
+	$(BUILD_DIR)/src/SDK/DSP/dsp_task.o                                     \
 	$(BUILD_DIR)/asm/SDK/TPL/TPL.o                                     \
 	$(BUILD_DIR)/asm/SDK/THP/THPDec.o                                     \
 	$(BUILD_DIR)/asm/SDK/THP/THPAudio.o                                     \
@@ -842,10 +845,10 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/asm/code_803D9208.o \
 	$(BUILD_DIR)/asm/text_11_2.o \
 	$(BUILD_DIR)/asm/ctors_2.o \
-	$(BUILD_DIR)/asm/data_804372E0.o \
+	$(BUILD_DIR)/asm/data_8043BEC0.o \
 	$(BUILD_DIR)/asm/bss_805154A0.o \
-	$(BUILD_DIR)/asm/sdata_8063DBA8.o \
-	$(BUILD_DIR)/asm/sbss_8063FDD0.o  \
+	$(BUILD_DIR)/asm/sdata_8063DBC8.o \
+	$(BUILD_DIR)/asm/sbss_8063FF48.o  \
     $(BUILD_DIR)/asm/sdata2_80642660.o
 
 
