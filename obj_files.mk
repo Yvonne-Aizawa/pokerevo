@@ -352,9 +352,10 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/asm/code_80262E90.o                                   \
 	$(BUILD_DIR)/asm/code_80263CBC.o                                   \
 	$(BUILD_DIR)/asm/code_802674CC.o                                   \
-	$(BUILD_DIR)/asm/SDK/base/PPCArch.o                                  \
-	$(BUILD_DIR)/asm/SDK/OS/OS.o                                  \
 	$(BUILD_DIR)/asm/data_2.o                                    \
+	$(BUILD_DIR)/src/SDK/base/PPCArch.o                                  \
+	$(BUILD_DIR)/asm/SDK/OS/OS.o                                  \
+	$(BUILD_DIR)/asm/data_804265E0.o                                    \
 	$(BUILD_DIR)/src/SDK/OS/OSAlarm.o                             \
 	$(BUILD_DIR)/src/SDK/OS/OSAlloc.o                             \
 	$(BUILD_DIR)/src/SDK/OS/OSArena.o                             \
