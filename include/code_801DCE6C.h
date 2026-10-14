@@ -12,7 +12,7 @@ struct gUnkClass6
     char unk2[0x46];
     NANDFileInfo unk48;
     NANDCommandBlock block;
-    u8 unkD8[0xB8];
+    u8 unk18C[0x4];
     
     const char* func_801DCE6C(void) const;
     const char* func_801DCE74(void) const;

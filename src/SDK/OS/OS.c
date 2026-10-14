@@ -8,6 +8,7 @@
 #include "types.h"
 #include "string.h"
 #include "SDK/OS/OS.h"
+#include "SDK/OS/OSPlayRecord.h"
 #include "SDK/OS/OSStateTM.h"
 #include "SDK/OS/OSAlarm.h"
 #include "SDK/OS/OSArena.h"
@@ -110,7 +111,6 @@ u32 SCCheckStatus(void);
 void __OSInitNet(void);
 void DVDInit(void);
 BOOL DVDInquiryAsync(DVDCommandBlock *block, DVDDriveInfo *info, DVDCBCallback callback);
-void __OSStartPlayRecord(void);
 BOOL __DBIsExceptionMarked(__OSException exception);
 void DBPrintf(const char *msg, ...);
 

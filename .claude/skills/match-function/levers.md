@@ -168,6 +168,11 @@ and add the function. Add new levers through the `record-lesson` skill.
   in-TU data of one section; `extern` declarations would load each address separately (OSThread.c's
   `__OSThreadInit`).
 
+- MWCC lays out a file's statics in a section in order of first use in the emitted code, not in
+  declaration order. OSPlayRecord.c's `.bss` puts PlayRecord before PlayRecordAlarm only once a
+  function using PlayRecord is emitted first: a non-static helper (inlined into its callers, then
+  stripped by the linker). Check the layout with `powerpc-eabi-nm -n` on the object.
+
 ## 64-bit arithmetic
 
 - `s64` code needs no special spelling: compares become `xoris/subfc/subfe/subfe/neg.` chains, `/` calls

@@ -11,10 +11,10 @@ typedef struct NANDFileInfo
     u8 unk0[0x8C]; 
 } NANDFileInfo;
 
-// TODO: placeholder size
+// Fields unknown; 0xB8 bytes (OSPlayRecord.c's statics place the next object after it).
 typedef struct NANDCommandBlock
 {
-    u8 unk0[0x4];
+    u8 unk0[0xB8];
 } NANDCommandBlock;
 
 typedef void (*NANDCallback)(s32 result, NANDCommandBlock* block);
@@ -28,6 +28,7 @@ void* NANDGetUserData(const NANDCommandBlock* block);
 void NANDSetUserData(NANDCommandBlock* block, void* data);
 s32 NANDCreate(const char* fileName, u8 perm, u8 attr);
 s32 NANDWrite(NANDFileInfo* info, const void* buf, u32 length);
+s32 NANDWriteAsync(NANDFileInfo* info, const void* buf, u32 length, NANDCallback cb, NANDCommandBlock* block);
 s32 NANDDelete(const char* path);
 
 

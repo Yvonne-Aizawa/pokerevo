@@ -9,6 +9,8 @@ extern "C" {
 
 s32 NANDOpen(const char* path, NANDFileInfo* info, u8 accType);
 s32 NANDClose(NANDFileInfo* info);
+s32 NANDOpenAsync(const char* path, NANDFileInfo* info, u8 accType, NANDCallback cb, NANDCommandBlock* block);
+s32 NANDCloseAsync(NANDFileInfo* info, NANDCallback cb, NANDCommandBlock* block);
 
 #ifdef __cplusplus
 }

@@ -1,11 +1,8 @@
 	.section .bss, "wa"  # 0x80474F00 - 0x80643050
 
-# Continuation of bss_805151E0.s after OSStateTM.c's buffers (0x805152A0).
+# Continuation of bss_805152A0.s after OSPlayRecord.c's statics (0x805154A0).
 	.balign 32
 
-.global lbl_805152A0
-lbl_805152A0:
-	.skip 0x200
 .global StateFlags
 StateFlags:
 	.skip 0x20
