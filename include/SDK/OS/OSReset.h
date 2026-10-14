@@ -5,8 +5,6 @@
 extern "C" {
 #endif
 
-// Owned by OSReset.c, which is still asm.
-
 typedef BOOL (*OSShutdownFunction)(BOOL final, u32 event);
 
 typedef struct OSShutdownFunctionInfo
@@ -18,6 +16,16 @@ typedef struct OSShutdownFunctionInfo
 } OSShutdownFunctionInfo;
 
 void OSRegisterShutdownFunction(OSShutdownFunctionInfo *info);
+BOOL __OSCallShutdownFunctions(BOOL final, u32 event);
+void __OSShutdownDevices(u32 event);
+void OSRebootSystem(void);
+void OSShutdownSystem(void);
+void __OSRebootForNANDAPP(u32 resetCode);
+void OSRestart(u32 resetCode);
+void OSReturnToMenu(void);
+void __OSReturnToMenuForError(void);
+u32 OSGetResetCode(void);
+void OSResetSystem(int reset, u32 resetCode, BOOL forceMenu);
 
 #ifdef __cplusplus
 }

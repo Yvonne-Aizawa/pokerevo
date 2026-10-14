@@ -30,6 +30,7 @@ __OSExceptionHandler __OSSetExceptionHandler(__OSException exception, __OSExcept
 __OSExceptionHandler __OSGetExceptionHandler(__OSException exception);
 OSErrorHandler OSSetErrorHandler(OSError error, OSErrorHandler handler);
 void OSReport(const char *msg, ...);
+void OSPanic(const char *file, int line, const char *msg, ...);
 
 #ifdef __cplusplus
 }

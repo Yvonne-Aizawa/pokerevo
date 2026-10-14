@@ -1,19 +1,8 @@
 #include "types.h"
 #include "SDK/OS/OSNet.h"
 #include "SDK/OS/OSError.h"
+#include "SDK/OS/OS.h"
 
-typedef struct OSIOSRev {
-    u8 idHi;
-    u8 idLo;
-    u8 verMajor;
-    u8 verMinor;
-    u8 buildMon;
-    u8 buildDay;
-    u8 buildYearHi;
-    u8 buildYearLo;
-} OSIOSRev;
-
-void __OSGetIOSRev(OSIOSRev *rev);
 s32 NWC24iPrepareShutdown(void);
 s32 NWC24SuspendScheduler(void);
 s32 NWC24iSynchronizeRtcCounter(void);

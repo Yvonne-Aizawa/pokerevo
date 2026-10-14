@@ -216,8 +216,8 @@ lbl_80503AF8:
 .global lbl_80503BF8
 lbl_80503BF8:
 	.skip 0x88
-.global lbl_80503C80
-lbl_80503C80:
+.global __OSRebootParams
+__OSRebootParams:
 	.skip 0x20
 .global lbl_80503CA0
 lbl_80503CA0:

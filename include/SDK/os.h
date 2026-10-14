@@ -6,6 +6,7 @@ extern "C" {
 #endif
 
 #include "SDK/OS/OSAlarm.h"
+#include "SDK/OS/OS.h"
 #include "SDK/OS/OSAlloc.h"
 #include "SDK/OS/OSCache.h"
 #include "SDK/OS/OSError.h"
@@ -22,6 +23,7 @@ extern "C" {
 #include "SDK/OS/OSMutex.h"
 #include "SDK/OS/OSNet.h"
 #include "SDK/OS/OSReboot.h"
+#include "SDK/OS/OSReset.h"
 #include "SDK/OS/OSSync.h"
 #include "SDK/OS/OSTime.h"
 

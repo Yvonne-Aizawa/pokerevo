@@ -375,15 +375,14 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/src/SDK/OS/OSMemory.o                              \
 	$(BUILD_DIR)/src/SDK/OS/OSMutex.o                              \
 	$(BUILD_DIR)/src/SDK/OS/OSReboot.o                              \
-	$(BUILD_DIR)/asm/SDK/OS/OSReset.o                              \
+	$(BUILD_DIR)/asm/sbss_8063FAD0.o  \
+	$(BUILD_DIR)/src/SDK/OS/OSReset.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSRtc.o                              \
 	$(BUILD_DIR)/src/SDK/OS/OSSemaphore.o                              \
 	$(BUILD_DIR)/src/SDK/OS/OSSync.o                              \
 	$(BUILD_DIR)/asm/bss_2.o \
-	$(BUILD_DIR)/asm/sbss_8063FAD0.o  \
 	$(BUILD_DIR)/asm/sdata_2.o \
 	$(BUILD_DIR)/src/SDK/OS/OSThread.o                              \
-	$(BUILD_DIR)/asm/data_80427D18.o                                    \
 	$(BUILD_DIR)/src/SDK/OS/OSTime.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSUtf.o                              \
 	$(BUILD_DIR)/src/SDK/OS/OSIpc.o                              \

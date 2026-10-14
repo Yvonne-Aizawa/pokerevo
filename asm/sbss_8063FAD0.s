@@ -9,9 +9,3 @@ SaveStart:
 .global SaveEnd
 SaveEnd:
 	.skip 0x4
-.global lbl_8063FAD8
-lbl_8063FAD8:
-	.skip 0x8
-.global lbl_8063FAE0
-lbl_8063FAE0:
-	.skip 0x8
