@@ -10,6 +10,9 @@ the built DOL stays byte-identical (`sha1sum -c pbr_pal.sha1` passes).
 
 ## The loop
 
+0. Optionally start the `asm-scout` agent on the asm file first: it reports the functions, the data and
+   how to split it, callers, header gaps and risks without filling this context. For a function that
+   stays stuck, the `function-matcher` agent can grind it in its own context (one per source file).
 1. Read the target asm file. Each `asm/X.s` is one original translation unit;
    the functions must appear in the C file **in the same order**.
 2. Write `src/<same path>.c`, add a header under `include/` (guard style:
