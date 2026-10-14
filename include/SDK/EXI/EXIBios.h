@@ -21,6 +21,9 @@ BOOL EXIImmEx(s32 chan, void *buf, s32 len, u32 mode);
 BOOL EXIDma(s32 chan, void *buf, s32 len, u32 type, EXICallback callback);
 BOOL EXISync(s32 chan);
 
+// EXICommon.c is still asm
+BOOL EXIWriteReg(s32 chan, u32 dev, u32 exiCmd, void *reg, s32 size);
+
 #ifdef __cplusplus
 }
 #endif
