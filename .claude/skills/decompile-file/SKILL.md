@@ -82,6 +82,12 @@ Two simpler shapes of case 3:
   the asm file, rename its label to the static's name, and declare it
   `extern` in the C (OSStateFlags.c's `StateFlags`).
 
+- **A `static` function referenced only from the TU's data** (a callback
+  in a table or record) is dropped by the compiler while that data is still
+  in asm, because nothing in the C refers to it. Define the data in C (a
+  split) rather than making the function global (OSAlarm.c's `OnReset`,
+  referenced only from `ResetFunctionInfo`).
+
 Never do a big upfront split: TU boundaries inside the data files are only
 discoverable while decompiling the code that uses them.
 
@@ -97,6 +103,13 @@ discoverable while decompiling the code that uses them.
 - `tools/pragma` provides `#pragma regswap` / `#pragma iswap` (post-compile
   instruction patching) as a last resort for register/scheduling mismatches —
   it cannot fix instruction-count differences.
+- Every directory under `tools/` needs a Makefile: the top-level Makefile
+  runs `make` in each one, and a missing one prints `Error 2` in the build
+  log while the build carries on. Script-only tools get the no-op Makefile
+  of `tools/decomp/`.
+- Unused parameters that the SDK's signature requires: `#pragma unused(x)`
+  as the first line of the body silences MWCC's warning without changing
+  the code (OSAlarm.c's `DecrementerExceptionCallback`).
 - `extab.s`/`extabindex.s` stay as incbin until C++ exception tables are
   understood; don't touch them.
 - Data typed by `tools/data_resolver` (floats/pointers/strings) is **guessed

@@ -53,6 +53,9 @@ def reference_asm(src):
     asm = re.sub(r"^src/", "asm/", os.path.splitext(rel)[0]) + ".s"
     if os.path.exists(os.path.join(ROOT, asm)):
         return asm, open(os.path.join(ROOT, asm)).read()
+    head = run(["git", "show", f"HEAD:{asm}"])
+    if head.returncode == 0:  # deleted but not committed yet
+        return f"{asm} (HEAD)", head.stdout
     log = run(["git", "log", "-1", "--format=%H", "--diff-filter=D", "--", asm]).stdout.strip()
     if not log:
         sys.exit(f"no {asm} in the working tree or git history; pass --ref")

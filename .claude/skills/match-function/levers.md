@@ -92,6 +92,12 @@ and add the function. Add new levers through the `record-lesson` skill.
   times).
 - **(bw2)** String literals are laid out in the order they first appear in the source.
 
+## 64-bit arithmetic
+
+- `s64` code needs no special spelling: compares become `xoris/subfc/subfe/subfe/neg.` chains, `/` calls
+  `__div2i`, and functions with many live 64-bit values save registers with `bl _savegpr_N` instead of
+  `stw`s, all from plain C (OSAlarm.c's `InsertAlarm`, `OSSetAlarm`, and the `SetTimer` inline).
+
 ## Raw asm
 
 - Raw asm blobs (exception vectors and the like) are `asm void f(void)` with `nofralloc` as the first

@@ -909,8 +909,8 @@ lbl_8063FA68:
 .global lbl_8063FA6C
 lbl_8063FA6C:
 	.skip 0x4
-.global lbl_8063FA70
-lbl_8063FA70:
+.global AlarmQueue
+AlarmQueue:
 	.skip 0x8
 .global HeapArray
 HeapArray:
