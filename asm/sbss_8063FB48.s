@@ -18,18 +18,3 @@ lbl_8063FB58:
 .global lbl_8063FB5C
 lbl_8063FB5C:
 	.skip 0x4
-.global lbl_8063FB60
-lbl_8063FB60:
-	.skip 0x4
-.global lbl_8063FB64
-lbl_8063FB64:
-	.skip 0x4
-.global lbl_8063FB68
-lbl_8063FB68:
-	.skip 0x4
-.global lbl_8063FB6C
-lbl_8063FB6C:
-	.skip 0x4
-.global lbl_8063FB70
-lbl_8063FB70:
-	.skip 0x8

@@ -11,6 +11,7 @@
 #include "SDK/DB/db.h"
 #include "SDK/OS/OSPlayRecord.h"
 #include "SDK/OS/OSStateTM.h"
+#include "SDK/SI/SIBios.h"
 #include "SDK/OS/OSAlarm.h"
 #include "SDK/OS/OSArena.h"
 #include "SDK/OS/OSCache.h"
@@ -102,7 +103,6 @@ void __OSInitIPCBuffer(void);
 void __OSInitSystemCall(void);
 void __OSModuleInit(void);
 void EXIInit(void);
-void SIInit(void);
 void __OSInitSram(void);
 void __OSInitAudioSystem(void);
 void EnableMetroTRKInterrupts(void);

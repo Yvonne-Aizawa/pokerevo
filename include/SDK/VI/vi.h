@@ -35,6 +35,7 @@ void VIInit(void);
 void VIFlush(void);
 void VISetBlack(BOOL black);
 u32 VIGetRetraceCount(void);
+u32 VIGetCurrentLine(void);
 u32 VIGetTvFormat(void);
 void VIConfigure(const GXRenderModeObj *rm);
 void VIConfigurePan(u16 xOrg, u16 yOrg, u16 width, u16 height);

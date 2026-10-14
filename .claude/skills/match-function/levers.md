@@ -7,8 +7,9 @@ and add the function. Add new levers through the `record-lesson` skill.
 
 ## Inlining and calls
 
-- The OS library (`src/SDK/OS/`) is built with `-inline auto` (set per directory in the Makefile;
-  `tu_diff.py` applies it there too). Small functions of the file are inlined into every caller in the
+- The RVL SDK (`src/SDK/`, all but DWC's GameSpy code) is built with `-inline auto` (set per directory
+  in the Makefile's `RVL_SDK_DIRS`, which needs each new SDK directory added; `tu_diff.py` applies it to
+  `src/SDK/` except `src/SDK/DWC/`). First proven on OS, then needed by SI. Small functions of the file are inlined into every caller in the
   file, before or after their definition, and still emitted on their own (OSThread.c's
   `OSGetCurrentThread`, `__OSReschedule`, `__OSGetEffectivePriority`, `OSInitThreadQueue`).
 - Under `-inline auto`, a function containing a statement that generates nothing is never inlined: a
@@ -180,6 +181,16 @@ and add the function. Add new levers through the `record-lesson` skill.
 - In an `asm` function with `fralloc`, a `register` parameter is moved to r31 by the compiler, so
   `mr r31, cb` assembles as `mr r31, r31`. Name the incoming register (`mr r31, r3`) and mark the
   parameter `#pragma unused` (ai.c's `__AICallbackStackSwitch`).
+
+- Hardware register blocks the SDK declares as MWCC absolute-address arrays (`vu32 __SIRegs[64] :
+  0xCD006400;`) compile differently from a pointer macro (`((vu32 *)0xCD006400)`): with the array, loops
+  over registers step a pointer (`addi r4, r29, 0x6400` then `lwz 0x80(r4)`); with the macro, MWCC
+  rebuilds each address. Use the array form when register loops differ (SIBios.c).
+- Statics' order in `.bss`/`.sbss` follows first use in the emitted code, including functions the linker
+  later strips: a global helper at the top of the file (SIBios.c's `SIIsChanBusy`) is enough to put its
+  data first. A function-local static (`static BOOL SIInitialized;` inside `SIInit`) is placed among the
+  other function-local statics in function order, ahead of the file's globals: try it when one flag sits
+  between two function statics.
 
 ## 64-bit arithmetic
 
