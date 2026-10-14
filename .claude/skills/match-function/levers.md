@@ -145,6 +145,15 @@ and add the function. Add new levers through the `record-lesson` skill.
 - A fixed-count loop over a small struct is unrolled into a chain of `lwz`/`add` (OSStateFlags.c's
   `CheckSum` summing words 1 to 7).
 
+- MWCC folds every `const` scalar it can see to an immediate: `static`/global/`extern` const, `[0]` of a
+  const array, const struct and union members, a const u64 cast, an enum, even a const defined after its
+  uses. So an original that loads a constant from `.sdata2` into a register (euart.s's EXI frequency,
+  `lwz r28, lbl@sda21(r2)`) wasn't written as any of those; only a read through a pointer avoids the
+  folding, and it reloads at each use. Unsolved; euart.c is parked on it.
+- An absent `bl` for a helper that the caller copies a struct pointer field from (`lwz r6, 4(r3)` hoisted
+  to the top) means the original indexed a local copy of the field (arc.c's macros use
+  `FSTEntries = handle->FSTStart`, not `handle->FSTStart` each time).
+
 ## Data and sections
 
 - `addi r3, rBase, 0` (not `mr`) addressing a data symbol means the TU has its own data (string literals,
