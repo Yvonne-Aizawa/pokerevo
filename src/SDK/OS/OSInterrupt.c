@@ -2,8 +2,7 @@
 #include "string.h"
 #include "SDK/OS/OSInterrupt.h"
 #include "SDK/OS/OSThread.h"
-
-#define __OS_EXCEPTION_EXTERNAL_INTERRUPT 4
+#include "SDK/OS/OSError.h"
 
 #define __OSInterruptMaskGlobal (*(OSInterruptMask *)0x800000C4)
 #define __OSInterruptMaskLocal  (*(OSInterruptMask *)0x800000C8)
@@ -16,16 +15,7 @@
 
 #define __HollywoodIntMask (*(vu32 *)0xCD000034)
 
-typedef u8 __OSException;
-typedef void (*__OSExceptionHandler)(__OSException exception, OSContext *context);
-
-__OSExceptionHandler __OSSetExceptionHandler(__OSException exception, __OSExceptionHandler handler);
-
 static asm void ExternalInterruptHandler(register __OSException exception, register OSContext *context);
-
-// Entry points inside OSDisableInterrupts; OSContext.c checks a saved pc against them.
-void __RAS_OSDisableInterrupts_begin(void);
-void __RAS_OSDisableInterrupts_end(void);
 
 static __OSInterruptHandler *InterruptHandlerTable;
 

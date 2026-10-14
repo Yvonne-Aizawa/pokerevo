@@ -1,5 +1,6 @@
 #include "types.h"
 #include "SDK/OS/OSNet.h"
+#include "SDK/OS/OSError.h"
 
 typedef struct OSIOSRev {
     u8 idHi;
@@ -13,7 +14,6 @@ typedef struct OSIOSRev {
 } OSIOSRev;
 
 void __OSGetIOSRev(OSIOSRev *rev);
-void OSReport(const char *msg, ...);
 s32 NWC24iPrepareShutdown(void);
 s32 NWC24SuspendScheduler(void);
 s32 NWC24iSynchronizeRtcCounter(void);

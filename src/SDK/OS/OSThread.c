@@ -4,8 +4,7 @@
 #include "SDK/OS/OSAlarm.h"
 #include "SDK/OS/OSMutex.h"
 #include "SDK/OS/OSThread.h"
-
-#define OS_ERROR_FPE 16
+#include "SDK/OS/OSError.h"
 
 #define MSR_FE0 0x00000800
 #define MSR_FE1 0x00000100
@@ -13,13 +12,8 @@
 #define FPSCR_ENABLE 0x000000F8
 #define FPSCR_NI     0x00000004
 
-#define __OSFPUContext         (*(OSContext **)0x800000D8)
 #define __OSActiveThreadQueue  (*(OSThreadQueue *)0x800000DC)
 #define __OSCurrentThread      (*(OSThread **)0x800000E4)
-
-// Defined by OSError.c, still in asm.
-extern void *__OSErrorTable[];
-extern u32 __OSFpscrEnableBits;
 
 // Linker-generated
 extern u8 _stack_addr[];

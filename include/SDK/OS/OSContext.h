@@ -27,13 +27,21 @@ typedef struct OSContext
 #define OS_CONTEXT_STATE_FPSAVED 0x01
 #define OS_CONTEXT_STATE_EXC     0x02
 
+#define __OSCurrentContext (*(OSContext **)0x800000D4)
+#define __OSFPUContext     (*(OSContext **)0x800000D8)
+
+void OSSaveFPUContext(OSContext *fpuContext);
 void OSSetCurrentContext(OSContext *context);
 OSContext *OSGetCurrentContext(void);
 u32 OSSaveContext(OSContext *context);
 void OSLoadContext(OSContext *context);
 u32 OSGetStackPointer(void);
+void OSSwitchFiber(u32 pc, u32 newsp);
+void OSSwitchFiberEx(u32 arg0, u32 arg1, u32 arg2, u32 arg3, u32 pc, u32 newsp);
 void OSClearContext(OSContext *context);
 void OSInitContext(OSContext *context, u32 pc, u32 sp);
+void OSDumpContext(OSContext *context);
+void __OSContextInit(void);
 
 #ifdef __cplusplus
 }

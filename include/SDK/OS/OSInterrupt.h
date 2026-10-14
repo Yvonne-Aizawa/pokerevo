@@ -90,6 +90,10 @@ extern u32 __OSLastInterruptSrr0;
 extern __OSInterrupt __OSLastInterrupt;
 extern OSTime __OSLastInterruptTime;
 
+// Entry points inside OSDisableInterrupts, which OSLoadContext checks a saved pc against
+void __RAS_OSDisableInterrupts_begin(void);
+void __RAS_OSDisableInterrupts_end(void);
+
 BOOL OSDisableInterrupts(void);
 BOOL OSEnableInterrupts(void);
 BOOL OSRestoreInterrupts(BOOL level);

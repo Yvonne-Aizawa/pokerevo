@@ -2,11 +2,7 @@
 #include "SDK/OS/OSInterrupt.h"
 #include "SDK/OS/OSAlarm.h"
 #include "SDK/OS/OSThread.h"
-
-#define __OS_EXCEPTION_DECREMENTER 8
-
-typedef u8 __OSException;
-typedef void (*__OSExceptionHandler)(__OSException exception, OSContext *context);
+#include "SDK/OS/OSError.h"
 
 typedef BOOL (*OSShutdownFunction)(BOOL final, u32 event);
 
@@ -24,8 +20,6 @@ typedef struct OSAlarmQueue
     OSAlarm *tail;
 } OSAlarmQueue;
 
-__OSExceptionHandler __OSGetExceptionHandler(__OSException exception);
-__OSExceptionHandler __OSSetExceptionHandler(__OSException exception, __OSExceptionHandler handler);
 void OSRegisterShutdownFunction(OSShutdownFunctionInfo *info);
 void PPCMtdec(u32 value);
 BOOL __DVDTestAlarm(const OSAlarm *alarm);

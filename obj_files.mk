@@ -360,12 +360,13 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/src/SDK/OS/OSArena.o                             \
 	$(BUILD_DIR)/asm/SDK/OS/OSAudioSystem.o                       \
 	$(BUILD_DIR)/asm/SDK/OS/OSCache.o                             \
-	$(BUILD_DIR)/asm/SDK/OS/OSContext.o                           \
+	$(BUILD_DIR)/asm/data_804269E0.o                                    \
+	$(BUILD_DIR)/src/SDK/OS/OSContext.o                           \
 	$(BUILD_DIR)/asm/SDK/OS/OSError.o                             \
 	$(BUILD_DIR)/asm/SDK/OS/OSExec.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSFatal.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSFont.o                              \
-	$(BUILD_DIR)/asm/data_804269E0.o                                    \
+	$(BUILD_DIR)/asm/data_80426E78.o                                    \
 	$(BUILD_DIR)/asm/sbss_2.o  \
 	$(BUILD_DIR)/src/SDK/OS/OSInterrupt.o                              \
 	$(BUILD_DIR)/src/SDK/OS/OSLink.o                              \

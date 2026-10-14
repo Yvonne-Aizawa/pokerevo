@@ -15,6 +15,9 @@ and add the function. Add new levers through the `record-lesson` skill.
   compiled-out `ASSERT(...)` (`((void)0)`, from `SDK/OS/OSAssert.h`) is enough. A small static function
   that stays a `bl` in an OS file had an assertion (OSThread.c's `UnsetRun`, OSTime.c's `GetDates`).
   Their text can't be recovered from the release build; say so in a comment.
+- In an OS file, an inlined copy of a function of the same file shows that function was written in C,
+  even when its standalone body looks hand-written (OSContext.c's `OSClearContext`, inlined twice into
+  `OSDumpContext`); asm functions are never inlined.
 - Game code, and GameSpy inside DWC, are built without automatic inlining (GameSpy's `darray.c` and
   `hashtable.c` grow under `-inline auto`). There, a missing `bl` means the original accessed the
   expression directly, or the helper was `static inline` (OSAlloc.c's list helpers, OSStateFlags.c's
