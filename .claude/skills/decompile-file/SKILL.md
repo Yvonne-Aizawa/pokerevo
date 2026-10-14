@@ -77,11 +77,14 @@ Two simpler shapes of case 3:
   move the monolithic object in `obj_files.mk` to just before the TU. No
   continuation file is needed (OSStateFlags.c's path string was the last
   40 bytes of `data_2.s`).
-- **The TU has `.bss` statics**: `bss_2.o` and `sbss_2.o` link after every
-  TU, so a C `static` would land at the wrong address. Keep the object in
-  the asm file, rename its label to the static's name, and declare it
-  `extern` in the C (OSStateFlags.c's `StateFlags`).
-
+- **The TU has `.bss`/`.sbss`/`.sdata` statics**: these live in `bss_2.s`,
+  `sbss_2.s` and `sdata_2.s`, linked near the end of `obj_files.mk`. The
+  quick route keeps the object in asm, renames its label to the static's
+  name, and declares it `extern` in the C (OSStateFlags.c's `StateFlags`,
+  OSAlarm.c's `AlarmQueue`). A split works the same way as for `.data`
+  whenever no object between the TU and the monolith contributes to that
+  section (check the map): move the monolith's prefix up to just before the
+  TU. Not yet tried for these sections.
 - **A `static` function referenced only from the TU's data** (a callback
   in a table or record) is dropped by the compiler while that data is still
   in asm, because nothing in the C refers to it. Define the data in C (a
@@ -103,6 +106,14 @@ discoverable while decompiling the code that uses them.
 - `tools/pragma` provides `#pragma regswap` / `#pragma iswap` (post-compile
   instruction patching) as a last resort for register/scheduling mismatches —
   it cannot fix instruction-count differences.
+- `make` doesn't notice a removed or renamed source: a stale `.o` left in
+  `build/pbr_pal/` still satisfies the link, so the DOL can pass while
+  linking old objects. After renaming or deleting an asm file, delete its
+  `.o` from `build/` (or `make clean`), and check that the DOL's timestamp
+  is fresh before trusting `sha1sum`.
+- `make` doesn't track headers for C files (no dependency files), so
+  after editing a shared header, `rm -rf build/pbr_pal/src` and rebuild
+  before trusting `sha1sum`; `tu_diff.py` always compiles fresh.
 - Every directory under `tools/` needs a Makefile: the top-level Makefile
   runs `make` in each one, and a missing one prints `Error 2` in the build
   log while the build carries on. Script-only tools get the no-op Makefile

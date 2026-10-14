@@ -376,12 +376,13 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/src/SDK/OS/OSSemaphore.o                              \
 	$(BUILD_DIR)/src/SDK/OS/OSSync.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSThread.o                              \
-	$(BUILD_DIR)/asm/SDK/OS/OSTime.o                              \
+	$(BUILD_DIR)/asm/data_804269E0.o                                    \
+	$(BUILD_DIR)/src/SDK/OS/OSTime.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSUtf.o                              \
 	$(BUILD_DIR)/src/SDK/OS/OSIpc.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSStateTM.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSPlayRecord.o                              \
-	$(BUILD_DIR)/asm/data_2a.o                                    \
+	$(BUILD_DIR)/asm/data_80427E28.o                                    \
 	$(BUILD_DIR)/src/SDK/OS/OSStateFlags.o                              \
 	$(BUILD_DIR)/src/SDK/OS/OSNet.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSNandbootInfo.o                              \

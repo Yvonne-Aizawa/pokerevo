@@ -88,6 +88,9 @@ and add the function. Add new levers through the `record-lesson` skill.
   statics) addressed from a pooled base register. `extern` references compile to `mr` at offset 0 and a
   separate `lis/addi` per symbol. If you see the pooled pattern, the TU's data must be carved out of the
   monolithic data files (`decompile-file`, "Data").
+- A cast's position decides the width of an addition: `(int)(x / SECS_IN_DAY + BIAS)` adds in 64 bits
+  (`addc`, low word only), `(int)(x / SECS_IN_DAY) + BIAS` adds in 32 (`addis/addi`) (OSTime.c's
+  `OSTicksToCalendarTime`).
 - Identical string literals in one TU are merged into one object (OSStateFlags.c's path, used three
   times).
 - **(bw2)** String literals are laid out in the order they first appear in the source.

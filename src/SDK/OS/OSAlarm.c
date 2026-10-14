@@ -26,8 +26,6 @@ typedef struct OSAlarmQueue
 __OSExceptionHandler __OSGetExceptionHandler(__OSException exception);
 __OSExceptionHandler __OSSetExceptionHandler(__OSException exception, __OSExceptionHandler handler);
 void OSRegisterShutdownFunction(OSShutdownFunctionInfo *info);
-OSTime __OSGetSystemTime(void);
-OSTime __OSTimeToSystemTime(OSTime time);
 void PPCMtdec(u32 value);
 void OSLoadContext(OSContext *context);
 void OSClearContext(OSContext *context);

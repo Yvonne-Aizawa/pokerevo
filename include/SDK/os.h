@@ -19,6 +19,7 @@ extern "C" {
 #include "SDK/OS/OSNet.h"
 #include "SDK/OS/OSReboot.h"
 #include "SDK/OS/OSSync.h"
+#include "SDK/OS/OSTime.h"
 
 #ifdef __cplusplus
 }
