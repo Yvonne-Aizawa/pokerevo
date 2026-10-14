@@ -105,8 +105,9 @@ and add the function. Add new levers through the `record-lesson` skill.
 - Identical string literals in one TU are merged into one object (OSStateFlags.c's path, used three
   times).
 - **(bw2)** String literals are laid out in the order they first appear in the source.
-- `.sbss` statics are emitted in reverse declaration order (OSThread.c: `RunQueueBits`, `RunQueueHint`,
-  `Reschedule` declared, emitted `Reschedule` first). Its `.bss` objects matched declared as
+- `.sbss` variables are emitted in reverse declaration order (OSThread.c: `RunQueueBits`, `RunQueueHint`,
+  `Reschedule` declared, emitted `Reschedule` first), globals before statics: OSInterrupt.c's static
+  `InterruptHandlerTable`, declared first, comes after its three globals. Its `.bss` objects matched declared as
   `IdleContext`, `IdleThread`, `RunQueue`, `DefaultThread`, emitted `DefaultThread`, `RunQueue`,
   `IdleContext`, `IdleThread`; the rule behind that is not known yet. Check with
   `powerpc-eabi-objdump -t` on the object before splitting.
@@ -120,7 +121,13 @@ and add the function. Add new levers through the `record-lesson` skill.
   `__div2i`, and functions with many live 64-bit values save registers with `bl _savegpr_N` instead of
   `stw`s, all from plain C (OSAlarm.c's `InsertAlarm`, `OSSetAlarm`, and the `SetTimer` inline).
 
+- Two reads of hardware registers back to back, where the C reads the second only under a condition
+  (`if (a == 0 || (a & __PIRegs[1]) == 0)`): the original read it into a variable first
+  (OSInterrupt.c's `intmr`). A volatile read can't be moved into a branch or out of one.
+
 ## Raw asm
 
 - Raw asm blobs (exception vectors and the like) are `asm void f(void)` with `nofralloc` as the first
   line. An end-marker "function" can be a lone `nop` (OSSync.c matched first try).
+- A global label inside an asm function (`__RAS_OSDisableInterrupts_end`) is an `entry NAME` line in its
+  body, with `void NAME(void);` declared before the function, or MWCC rejects it (OSInterrupt.c).

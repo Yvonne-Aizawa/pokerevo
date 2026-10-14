@@ -957,30 +957,3 @@ lbl_8063FAB0:
 .global lbl_8063FAB4
 lbl_8063FAB4:
 	.skip 0x4
-.global lbl_8063FAB8
-lbl_8063FAB8:
-	.skip 0x4
-.global lbl_8063FABC
-lbl_8063FABC:
-	.skip 0x4
-.global lbl_8063FAC0
-lbl_8063FAC0:
-	.skip 0x4
-.global lbl_8063FAC4
-lbl_8063FAC4:
-	.skip 0x4
-.global lbl_8063FAC8
-lbl_8063FAC8:
-	.skip 0x8
-.global SaveStart
-SaveStart:
-	.skip 0x4
-.global SaveEnd
-SaveEnd:
-	.skip 0x4
-.global lbl_8063FAD8
-lbl_8063FAD8:
-	.skip 0x8
-.global lbl_8063FAE0
-lbl_8063FAE0:
-	.skip 0x8

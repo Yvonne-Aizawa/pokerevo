@@ -365,7 +365,9 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/asm/SDK/OS/OSExec.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSFatal.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSFont.o                              \
-	$(BUILD_DIR)/asm/SDK/OS/OSInterrupt.o                              \
+	$(BUILD_DIR)/asm/data_804269E0.o                                    \
+	$(BUILD_DIR)/asm/sbss_2.o  \
+	$(BUILD_DIR)/src/SDK/OS/OSInterrupt.o                              \
 	$(BUILD_DIR)/src/SDK/OS/OSLink.o                              \
 	$(BUILD_DIR)/src/SDK/OS/OSMessage.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSMemory.o                              \
@@ -376,10 +378,10 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/src/SDK/OS/OSSemaphore.o                              \
 	$(BUILD_DIR)/src/SDK/OS/OSSync.o                              \
 	$(BUILD_DIR)/asm/bss_2.o \
-	$(BUILD_DIR)/asm/sbss_2.o  \
+	$(BUILD_DIR)/asm/sbss_8063FAD0.o  \
 	$(BUILD_DIR)/asm/sdata_2.o \
 	$(BUILD_DIR)/src/SDK/OS/OSThread.o                              \
-	$(BUILD_DIR)/asm/data_804269E0.o                                    \
+	$(BUILD_DIR)/asm/data_80427D08.o                                    \
 	$(BUILD_DIR)/src/SDK/OS/OSTime.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSUtf.o                              \
 	$(BUILD_DIR)/src/SDK/OS/OSIpc.o                              \
