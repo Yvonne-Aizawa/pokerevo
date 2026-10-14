@@ -115,8 +115,9 @@ discoverable while decompiling the code that uses them.
   way), so delete the DOL first and chain the commands with `&&`. The map (`build/pbr_pal/pbr_pal.map`) shows
   where each object's sections landed.
 - Compiler: CodeWarrior GC 3.0 via wine; flags in `Makefile` (`CFLAGS`,
-  `-lang c99` / `-lang c++`). `src/SDK/OS/` adds `-inline auto` (see
-  match-function's levers); other directories don't. devkitPPC binutils at
+  `-lang c99` / `-lang c++`). The RVL SDK directories in the
+  Makefile's `RVL_SDK_DIRS` add `-inline auto` (see match-function's levers): add a new
+  `src/SDK/X/` directory there when its first C file goes in. DWC and game code don't. devkitPPC binutils at
   `/opt/devkitpro/devkitPPC/bin/`.
 - `tools/pragma` provides `#pragma regswap` / `#pragma iswap` (post-compile
   instruction patching). Don't use them: the user wants only true matches.

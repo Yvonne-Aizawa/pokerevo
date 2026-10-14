@@ -92,9 +92,11 @@ ASFLAGS := -mgekko -I include
 LDFLAGS := -map $(MAP) -fp hard -nodefaults
 CFLAGS_OPT := -Cpp_exceptions off -proc gekko -fp hard -O4,p -nodefaults -msgstyle gcc -ipa file
 CFLAGS   = $(CFLAGS_OPT) $(INCLUDES) -W all -w nopragmas
-# The OS library was built with automatic inlining (proven on src/SDK/OS; GameSpy in DWC was not).
-# It has to come before the include options.
-$(BUILD_DIR)/src/SDK/OS/%.o: CFLAGS_OPT += -inline auto
+# The RVL SDK libraries were built with automatic inlining (their static helpers are inlined); DWC's
+# GameSpy code was not. Add each SDK directory here as it gets C files. The flag has to come before the
+# include options, hence CFLAGS_OPT.
+RVL_SDK_DIRS := AI DB DSP OS PAD SI base
+$(foreach d,$(RVL_SDK_DIRS),$(BUILD_DIR)/src/SDK/$(d)/%.o): CFLAGS_OPT += -inline auto
 
 # for postprocess.py
 PROCFLAGS := -fsymbol-fixup

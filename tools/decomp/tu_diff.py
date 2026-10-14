@@ -14,7 +14,7 @@ usage:
   tu_diff.py SRC --ref other.s          # compare against another asm file
   tu_diff.py SRC --flags="-inline auto" # extra compiler flags (with =, since they start with -)
   tu_diff.py SRC --compiler Wii/1.0     # try another compiler version
-  tu_diff.py SRC --sdk                  # build with -inline auto, as src/SDK/OS/ is built
+  tu_diff.py SRC --sdk                  # build with -inline auto, as src/SDK/ (not DWC) is built
 
 Variant blocks replace the function's whole definition, so a block may start with a static inline
 helper it needs. Lower scores are better; 0 is a match.
@@ -95,7 +95,7 @@ SDK_SOURCE = False
 
 def compile_tu(src, obj):
     lang = "c++" if src.endswith(".cpp") else "c99"
-    sdk = "-inline auto" if SDK_SOURCE else ""  # as the Makefile builds src/SDK/OS/
+    sdk = "-inline auto" if SDK_SOURCE else ""  # as the Makefile builds the RVL SDK (src/SDK/, not DWC)
     base = CFLAGS.replace(" -ipa file", "") if "-ipa" in EXTRA_FLAGS else CFLAGS  # a second -ipa is an error
     # Extra flags go before the include options: MWCC treats an -ipa after -include as a late pragma
     head, includes = base.split(" -i . ", 1)
@@ -209,12 +209,13 @@ def main():
     ap.add_argument("--variants")
     ap.add_argument("--keep", type=int)
     ap.add_argument("--compiler", default="GC/3.0", help="directory under tools/mwcc_compiler, e.g. Wii/1.0")
-    ap.add_argument("--sdk", action="store_true", help="build as SDK code (-inline auto) though outside src/SDK/OS/")
+    ap.add_argument("--sdk", action="store_true", help="build as SDK code (-inline auto) though outside src/SDK/")
     ap.add_argument("--flags", default="", help="extra compiler flags, e.g. '-inline auto'")
     args = ap.parse_args()
     global EXTRA_FLAGS, COMPILER, SDK_SOURCE
     EXTRA_FLAGS = args.flags
-    SDK_SOURCE = os.path.relpath(os.path.abspath(args.src), ROOT).startswith("src/SDK/OS/") or args.sdk
+    rel = os.path.relpath(os.path.abspath(args.src), ROOT)
+    SDK_SOURCE = (rel.startswith("src/SDK/") and not rel.startswith("src/SDK/DWC/")) or args.sdk
     COMPILER = args.compiler
 
     if args.ref:
