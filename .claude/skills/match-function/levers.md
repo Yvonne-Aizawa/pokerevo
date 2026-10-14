@@ -39,11 +39,9 @@ and add the function. Add new levers through the `record-lesson` skill.
 - **(bw2)** A variable gets one register per group of assignments that reach the same uses; a copy of a
   store in each branch splits it.
 - **(bw2)** Variables of an inner block are allocated apart from the function's.
-- `tools/pragma`'s `#pragma regswap` patches registers after compiling. It is a last resort and should be
-  said in a comment; it cannot fix instruction-count differences. Its addresses are DOL addresses taken
-  relative to the given file start, applied to the object before linking, so they are only right when the
-  object's layout equals the DOL's: functions the linker strips must come after the patched one
-  (OSRtc.c defines its stripped wrappers last for this).
+- Don't use `tools/pragma`'s `#pragma regswap` or `iswap`: the user wants only true matches, C that
+  compiles to the original by itself. A function left with only a register swap is parked, like OSRtc.c's
+  `UnlockSram`. (The older `src/code_801DD8C0.cpp` predates this rule.)
 
 ## Instructions in another order (scheduling)
 

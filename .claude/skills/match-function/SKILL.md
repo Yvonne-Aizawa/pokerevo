@@ -58,6 +58,8 @@ Stop when any of these holds:
 - Only a register swap is left, and a sweep of declaration orders didn't move it.
 - About 20 minutes on one function, or 45 on one file's leftovers.
 - The only matching spelling is unnatural (below).
+- Only a register swap is left: don't patch it with `#pragma regswap`/`iswap`. The user wants only true
+  matches, so the file is parked (written, not linked, with a header comment on what's left).
 
 This repo links the whole DOL from `src/`, so a TU can only replace its asm once every function matches.
 When a function won't match, say so to the user with the closest natural C and the remaining difference

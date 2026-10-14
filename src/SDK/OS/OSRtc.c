@@ -1,3 +1,9 @@
+// NOT LINKED YET: obj_files.mk still builds asm/SDK/OS/OSRtc.s. 8 of 9 functions match (tu_diff.py);
+// UnlockSram is the right size but has r3/r4 swapped in its GBS check (Scb base in r3 and the gbs value
+// in r4, the original the other way round). Tried: the statement before it, declaration orders,
+// block-scoped and function-scoped sramEx, an inline helper, u16/u32 gbs locals, other forms of the
+// test. Scb's .bss split (0x54 at 0x80514780, the end of bss_80503D40.s) is still to do.
+
 #include "types.h"
 #include "SDK/OS/OSInterrupt.h"
 #include "SDK/OS/OSCache.h"
@@ -152,9 +158,6 @@ static BOOL UnlockSram(BOOL commit, u32 offset)
             Scb.offset = offset;
         }
 
-        // The original has r3/r4 the other way round in this block. No spelling found moved them: the
-        // statement before it, declaration orders, an inline helper, other forms of the test.
-#pragma regswap 80270880 802708B8 r3 r4 802703DC
         if (Scb.offset <= sizeof(OSSram)) {
             OSSramEx *sramEx = (OSSramEx *)(Scb.sram + sizeof(OSSram));
 
@@ -282,8 +285,7 @@ BOOL __OSClearRTCFlags(void)
     return !err;
 }
 
-// Nothing outside this file calls these, so the linker strips them; they are defined last so that
-// the object's layout matches the DOL's for the #pragma regswap above.
+// Nothing outside this file calls these, so the linker strips them.
 
 OSSram *__OSLockSram(void)
 {

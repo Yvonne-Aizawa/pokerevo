@@ -114,8 +114,8 @@ discoverable while decompiling the code that uses them.
   match-function's levers); other directories don't. devkitPPC binutils at
   `/opt/devkitpro/devkitPPC/bin/`.
 - `tools/pragma` provides `#pragma regswap` / `#pragma iswap` (post-compile
-  instruction patching) as a last resort for register/scheduling mismatches —
-  it cannot fix instruction-count differences.
+  instruction patching). Don't use them: the user wants only true matches.
+  A file that only matches through a patch is parked instead.
 - The linker dead-strips unreferenced functions in C objects (not in asm
   objects, which have no per-function sections), as the original's did. So
   SDK functions missing from an asm file (OSMessage's `OSJamMessage`,
@@ -146,6 +146,8 @@ discoverable while decompiling the code that uses them.
 - Known-good reference points: `src/SDK/OS/*.c` (C, all matching),
   `src/*.cpp` + `src/GScamera.cpp` (C++), `asm/GSvolume_*.s` and
   `data_2b.s` (earlier data splits).
+- Parked: `src/SDK/OS/OSRtc.c` is written but not linked (UnlockSram has an
+  r3/r4 swap; see its header comment).
 - Parked: `src/SDK/OS/OS.c` is written but not linked (19 of 20 functions
   match; see its header comment for OSInit and the data splits still to do).
 - Good next targets: the code-only files left in `asm/SDK/OS/` (OSAlarm,
