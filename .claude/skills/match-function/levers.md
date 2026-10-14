@@ -50,6 +50,10 @@ and add the function. Add new levers through the `record-lesson` skill.
 
 ## Instructions in another order (scheduling)
 
+- Many functions of one file off only in instruction order (prologue saves and address computations
+  shuffled, same instructions): the file may have been built without scheduling. Try `--flags="-schedule
+  off"` on the whole file; if it fixes most functions, write `#pragma scheduling off` at the top of the C
+  file (EXIBios.c; EXIUart.c and EXICommon.c of the same library were scheduled normally).
 - Assignment placement matters: `u32 x = 0;` at the declaration emits the store early, `x = 0;` just
   before the use emits it there (OSReboot.c).
 - **(bw2)** A load through a pointer moves above stores only when the pointee is `const`. A load scheduled
