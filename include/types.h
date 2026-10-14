@@ -30,6 +30,8 @@ typedef volatile f64 vf64;
 typedef unsigned long size_t;
 
 typedef int BOOL;
+
+#define ATTRIBUTE_ALIGN(num) __attribute__((aligned(num)))
 #define TRUE 1
 #define FALSE 0
 

@@ -27,7 +27,8 @@ typedef struct OSExecParams {
     u32 bootDol;        // 0x8
     void *regionStart;  // 0xC
     void *regionEnd;    // 0x10
-    u8 unk14[0xC];      // 0x14
+    BOOL argsUseDefault;  // 0x14
+    void *argsAddr;     // 0x18
 } OSExecParams;
 
 typedef struct OSBootInfo {

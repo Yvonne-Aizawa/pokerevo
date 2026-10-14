@@ -24,6 +24,12 @@ DVDDiskID* DVDGetCurrentDiskID(void);
 void DVDInit(void);
 s32 DVDGetDriveStatus(void);
 BOOL DVDCheckDiskAsync(DVDCommandBlock* block, DVDCBCallback callback);
+BOOL DVDReadAbsAsyncPrio(DVDCommandBlock* block, void* addr, s32 length, s32 offset, DVDCBCallback callback,
+                         s32 prio);
+s32 DVDGetCommandBlockStatus(const DVDCommandBlock* block);
+BOOL DVDSetAutoInvalidation(BOOL autoInval);
+void DVDResume(void);
+void __DVDPrepareResetAsync(DVDCBCallback callback);
 
 
 #ifdef __cplusplus

@@ -115,7 +115,8 @@ discoverable while decompiling the code that uses them.
   `/opt/devkitpro/devkitPPC/bin/`.
 - `tools/pragma` provides `#pragma regswap` / `#pragma iswap` (post-compile
   instruction patching). Don't use them: the user wants only true matches.
-  A file that only matches through a patch is parked instead.
+  A file that only matches through a patch is parked instead. A per-file
+  compiler flag in the Makefile is fine when it's what makes a file match.
 - The linker dead-strips unreferenced functions in C objects (not in asm
   objects, which have no per-function sections), as the original's did. So
   SDK functions missing from an asm file (OSMessage's `OSJamMessage`,
