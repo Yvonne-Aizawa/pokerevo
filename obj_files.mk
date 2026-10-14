@@ -405,7 +405,9 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/asm/SDK/EXI/EXICommon.o                              \
 	$(BUILD_DIR)/asm/SDK/SI/SIBios.o                              \
 	$(BUILD_DIR)/asm/SDK/SI/SISamplingRate.o                              \
-	$(BUILD_DIR)/asm/SDK/DB/db.o                              \
+	$(BUILD_DIR)/asm/data_80433F28.o \
+	$(BUILD_DIR)/asm/sbss_8063FB48.o \
+	$(BUILD_DIR)/src/SDK/DB/db.o                              \
 	$(BUILD_DIR)/asm/SDK/VI/vi.o                                   \
 	$(BUILD_DIR)/asm/SDK/VI/i2c.o                                   \
 	$(BUILD_DIR)/asm/SDK/VI/vi3in1.o                                   \
@@ -436,9 +438,9 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/asm/SDK/DVD/dvdidutils.o                                     \
 	$(BUILD_DIR)/asm/SDK/DVD/dvdFatal.o                                     \
 	$(BUILD_DIR)/asm/SDK/DVD/dvd_broadway.o                                     \
-	$(BUILD_DIR)/asm/data_80433F28.o \
+	$(BUILD_DIR)/asm/data_80434090.o \
 	$(BUILD_DIR)/asm/sdata_8063DAB8.o \
-	$(BUILD_DIR)/asm/sbss_8063FB48.o \
+	$(BUILD_DIR)/asm/sbss_8063FB80.o \
 	$(BUILD_DIR)/src/SDK/AI/ai.o                                     \
 	$(BUILD_DIR)/asm/SDK/AX/AX.o                                     \
 	$(BUILD_DIR)/asm/SDK/AX/AXAlloc.o                                     \
@@ -481,7 +483,7 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/asm/SDK/IPC/memory.o                                     \
 	$(BUILD_DIR)/asm/SDK/IPC/ipcProfile.o                                     \
 	$(BUILD_DIR)/asm/SDK/FS/fs.o                                     \
-	$(BUILD_DIR)/asm/SDK/PAD/Pad.o                                     \
+	$(BUILD_DIR)/src/SDK/PAD/Pad.o                                     \
 	$(BUILD_DIR)/asm/SDK/WPAD/WPAD.o                                     \
 	$(BUILD_DIR)/asm/SDK/WPAD/WPADHIDParser.o                               \
 	$(BUILD_DIR)/asm/SDK/WPAD/WPADEncrypt.o                               \

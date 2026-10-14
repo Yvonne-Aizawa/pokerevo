@@ -1,10 +1,10 @@
 #include "types.h"
 #include "SDK/OS/OSInterrupt.h"
+#include "SDK/DB/db.h"
 #include "SDK/OS/OSContext.h"
 #include "SDK/OS/OSError.h"
 #include "SDK/OS/OS.h"
 
-void DBPrintf(const char *msg, ...);
 
 static asm void __OSLoadFPUContext(register u32 dummy, register OSContext *fpuContext)
 {

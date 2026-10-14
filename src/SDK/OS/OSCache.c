@@ -1,11 +1,11 @@
 #include "types.h"
 #include "SDK/OS/OSInterrupt.h"
+#include "SDK/DB/db.h"
 #include "SDK/OS/OSContext.h"
 #include "SDK/OS/OSError.h"
 #include "SDK/OS/OSCache.h"
 #include "SDK/base/PPCArch.h"
 
-void DBPrintf(const char *msg, ...);
 
 asm void DCEnable(void)
 {

@@ -1,6 +1,7 @@
 #include "types.h"
 #include "string.h"
 #include "SDK/OS/OS.h"
+#include "SDK/PAD/Pad.h"
 #include "SDK/OS/OSNandbootInfo.h"
 #include "SDK/OS/OSPlayRecord.h"
 #include "SDK/OS/OSStateTM.h"
@@ -41,7 +42,6 @@ u32 SCCheckStatus(void);
 BOOL SCGetIdleMode(SCIdleModeInfo *mode);
 void __DVDPrepareReset(void);
 u32 __DVDGetCoverStatus(void);
-BOOL __PADDisableRecalibration(BOOL disable);
 void __OSStopAudioSystem(void);
 BOOL __OSSyncSram(void);
 BOOL __OSGetRTCFlags(u32 *flags);
