@@ -194,9 +194,9 @@ _touchloop:
 
     lis r3, 0xE000
     ori r3, r3, 0x0002
-    mtspr 543, r3
+    mtdbatl 3, r3
     ori r3, r3, 0x01fe
-    mtspr 542, r3
+    mtdbatu 3, r3
     isync
 
     lis r3, 0xE000

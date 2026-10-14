@@ -2,12 +2,9 @@
 
 	.section .data, "wa"  # 0x80405D60 - 0x80474F00
 
-# Continuation of data_804269E0.s after OSInterrupt.c's InterruptPrioTable (0x80427D08).
+# Continuation of data_804269E0.s after OSMemory.c's ShutdownFunctionInfo (0x80427D18).
 	.balign 8
 
-.global lbl_80427D08
-lbl_80427D08:
-	.float -3.57626502119108e-39, 1.7796490496925177e-43, 0.0, 0.0
 .global lbl_80427D18
 lbl_80427D18:
 	.ascii "OSReset.c"

@@ -62,6 +62,9 @@ and add the function. Add new levers through the `record-lesson` skill.
   `(void *)0x80000C00` at each use lets MWCC CSE the `@ha` half (one `lis r31, 0x8000`, then
   `addi r3, r31, 0xc00` per use); don't hoist it into a local unless the target keeps the full address in a
   register (OSReboot.c, OSNet.c).
+- `lis r0, 0x8027; addic. r0, r0, -3844` with no symbol in the listing (the disassembler printed a raw
+  address) is a NULL test on a function's address, `func == NULL`; MWCC doesn't fold it, even for a
+  function of the same file (OSMemory.c's `BATConfig`, on the address of `OSGetPhysicalMem1Size`).
 - `clrlwi rN, rN, 31` on a flags parameter before a loop is `flags & 1` hoisted out of the loop, as in
   OSMessage.c's `!(flags & OS_MESSAGE_BLOCK)`.
 - `cmplwi` against a size where the C compares a signed result: the comparison is with `sizeof(...)`,

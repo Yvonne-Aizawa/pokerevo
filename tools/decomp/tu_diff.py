@@ -77,7 +77,8 @@ def parse_reference(text):
         if not in_text:
             continue
         label = re.match(r"^([\w.$@?]+):", line)
-        if label and (label.group(1) in globals_ or label.group(1).startswith("func_")):
+        # Every label but the lbl_ branch targets starts a function; static ones have no .global
+        if label and (label.group(1) in globals_ or not label.group(1).startswith("lbl_")):
             cur = label.group(1)
             funcs[cur] = []
             order.append(cur)
