@@ -150,9 +150,9 @@ and add the function. Add new levers through the `record-lesson` skill.
   uses. So an original that loads a constant from `.sdata2` into a register (euart.s's EXI frequency,
   `lwz r28, lbl@sda21(r2)`) wasn't written as any of those; only a read through a pointer avoids the
   folding, and it reloads at each use. Unsolved; euart.c is parked on it.
-- An absent `bl` for a helper that the caller copies a struct pointer field from (`lwz r6, 4(r3)` hoisted
-  to the top) means the original indexed a local copy of the field (arc.c's macros use
-  `FSTEntries = handle->FSTStart`, not `handle->FSTStart` each time).
+- A struct's pointer field loaded once at the top of the function (`lwz r6, 4(r3)` before the first
+  test) where yours loads it at each use: the original copied it into a local first (arc.c's macros
+  index `FSTEntries = handle->FSTStart`, not `handle->FSTStart` each time).
 
 ## Data and sections
 
