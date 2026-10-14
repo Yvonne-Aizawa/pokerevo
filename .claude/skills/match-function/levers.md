@@ -98,6 +98,13 @@ and add the function. Add new levers through the `record-lesson` skill.
   by 2) comes from `p = ptr + off; *p = ...; p[-1] = ...`; indexing `ptr[off]`, `ptr[off - 1]` for every
   store makes MWCC strength-reduce to a stepping pointer instead (OSFatal.c).
 
+- Two loads through a post-incremented index (`j = s[r7++] << 8; j |= s[r7++];`) become a stepping
+  pointer. The original's `add`, `lbzx`, `lbz 1(...)`, `addi r, r, 2` came from
+  `j = (s[r7] << 8) | s[r7 + 1]; r7 += 2;` (OSFont.c's `Decode`).
+- A field address the original computes once, before a loop (`addi r23, r4, 0x2c`), while the struct
+  pointer itself is reloaded every iteration (its address was taken), is a local set before the loop:
+  `colorIndex = &font->c0;` (OSFont.c's `OSGetFontTexel`).
+
 ## Branches and block layout
 
 - Blocks are laid out in source order. **(bw2)** `if (!f()) return FALSE; n++;` puts the return before
@@ -120,6 +127,10 @@ and add the function. Add new levers through the `record-lesson` skill.
   block means the same code was written there.
 - **(bw2)** Early `return FALSE`s go to one shared tail only when the C has one trailing return (an
   `if`/`else if` chain or a result variable).
+
+- A `switch` whose tree is `cmpwi 0; beq CASE; blt DEFAULT; b DEFAULT` (no compare against 1) came from
+  `case 0: ... break; case 1: case 2: default: ...` (OSFont.c's `GetFontEncode`). `case 1: default:`
+  alone emits an extra compare against 1.
 
 ## Loops
 
