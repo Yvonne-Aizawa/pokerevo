@@ -39,6 +39,10 @@ and add the function. Add new levers through the `record-lesson` skill.
 - **(bw2)** A variable gets one register per group of assignments that reach the same uses; a copy of a
   store in each branch splits it.
 - **(bw2)** Variables of an inner block are allocated apart from the function's.
+- Volatile registers (r3 to r12) in a run of loops follow which variable each loop reuses, not
+  declaration order. OSFatal.c's `ScreenReport` clears a buffer with `for (i ...)` and then draws with
+  `for (j ...) for (l ...)`, sharing an index `k`; reusing `i` for the outer drawing loop put every loop
+  variable in the wrong register. Try renaming the loop variables between loops.
 - Don't use `tools/pragma`'s `#pragma regswap` or `iswap`: the user wants only true matches, C that
   compiles to the original by itself. A function left with only a register swap is parked, like OSRtc.c's
   `UnlockSram`. (The older `src/code_801DD8C0.cpp` predates this rule.)
@@ -85,6 +89,14 @@ and add the function. Add new levers through the `record-lesson` skill.
   the addition was its own statement, `result = hi | lo; result += 0x10000;` (OSUtf.c's `OSUTF16to32`).
 - A small search loop fully unrolled where the original keeps a `bdnz` loop: the counter was `int`, not
   `u8` (OSUtf.c's `OSUTF32toANSI`).
+
+- MWCC folds a constant into the nearer factor: `yuv.r * value * 239` with a plain `s32 value`
+  compiles as `value * 239` first. The original `mullw` of `yuv.r * value` then `mulli 239` came from
+  `u32 value` with `(s32)(yuv.r * value) * 239 / 255 / 15`: the cast keeps the product and makes the
+  divisions signed (`mulhw`, not `mulhwu`). An `s32` temporary for the product matches too (OSFatal.c).
+- A pixel pointer that the original recomputes each iteration (`add` plus `stbx`, no pointer that steps
+  by 2) comes from `p = ptr + off; *p = ...; p[-1] = ...`; indexing `ptr[off]`, `ptr[off - 1]` for every
+  store makes MWCC strength-reduce to a stepping pointer instead (OSFatal.c).
 
 ## Branches and block layout
 

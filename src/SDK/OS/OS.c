@@ -116,7 +116,6 @@ void DBPrintf(const char *msg, ...);
 
 static void OSExceptionInit(void);
 static asm void OSExceptionVector(void);
-static asm void OSDefaultExceptionHandler(register __OSException exception, register OSContext *context);
 
 const char *__OSVersion = "<< RVL_SDK - OS \trelease build: Apr 24 2007 11:50:47 (0x4199_60831) >>";
 
@@ -764,7 +763,7 @@ entry __OSEVEnd
     nop
 }
 
-static asm void OSDefaultExceptionHandler(register __OSException exception, register OSContext *context)
+asm void OSDefaultExceptionHandler(register __OSException exception, register OSContext *context)
 {
     nofralloc
     stw r0, 0x0(r4)

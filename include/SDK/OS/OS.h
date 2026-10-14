@@ -61,6 +61,10 @@ u32 __OSGetDIConfig(void);
 void OSRegisterVersion(const char *id);
 const char *OSGetAppGamename(void);
 u8 OSGetAppType(void);
+void OSDefaultExceptionHandler(__OSException exception, OSContext *context);
+
+// OSAudioSystem.c is still asm
+void __OSStopAudioSystem(void);
 
 #ifdef __cplusplus
 }

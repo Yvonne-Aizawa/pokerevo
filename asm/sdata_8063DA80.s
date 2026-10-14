@@ -18,20 +18,3 @@ lbl_8063DA88:
 	.byte 0x00
 	.byte 0x00
 	.byte 0x00
-.global lbl_8063DA90
-lbl_8063DA90:
-	.ascii "%s\n"
-	.byte 0x00
-	.byte 0x00
-	.byte 0x00
-	.byte 0x00
-	.byte 0x00
-.global lbl_8063DA98
-lbl_8063DA98:
-	.ascii "\xff\xff"
-	.byte 0x00
-	.byte 0x00
-	.byte 0x00
-	.byte 0x00
-	.byte 0x00
-	.byte 0x00

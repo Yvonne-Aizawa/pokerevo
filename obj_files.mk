@@ -367,7 +367,10 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/asm/bss_2.o \
 	$(BUILD_DIR)/src/SDK/OS/OSError.o                             \
 	$(BUILD_DIR)/asm/SDK/OS/OSExec.o                              \
-	$(BUILD_DIR)/asm/SDK/OS/OSFatal.o                              \
+	$(BUILD_DIR)/asm/bss_80503D40.o \
+	$(BUILD_DIR)/asm/sdata_8063DA80.o \
+	$(BUILD_DIR)/asm/sdata2_2.o \
+	$(BUILD_DIR)/src/SDK/OS/OSFatal.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSFont.o                              \
 	$(BUILD_DIR)/asm/data_80427198.o                                    \
 	$(BUILD_DIR)/asm/sbss_2.o  \
@@ -382,8 +385,8 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/asm/SDK/OS/OSRtc.o                              \
 	$(BUILD_DIR)/src/SDK/OS/OSSemaphore.o                              \
 	$(BUILD_DIR)/src/SDK/OS/OSSync.o                              \
-	$(BUILD_DIR)/asm/bss_80503D40.o \
-	$(BUILD_DIR)/asm/sdata_8063DA80.o \
+	$(BUILD_DIR)/asm/bss_80514780.o \
+	$(BUILD_DIR)/asm/sdata_8063DA98.o \
 	$(BUILD_DIR)/src/SDK/OS/OSThread.o                              \
 	$(BUILD_DIR)/src/SDK/OS/OSTime.o                              \
 	$(BUILD_DIR)/src/SDK/OS/OSUtf.o                              \
@@ -836,7 +839,7 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/asm/bss_805151E0.o \
 	$(BUILD_DIR)/asm/sdata_8063DAA8.o \
 	$(BUILD_DIR)/asm/sbss_8063FAF8.o  \
-    $(BUILD_DIR)/asm/sdata2_2.o
+    $(BUILD_DIR)/asm/sdata2_80642660.o
 
 
 DTORS_O_FILES :=                                                  \
