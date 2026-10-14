@@ -436,7 +436,10 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/asm/SDK/DVD/dvdidutils.o                                     \
 	$(BUILD_DIR)/asm/SDK/DVD/dvdFatal.o                                     \
 	$(BUILD_DIR)/asm/SDK/DVD/dvd_broadway.o                                     \
-	$(BUILD_DIR)/asm/SDK/AI/ai.o                                     \
+	$(BUILD_DIR)/asm/data_80433F28.o \
+	$(BUILD_DIR)/asm/sdata_8063DAB8.o \
+	$(BUILD_DIR)/asm/sbss_8063FB48.o \
+	$(BUILD_DIR)/src/SDK/AI/ai.o                                     \
 	$(BUILD_DIR)/asm/SDK/AX/AX.o                                     \
 	$(BUILD_DIR)/asm/SDK/AX/AXAlloc.o                                     \
 	$(BUILD_DIR)/asm/SDK/AX/AXAux.o                                     \
@@ -837,10 +840,10 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/asm/code_803D9208.o \
 	$(BUILD_DIR)/asm/text_11_2.o \
 	$(BUILD_DIR)/asm/ctors_2.o \
-	$(BUILD_DIR)/asm/data_80433F28.o \
+	$(BUILD_DIR)/asm/data_804372E0.o \
 	$(BUILD_DIR)/asm/bss_805154A0.o \
-	$(BUILD_DIR)/asm/sdata_8063DAB8.o \
-	$(BUILD_DIR)/asm/sbss_8063FB48.o  \
+	$(BUILD_DIR)/asm/sdata_8063DBA8.o \
+	$(BUILD_DIR)/asm/sbss_8063FDD0.o  \
     $(BUILD_DIR)/asm/sdata2_80642660.o
 
 
