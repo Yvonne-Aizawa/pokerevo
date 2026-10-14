@@ -10,6 +10,11 @@ monolith's old place contributes to the same section (check the map).
 
 usage:
   split_data.py asm/bss_2.s lbl_805147D8 lbl_805151E0 src/SDK/OS/OSThread.o --align 32 --owner "OSThread.c's statics"
+  split_data.py asm/data_804269E0.s lbl_80426A60 END src/SDK/OS/OSCache.o   # TU's data ends the file: no continuation
+
+With END, the TU's data runs to the end of the monolithic file: nothing is written but the cut, and
+the whole monolithic object (all its sections) moves in front of the TU, so check in the map that no
+object between the two places contributes to any of those sections. --align doesn't apply.
 
 --align is the continuation's alignment: the alignment of the object at END (8 is the usual
 contribution alignment; 32 for objects declared ATTRIBUTE_ALIGN(32)).
@@ -26,7 +31,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("asm", help="monolithic asm file, e.g. asm/bss_2.s")
     ap.add_argument("start", help="first label the TU owns")
-    ap.add_argument("end", help="first label after the TU's data")
+    ap.add_argument("end", help="first label after the TU's data, or END when the TU's data runs to the end of the file")
     ap.add_argument("tu", help="the TU's object as obj_files.mk names it after $(BUILD_DIR)/, e.g. src/SDK/OS/OSThread.o")
     ap.add_argument("--align", type=int, default=8)
     ap.add_argument("--owner", default=None, help="for the continuation's comment, e.g. \"OSThread.c's statics\"")
@@ -46,9 +51,13 @@ def main():
         i = hits[0]
         return i - 1 if i > 0 and lines[i - 1] == f".global {name}" else i
 
-    start, end = label_line(args.start), label_line(args.end)
+    start = label_line(args.start)
+    to_eof = args.end == "END"
+    end = len(lines) if to_eof else label_line(args.end)
     if end <= start:
         sys.exit(f"{args.end} does not come after {args.start}")
+    if to_eof:
+        return split_to_eof(args, asm_path, lines, start)
     end_addr = re.search(r"([0-9A-Fa-f]{8})$", args.end)
     if end_addr:
         end_addr = end_addr.group(1)
@@ -83,7 +92,7 @@ def main():
     if len(mono) != 1 or len(tu) != 1:
         sys.exit(f"obj_files.mk: expected one {mono_obj} and one {args.tu}, found {len(mono)} and {len(tu)}")
     if mono[0] < tu[0]:
-        sys.exit(f"{mono_obj} already links before {args.tu}; this TU's data isn't in its continuation")
+        sys.exit(f"{mono_obj} already links before {args.tu}, so the TU's data can't be in it; split the continuation that follows it instead")
     mono_line = mk[mono[0]]
     mk[mono[0]] = mono_line.replace(mono_obj, os.path.splitext(cont_rel)[0] + ".o")
     mk.insert(tu[0], mono_line)
@@ -96,6 +105,28 @@ def main():
         return
     open(asm_path, "w").write("\n".join(lines[:start]).rstrip("\n") + "\n")
     open(os.path.join(ROOT, cont_rel), "w").write("\n".join(cont))
+    open(mk_path, "w").write("\n".join(mk))
+
+
+def split_to_eof(args, asm_path, lines, start):
+    """The TU's data ends the monolithic file: cut it, and move the monolith in front of the TU."""
+    mk_path = os.path.join(ROOT, "obj_files.mk")
+    mk = open(mk_path).read().split("\n")
+    mono_obj = os.path.splitext(args.asm)[0] + ".o"
+    mono = [i for i, l in enumerate(mk) if f"$(BUILD_DIR)/{mono_obj}" in l]
+    tu = [i for i, l in enumerate(mk) if f"$(BUILD_DIR)/{args.tu}" in l]
+    if len(mono) != 1 or len(tu) != 1:
+        sys.exit(f"obj_files.mk: expected one {mono_obj} and one {args.tu}, found {len(mono)} and {len(tu)}")
+    if mono[0] < tu[0]:
+        sys.exit(f"{mono_obj} already links before {args.tu}, so the TU's data can't be in it; split the continuation that follows it instead")
+    mono_line = mk.pop(mono[0])
+    mk.insert(tu[0], mono_line)
+    print(f"{args.asm}: moving {len(lines) - start} lines ({args.start} .. end of file) to the TU")
+    print(f"obj_files.mk: {mono_obj} now before {args.tu}; no continuation needed")
+    if args.dry_run:
+        print("\n".join(lines[start:]))
+        return
+    open(asm_path, "w").write("\n".join(lines[:start]).rstrip("\n") + "\n")
     open(mk_path, "w").write("\n".join(mk))
 
 

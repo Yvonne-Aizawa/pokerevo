@@ -3,6 +3,7 @@
 #include "SDK/OS/OSAlarm.h"
 #include "SDK/OS/OSThread.h"
 #include "SDK/OS/OSError.h"
+#include "SDK/base/PPCArch.h"
 
 typedef BOOL (*OSShutdownFunction)(BOOL final, u32 event);
 
@@ -21,7 +22,6 @@ typedef struct OSAlarmQueue
 } OSAlarmQueue;
 
 void OSRegisterShutdownFunction(OSShutdownFunctionInfo *info);
-void PPCMtdec(u32 value);
 BOOL __DVDTestAlarm(const OSAlarm *alarm);
 
 // Still defined in sbss_2.s, which links after every TU; static in the original.

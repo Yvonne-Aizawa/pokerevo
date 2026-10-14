@@ -107,7 +107,10 @@ and add the function. Add new levers through the `record-lesson` skill.
   `OSTicksToCalendarTime`).
 - Identical string literals in one TU are merged into one object (OSStateFlags.c's path, used three
   times).
-- **(bw2)** String literals are laid out in the order they first appear in the source.
+- String literals are pooled in the order their functions are compiled. Under `-inline auto` a static
+  function that is only inlined is compiled at its use, so its strings come late; a global function is
+  compiled where it is defined. OSCache.c's L2 string is first in the pool because `L2GlobalInvalidate`
+  is global (and then dead-stripped by the linker, being unreferenced).
 - `.sbss` variables are emitted in reverse declaration order (OSThread.c: `RunQueueBits`, `RunQueueHint`,
   `Reschedule` declared, emitted `Reschedule` first), globals before statics: OSInterrupt.c's static
   `InterruptHandlerTable`, declared first, comes after its three globals. Its `.bss` objects matched declared as

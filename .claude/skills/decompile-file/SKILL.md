@@ -116,6 +116,13 @@ discoverable while decompiling the code that uses them.
 - `tools/pragma` provides `#pragma regswap` / `#pragma iswap` (post-compile
   instruction patching) as a last resort for register/scheduling mismatches —
   it cannot fix instruction-count differences.
+- The linker dead-strips unreferenced functions in C objects (not in asm
+  objects, which have no per-function sections), as the original's did. So
+  SDK functions missing from an asm file (OSMessage's `OSJamMessage`,
+  OSMutex's `OSWaitCond`, OSCache's `L2Enable`/`L2Disable`/
+  `L2GlobalInvalidate`) were in the original source and stripped. Write
+  them when they matter, as OSCache.c does to put its L2 string first in
+  the pool; `tu_diff.py` lists them as "not in the original".
 - `make` doesn't notice a removed or renamed source: a stale `.o` left in
   `build/pbr_pal/` still satisfies the link, so the DOL can pass while
   linking old objects. After renaming or deleting an asm file, delete its

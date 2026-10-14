@@ -255,7 +255,7 @@ def main():
         ok = False
     extra = [f for f in mine_order if f not in ref]
     if extra:
-        print("  not in the original:", " ".join(extra))
+        print("  not in the original (fine if nothing calls them: the linker strips them):", " ".join(extra))
     sys.exit(0 if ok else 1)
 
 
