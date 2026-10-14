@@ -366,7 +366,7 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/asm/SDK/OS/OSFont.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSInterrupt.o                              \
 	$(BUILD_DIR)/src/SDK/OS/OSLink.o                              \
-	$(BUILD_DIR)/asm/SDK/OS/OSMessage.o                              \
+	$(BUILD_DIR)/src/SDK/OS/OSMessage.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSMemory.o                              \
 	$(BUILD_DIR)/asm/SDK/OS/OSMutex.o                              \
 	$(BUILD_DIR)/src/SDK/OS/OSReboot.o                              \

@@ -12,6 +12,7 @@ extern "C" {
 #include "SDK/OS/OSArena.h"
 #include "SDK/OS/OSIpc.h"
 #include "SDK/OS/OSLink.h"
+#include "SDK/OS/OSMessage.h"
 #include "SDK/OS/OSNet.h"
 #include "SDK/OS/OSReboot.h"
 #include "SDK/OS/OSSync.h"
