@@ -4,9 +4,9 @@
 
 .global RefStringHash
 RefStringHash:
-/* 8035D3D4 00359034  3C C0 80 42 */	lis r6, lbl_80422D48@ha
+/* 8035D3D4 00359034  3C C0 80 42 */	lis r6, _current_locale@ha
 /* 8035D3D8 00359038  81 03 00 00 */	lwz r8, 0(r3)
-/* 8035D3DC 0035903C  38 C6 2D 48 */	addi r6, r6, lbl_80422D48@l
+/* 8035D3DC 0035903C  38 C6 2D 48 */	addi r6, r6, _current_locale@l
 /* 8035D3E0 00359040  3C A0 9C D0 */	lis r5, 0x9CCF9319@ha
 /* 8035D3E4 00359044  80 E6 00 38 */	lwz r7, 0x38(r6)
 /* 8035D3E8 00359048  38 C5 93 19 */	addi r6, r5, 0x9CCF9319@l
@@ -270,9 +270,9 @@ lbl_8035D728:
 /* 8035D730 00359390  38 00 00 00 */	li r0, 0
 /* 8035D734 00359394  48 00 00 20 */	b lbl_8035D754
 lbl_8035D738:
-/* 8035D738 00359398  3C 80 80 42 */	lis r4, lbl_80422D48@ha
+/* 8035D738 00359398  3C 80 80 42 */	lis r4, _current_locale@ha
 /* 8035D73C 0035939C  54 A0 08 3C */	slwi r0, r5, 1
-/* 8035D740 003593A0  38 84 2D 48 */	addi r4, r4, lbl_80422D48@l
+/* 8035D740 003593A0  38 84 2D 48 */	addi r4, r4, _current_locale@l
 /* 8035D744 003593A4  80 84 00 38 */	lwz r4, 0x38(r4)
 /* 8035D748 003593A8  80 84 00 08 */	lwz r4, 8(r4)
 /* 8035D74C 003593AC  7C 04 02 2E */	lhzx r0, r4, r0
@@ -859,9 +859,9 @@ KeyValFree:
 
 .global KeyValHashKey
 KeyValHashKey:
-/* 8035DEE0 00359B40  3C C0 80 42 */	lis r6, lbl_80422D48@ha
+/* 8035DEE0 00359B40  3C C0 80 42 */	lis r6, _current_locale@ha
 /* 8035DEE4 00359B44  81 03 00 00 */	lwz r8, 0(r3)
-/* 8035DEE8 00359B48  38 C6 2D 48 */	addi r6, r6, lbl_80422D48@l
+/* 8035DEE8 00359B48  38 C6 2D 48 */	addi r6, r6, _current_locale@l
 /* 8035DEEC 00359B4C  3C A0 9C D0 */	lis r5, 0x9CCF9319@ha
 /* 8035DEF0 00359B50  80 E6 00 38 */	lwz r7, 0x38(r6)
 /* 8035DEF4 00359B54  38 C5 93 19 */	addi r6, r5, 0x9CCF9319@l

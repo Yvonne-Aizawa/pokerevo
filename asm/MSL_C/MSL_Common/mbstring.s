@@ -4,8 +4,8 @@
 
 .global mbtowc
 mbtowc:
-/* 801CA13C 001C5D9C  3C C0 80 42 */	lis r6, lbl_80422D48@ha
-/* 801CA140 001C5DA0  38 C6 2D 48 */	addi r6, r6, lbl_80422D48@l
+/* 801CA13C 001C5D9C  3C C0 80 42 */	lis r6, _current_locale@ha
+/* 801CA140 001C5DA0  38 C6 2D 48 */	addi r6, r6, _current_locale@l
 /* 801CA144 001C5DA4  80 C6 00 38 */	lwz r6, 0x38(r6)
 /* 801CA148 001C5DA8  81 86 00 20 */	lwz r12, 0x20(r6)
 /* 801CA14C 001C5DAC  7D 89 03 A6 */	mtctr r12
@@ -65,9 +65,9 @@ lbl_801CA1E8:
 /* 801CA1E8 001C5E48  38 60 00 00 */	li r3, 0
 /* 801CA1EC 001C5E4C  48 00 00 74 */	b lbl_801CA260
 lbl_801CA1F0:
-/* 801CA1F0 001C5E50  3F E0 80 42 */	lis r31, lbl_80422D48@ha
+/* 801CA1F0 001C5E50  3F E0 80 42 */	lis r31, _current_locale@ha
 /* 801CA1F4 001C5E54  7C 9C 23 78 */	mr r28, r4
-/* 801CA1F8 001C5E58  3B FF 2D 48 */	addi r31, r31, lbl_80422D48@l
+/* 801CA1F8 001C5E58  3B FF 2D 48 */	addi r31, r31, _current_locale@l
 /* 801CA1FC 001C5E5C  48 00 00 58 */	b lbl_801CA254
 lbl_801CA200:
 /* 801CA200 001C5E60  A0 9C 00 00 */	lhz r4, 0(r28)

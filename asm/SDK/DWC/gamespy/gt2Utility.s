@@ -112,9 +112,9 @@ lbl_8034DCA4:
 /* 8034DCBC 0034991C  38 00 00 00 */	li r0, 0
 /* 8034DCC0 00349920  7C 1C D1 AE */	stbx r0, r28, r26
 lbl_8034DCC4:
-/* 8034DCC4 00349924  3C 60 80 42 */	lis r3, lbl_80422D48@ha
+/* 8034DCC4 00349924  3C 60 80 42 */	lis r3, _current_locale@ha
 /* 8034DCC8 00349928  38 DB 00 01 */	addi r6, r27, 1
-/* 8034DCCC 0034992C  38 63 2D 48 */	addi r3, r3, lbl_80422D48@l
+/* 8034DCCC 0034992C  38 63 2D 48 */	addi r3, r3, _current_locale@l
 /* 8034DCD0 00349930  80 83 00 38 */	lwz r4, 0x38(r3)
 /* 8034DCD4 00349934  48 00 00 50 */	b lbl_8034DD24
 lbl_8034DCD8:

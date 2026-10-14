@@ -66,9 +66,9 @@ lbl_801CCE3C:
 /* 801CCE44 001C8AA4  38 00 00 00 */	li r0, 0
 /* 801CCE48 001C8AA8  48 00 00 20 */	b lbl_801CCE68
 lbl_801CCE4C:
-/* 801CCE4C 001C8AAC  3C C0 80 42 */	lis r6, lbl_80422D48@ha
+/* 801CCE4C 001C8AAC  3C C0 80 42 */	lis r6, _current_locale@ha
 /* 801CCE50 001C8AB0  54 A0 08 3C */	slwi r0, r5, 1
-/* 801CCE54 001C8AB4  38 C6 2D 48 */	addi r6, r6, lbl_80422D48@l
+/* 801CCE54 001C8AB4  38 C6 2D 48 */	addi r6, r6, _current_locale@l
 /* 801CCE58 001C8AB8  80 C6 00 38 */	lwz r6, 0x38(r6)
 /* 801CCE5C 001C8ABC  80 C6 00 08 */	lwz r6, 8(r6)
 /* 801CCE60 001C8AC0  7C 06 02 2E */	lhzx r0, r6, r0
@@ -76,9 +76,9 @@ lbl_801CCE4C:
 lbl_801CCE68:
 /* 801CCE68 001C8AC8  2C 00 00 00 */	cmpwi r0, 0
 /* 801CCE6C 001C8ACC  41 82 00 E0 */	beq lbl_801CCF4C
-/* 801CCE70 001C8AD0  3C C0 80 42 */	lis r6, lbl_80422D48@ha
+/* 801CCE70 001C8AD0  3C C0 80 42 */	lis r6, _current_locale@ha
 /* 801CCE74 001C8AD4  38 00 00 00 */	li r0, 0
-/* 801CCE78 001C8AD8  38 C6 2D 48 */	addi r6, r6, lbl_80422D48@l
+/* 801CCE78 001C8AD8  38 C6 2D 48 */	addi r6, r6, _current_locale@l
 /* 801CCE7C 001C8ADC  90 01 00 0C */	stw r0, 0xc(r1)
 /* 801CCE80 001C8AE0  80 E6 00 38 */	lwz r7, 0x38(r6)
 lbl_801CCE84:
@@ -486,7 +486,7 @@ __sformatter:
 /* 801CD424 001C9084  39 61 00 B0 */	addi r11, r1, 0xb0
 /* 801CD428 001C9088  4B FF 9C D1 */	bl _savegpr_15
 /* 801CD42C 001C908C  38 00 00 00 */	li r0, 0
-/* 801CD430 001C9090  3D 00 80 42 */	lis r8, lbl_80422D48@ha
+/* 801CD430 001C9090  3D 00 80 42 */	lis r8, _current_locale@ha
 /* 801CD434 001C9094  90 01 00 5C */	stw r0, 0x5c(r1)
 /* 801CD438 001C9098  38 00 00 00 */	li r0, 0
 /* 801CD43C 001C909C  7C 7A 1B 78 */	mr r26, r3
@@ -496,7 +496,7 @@ __sformatter:
 /* 801CD44C 001C90AC  7C FC 3B 78 */	mr r28, r7
 /* 801CD450 001C90B0  3B 21 00 20 */	addi r25, r1, 0x20
 /* 801CD454 001C90B4  90 01 00 58 */	stw r0, 0x58(r1)
-/* 801CD458 001C90B8  3A E8 2D 48 */	addi r23, r8, lbl_80422D48@l
+/* 801CD458 001C90B8  3A E8 2D 48 */	addi r23, r8, _current_locale@l
 /* 801CD45C 001C90BC  3B A0 00 00 */	li r29, 0
 /* 801CD460 001C90C0  3A A0 00 00 */	li r21, 0
 /* 801CD464 001C90C4  3A 80 00 00 */	li r20, 0

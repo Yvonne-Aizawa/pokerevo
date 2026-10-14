@@ -145,9 +145,9 @@ lbl_8031C678:
 /* 8031C7B0 00318410  48 01 B9 29 */	bl gethostbyname
 /* 8031C7B4 00318414  2C 03 00 00 */	cmpwi r3, 0
 /* 8031C7B8 00318418  41 82 00 AC */	beq lbl_8031C864
-/* 8031C7BC 0031841C  3C 80 80 42 */	lis r4, lbl_80422D48@ha
+/* 8031C7BC 0031841C  3C 80 80 42 */	lis r4, _current_locale@ha
 /* 8031C7C0 00318420  3C 60 9C D0 */	lis r3, 0x9CCF9319@ha
-/* 8031C7C4 00318424  38 84 2D 48 */	addi r4, r4, lbl_80422D48@l
+/* 8031C7C4 00318424  38 84 2D 48 */	addi r4, r4, _current_locale@l
 /* 8031C7C8 00318428  7F E7 FB 78 */	mr r7, r31
 /* 8031C7CC 0031842C  80 C4 00 38 */	lwz r6, 0x38(r4)
 /* 8031C7D0 00318430  38 A3 93 19 */	addi r5, r3, 0x9CCF9319@l

@@ -1476,9 +1476,9 @@ lbl_80338F5C:
 
 .global _strlwr
 _strlwr:
-/* 80338F74 00334BD4  3C A0 80 42 */	lis r5, lbl_80422D48@ha
+/* 80338F74 00334BD4  3C A0 80 42 */	lis r5, _current_locale@ha
 /* 80338F78 00334BD8  7C 67 1B 78 */	mr r7, r3
-/* 80338F7C 00334BDC  38 A5 2D 48 */	addi r5, r5, lbl_80422D48@l
+/* 80338F7C 00334BDC  38 A5 2D 48 */	addi r5, r5, _current_locale@l
 /* 80338F80 00334BE0  48 00 00 3C */	b lbl_80338FBC
 lbl_80338F84:
 /* 80338F84 00334BE4  7C 86 07 75 */	extsb. r6, r4

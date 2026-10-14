@@ -25,10 +25,10 @@ DVDConvertPathToEntrynum:
 /* 802876C8 00283328  39 61 00 30 */	addi r11, r1, 0x30
 /* 802876CC 0028332C  4B F3 FA 51 */	bl _savegpr_24
 /* 802876D0 00283330  7C 7A 1B 78 */	mr r26, r3
-/* 802876D4 00283334  3F E0 80 42 */	lis r31, lbl_80422D48@ha
+/* 802876D4 00283334  3F E0 80 42 */	lis r31, _current_locale@ha
 /* 802876D8 00283338  83 AD A9 F0 */	lwz r29, lbl_8063FCB0-_SDA_BASE_(r13)
 /* 802876DC 0028333C  7F 5C D3 78 */	mr r28, r26
-/* 802876E0 00283340  3B FF 2D 48 */	addi r31, r31, lbl_80422D48@l
+/* 802876E0 00283340  3B FF 2D 48 */	addi r31, r31, _current_locale@l
 /* 802876E4 00283344  3F C0 80 43 */	lis r30, 0x8043
 lbl_802876E8:
 /* 802876E8 00283348  88 1A 00 00 */	lbz r0, 0(r26)

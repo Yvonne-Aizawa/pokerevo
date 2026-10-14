@@ -151,8 +151,8 @@ lbl_801C9DA8:
 
 .global __msl_strnicmp
 __msl_strnicmp:
-/* 801C9DC0 001C5A20  3C C0 80 42 */	lis r6, lbl_80422D48@ha
-/* 801C9DC4 001C5A24  38 C6 2D 48 */	addi r6, r6, lbl_80422D48@l
+/* 801C9DC0 001C5A20  3C C0 80 42 */	lis r6, _current_locale@ha
+/* 801C9DC4 001C5A24  38 C6 2D 48 */	addi r6, r6, _current_locale@l
 /* 801C9DC8 001C5A28  80 C6 00 38 */	lwz r6, 0x38(r6)
 /* 801C9DCC 001C5A2C  7C A9 03 A6 */	mtctr r5
 /* 801C9DD0 001C5A30  2C 05 00 00 */	cmpwi r5, 0

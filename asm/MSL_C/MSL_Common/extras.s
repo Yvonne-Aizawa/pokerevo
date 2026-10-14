@@ -4,8 +4,8 @@
 
 .global stricmp
 stricmp:
-/* 801D0A00 001CC660  3C A0 80 42 */	lis r5, lbl_80422D48@ha
-/* 801D0A04 001CC664  38 A5 2D 48 */	addi r5, r5, lbl_80422D48@l
+/* 801D0A00 001CC660  3C A0 80 42 */	lis r5, _current_locale@ha
+/* 801D0A04 001CC664  38 A5 2D 48 */	addi r5, r5, _current_locale@l
 /* 801D0A08 001CC668  80 C5 00 38 */	lwz r6, 0x38(r5)
 lbl_801D0A0C:
 /* 801D0A0C 001CC66C  88 A3 00 00 */	lbz r5, 0(r3)
@@ -64,8 +64,8 @@ strncasecmp:
 
 .global strcmpi
 strcmpi:
-/* 801D0AAC 001CC70C  3C A0 80 42 */	lis r5, lbl_80422D48@ha
-/* 801D0AB0 001CC710  38 A5 2D 48 */	addi r5, r5, lbl_80422D48@l
+/* 801D0AAC 001CC70C  3C A0 80 42 */	lis r5, _current_locale@ha
+/* 801D0AB0 001CC710  38 A5 2D 48 */	addi r5, r5, _current_locale@l
 /* 801D0AB4 001CC714  80 C5 00 38 */	lwz r6, 0x38(r5)
 lbl_801D0AB8:
 /* 801D0AB8 001CC718  88 A3 00 00 */	lbz r5, 0(r3)
@@ -120,8 +120,8 @@ lbl_801D0B44:
 
 .global strcasecmp
 strcasecmp:
-/* 801D0B54 001CC7B4  3C A0 80 42 */	lis r5, lbl_80422D48@ha
-/* 801D0B58 001CC7B8  38 A5 2D 48 */	addi r5, r5, lbl_80422D48@l
+/* 801D0B54 001CC7B4  3C A0 80 42 */	lis r5, _current_locale@ha
+/* 801D0B58 001CC7B8  38 A5 2D 48 */	addi r5, r5, _current_locale@l
 /* 801D0B5C 001CC7BC  80 C5 00 38 */	lwz r6, 0x38(r5)
 lbl_801D0B60:
 /* 801D0B60 001CC7C0  88 A3 00 00 */	lbz r5, 0(r3)

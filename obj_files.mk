@@ -573,7 +573,9 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/asm/SDK/SC/scapi.o                               \
 	$(BUILD_DIR)/asm/SDK/SC/scapi_prdinfo.o                               \
 	$(BUILD_DIR)/asm/SDK/WENC/wenc.o                               \
-	$(BUILD_DIR)/asm/SDK/ARC/arc.o                               \
+	$(BUILD_DIR)/asm/data_8043BEF0.o \
+	$(BUILD_DIR)/asm/sdata_8063DBD0.o \
+	$(BUILD_DIR)/src/SDK/ARC/arc.o                               \
 	$(BUILD_DIR)/asm/SDK/NCD/ncdsystem.o                               \
 	$(BUILD_DIR)/asm/SDK/WD/wd_misc.o                                     \
 	$(BUILD_DIR)/asm/SDK/WD/wd_request.o                                     \
@@ -848,9 +850,9 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/asm/code_803D9208.o \
 	$(BUILD_DIR)/asm/text_11_2.o \
 	$(BUILD_DIR)/asm/ctors_2.o \
-	$(BUILD_DIR)/asm/data_8043BEF0.o \
+	$(BUILD_DIR)/asm/data_80445AA8.o \
 	$(BUILD_DIR)/asm/bss_805157A0.o \
-	$(BUILD_DIR)/asm/sdata_8063DBD0.o \
+	$(BUILD_DIR)/asm/sdata_8063DEA8.o \
 	$(BUILD_DIR)/asm/sbss_8063FF48.o  \
     $(BUILD_DIR)/asm/sdata2_80642980.o
 

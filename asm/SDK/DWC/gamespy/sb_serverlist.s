@@ -751,10 +751,10 @@ lbl_8035F34C:
 ServerListConnect:
 /* 8035F364 0035AFC4  94 21 FF 60 */	stwu r1, -0xa0(r1)
 /* 8035F368 0035AFC8  7C 08 02 A6 */	mflr r0
-/* 8035F36C 0035AFCC  3C A0 80 42 */	lis r5, lbl_80422D48@ha
+/* 8035F36C 0035AFCC  3C A0 80 42 */	lis r5, _current_locale@ha
 /* 8035F370 0035AFD0  3C 80 9C D0 */	lis r4, 0x9CCF9319@ha
 /* 8035F374 0035AFD4  90 01 00 A4 */	stw r0, 0xa4(r1)
-/* 8035F378 0035AFD8  38 A5 2D 48 */	addi r5, r5, lbl_80422D48@l
+/* 8035F378 0035AFD8  38 A5 2D 48 */	addi r5, r5, _current_locale@l
 /* 8035F37C 0035AFDC  38 E3 00 0C */	addi r7, r3, 0xc
 /* 8035F380 0035AFE0  39 00 00 00 */	li r8, 0
 /* 8035F384 0035AFE4  93 E1 00 9C */	stw r31, 0x9c(r1)
