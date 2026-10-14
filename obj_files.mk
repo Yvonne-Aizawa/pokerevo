@@ -397,7 +397,8 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/src/SDK/OS/OSPlayRecord.o                              \
 	$(BUILD_DIR)/src/SDK/OS/OSStateFlags.o                              \
 	$(BUILD_DIR)/src/SDK/OS/OSNet.o                              \
-	$(BUILD_DIR)/asm/SDK/OS/OSNandbootInfo.o                              \
+	$(BUILD_DIR)/asm/data_2b.o \
+	$(BUILD_DIR)/src/SDK/OS/OSNandbootInfo.o                              \
 	$(BUILD_DIR)/asm/Runtime/__ppc_eabi_init.o                              \
 	$(BUILD_DIR)/asm/SDK/EXI/EXIBios.o                              \
 	$(BUILD_DIR)/asm/SDK/EXI/EXIUart.o                              \
@@ -836,7 +837,7 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/asm/code_803D9208.o \
 	$(BUILD_DIR)/asm/text_11_2.o \
 	$(BUILD_DIR)/asm/ctors_2.o \
-	$(BUILD_DIR)/asm/data_2b.o \
+	$(BUILD_DIR)/asm/data_80433F28.o \
 	$(BUILD_DIR)/asm/bss_805154A0.o \
 	$(BUILD_DIR)/asm/sdata_8063DAB8.o \
 	$(BUILD_DIR)/asm/sbss_8063FB48.o  \

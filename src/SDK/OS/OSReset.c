@@ -1,6 +1,7 @@
 #include "types.h"
 #include "string.h"
 #include "SDK/OS/OS.h"
+#include "SDK/OS/OSNandbootInfo.h"
 #include "SDK/OS/OSPlayRecord.h"
 #include "SDK/OS/OSStateTM.h"
 #include "SDK/OS/OSInterrupt.h"
@@ -34,14 +35,6 @@ typedef struct SCIdleModeInfo
     u8 slotLight;
 } SCIdleModeInfo;
 
-typedef struct NANDBootInfo
-{
-    u8 unk0[0x8];
-    u32 unk8;
-    u32 unkC;
-    u8 unk10[0x1010];
-} NANDBootInfo;
-
 // No headers for these yet: their files are still asm.
 void SCInit(void);
 u32 SCCheckStatus(void);
@@ -54,8 +47,6 @@ BOOL __OSSyncSram(void);
 BOOL __OSGetRTCFlags(u32 *flags);
 BOOL __OSClearRTCFlags(void);
 void __OSLaunchMenu(void);
-void __OSWriteNandbootInfo(NANDBootInfo *info);
-void func_8027430C(NANDBootInfo *info);
 void func_8026C328(void);
 void __VISetRGBModeImm(void);
 
