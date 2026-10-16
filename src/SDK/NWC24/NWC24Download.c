@@ -6,17 +6,9 @@
 // TODO(match): NWC24iCheckHeaderConsistency
 #include "types.h"
 #include "SDK/NWC24/NWC24Download.h"
+#include "SDK/NWC24/NWC24FileAPI.h"
+#include "SDK/NWC24/NWC24Manage.h"
 
-typedef struct NWC24File {
-    u8 data[0x9C];
-} NWC24File;
-
-s32 NWC24FOpen(NWC24File* file, const char* path, u32 mode);
-s32 NWC24FClose(NWC24File* file);
-s32 NWC24FSeek(NWC24File* file, s32 offset, s32 whence);
-s32 NWC24FRead(void* buf, u32 len, NWC24File* file);
-s32 NWC24FWrite(const void* buf, u32 len, NWC24File* file);
-s32 NWC24FGetLength(NWC24File* file, u32* length);
 s32 NWC24iSynchronizeRtcCounter(s32 arg);
 
 void* memset(void* dst, int val, u32 n);
@@ -36,7 +28,7 @@ typedef struct DlMem {
     DlTask task;
 } DlMem;
 
-extern DlMem* lbl_80640250;
+#define WORK ((DlMem*)NWC24WorkArea)
 extern const char* lbl_8063DF80;
 
 static s32 DeleteDlTask(DlTask* task);
@@ -46,7 +38,7 @@ s32 NWC24iOpenDlTaskList(void)
     s32 ret = NWC24iLoadDlHeader();
     if (ret >= 0) {
         NWC24iSynchronizeRtcCounter(0);
-        ret = NWC24iCheckHeaderConsistency(&lbl_80640250->header, 0);
+        ret = NWC24iCheckHeaderConsistency(&WORK->header, 0);
         if (ret >= 0) {
             ret = 0;
         }
@@ -93,7 +85,7 @@ static inline s32 ReadTask(DlTask* task, u16 idx)
     s32 ret;
     s32 err;
 
-    ret = CheckIndex(&lbl_80640250->header, idx);
+    ret = CheckIndex(&WORK->header, idx);
     if (ret < 0) {
         return ret;
     }
@@ -135,13 +127,13 @@ s32 NWC24iCheckHeaderConsistency(DlHeader* header, s32 repair)
     s32 ret;
 
     for (i = 0; i < header->numEntries; i++) {
-        ret = CheckIndex(&lbl_80640250->header, i);
+        ret = CheckIndex(&WORK->header, i);
         if (ret == 0 && repair != 0) {
             ret = ReadTask(t, i);
             if (ret < 0) {
-                DropTask(&lbl_80640250->header, t);
+                DropTask(&WORK->header, t);
             } else {
-                DlHeader* h = &lbl_80640250->header;
+                DlHeader* h = &WORK->header;
                 if (i >= h->numTasks && t->state == 0) {
                     DropTask(h, t);
                 }
@@ -157,7 +149,7 @@ static inline s32 ReadHeader(NWC24File* file, s32* err)
     if (ret < 0) {
         return ret;
     }
-    ret = NWC24FRead(&lbl_80640250->header, 0x800, file);
+    ret = NWC24FRead(&WORK->header, 0x800, file);
     if (ret < 0) {
         *err = ret;
     }
@@ -182,7 +174,7 @@ s32 NWC24iLoadDlHeader(void)
     ret = NWC24FGetLength(&file, &length);
     err = ret;
     if (err >= 0) {
-        DlHeader* h = &lbl_80640250->header;
+        DlHeader* h = &WORK->header;
         if (h->numEntries < 1 || h->numTasks < 1 || h->numEntries < h->numTasks) {
             err = -14;
         } else {
@@ -203,8 +195,8 @@ static inline s32 WriteTask(NWC24File* file, DlTask* buf)
     if (ret < 0) {
         return ret;
     }
-    memcpy(&lbl_80640250->task, buf, 0x200);
-    ret = NWC24FWrite(&lbl_80640250->task, 0x200, file);
+    memcpy(&WORK->task, buf, 0x200);
+    ret = NWC24FWrite(&WORK->task, 0x200, file);
     err = 0;
     if (ret < 0) {
         err = ret;
@@ -219,7 +211,7 @@ static inline s32 WriteHeader(NWC24File* file)
     if (ret < 0) {
         return ret;
     }
-    ret = NWC24FWrite(&lbl_80640250->header, 0x800, file);
+    ret = NWC24FWrite(&WORK->header, 0x800, file);
     err = 0;
     if (ret < 0) {
         err = ret;
@@ -240,14 +232,14 @@ static s32 DeleteDlTask(DlTask* task)
         return r;
     }
     id = task->id;
-    buf = &lbl_80640250->task;
+    buf = &WORK->task;
     memset(buf, 0, 0x200);
     buf->flag = 0xFF;
     buf->id = id;
-    memset(&lbl_80640250->header.entries[id], 0, 0x10);
+    memset(&WORK->header.entries[id], 0, 0x10);
     ret = WriteTask(&file, buf);
     if (ret >= 0) {
-        memset(&lbl_80640250->header.entries[task->id], 0, 0x10);
+        memset(&WORK->header.entries[task->id], 0, 0x10);
         ret = WriteHeader(&file);
     }
     r = NWC24FClose(&file);

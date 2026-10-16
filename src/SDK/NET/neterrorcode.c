@@ -45,7 +45,7 @@ s32 NETiGetConnectionTypeFromConfigList(u32 a, u32 b, u32 c)
     return type;
 }
 
-#pragma auto_inline on
+#pragma auto_inline reset
 
 s32 NETGetStartupErrorCodeEx(s32 err, s32 type)
 {

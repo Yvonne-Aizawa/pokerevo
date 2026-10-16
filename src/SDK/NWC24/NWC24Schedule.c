@@ -5,16 +5,11 @@
 #include "types.h"
 #include "string.h"
 #include "SDK/NWC24/NWC24Schedule.h"
+#include "SDK/NWC24/NWC24Ipc.h"
+#include "SDK/NWC24/NWC24Manage.h"
 #include "SDK/OS/OSInterrupt.h"
 #include "SDK/OS/OSMutex.h"
 #include "SDK/OS/OSThread.h"
-
-// Declared here until the NWC24 headers exist.
-s32 NWC24iOpenResourceManager(const char *name, const char *path, s32 *fd, u32 flags);
-s32 NWC24iCloseResourceManager(const char *name, s32 fd);
-s32 NWC24iIoctlResourceManager(const char *name, s32 fd, s32 cmd, void *in, u32 inLen, void *out, u32 outLen);
-s32 NWC24IsMsgLibOpened(void);
-s32 NWC24IsMsgLibOpenedByTool(void);
 
 static OSMutex sCmdMutex;
 static OSMutex sStateMutex;
@@ -186,6 +181,8 @@ s32 NWC24iResumeForCloseLib(void)
     return ret;
 }
 
+// The original keeps this wrapper a separate function (called with bl); under -inline auto it
+// would otherwise be inlined into its callers.
 #pragma dont_inline on
 s32 ExecSuspendScheduler(void)
 {
@@ -224,6 +221,8 @@ s32 ExecTrySuspendScheduler(u32 arg)
     return ret;
 }
 
+// The original keeps this wrapper a separate function (called with bl); under -inline auto it
+// would otherwise be inlined into its callers.
 #pragma dont_inline on
 s32 ExecResumeScheduler(void)
 {

@@ -4,13 +4,9 @@
 // split this TU's data out of the monolithic data/bss/sbss asm files, and link it.
 #include "types.h"
 #include "SDK/NWC24/NWC24Time.h"
+#include "SDK/NWC24/NWC24Ipc.h"
 #include "SDK/os.h"
 #include "MSL_C/string.h"
-
-// TODO: move to a shared NWC24 header once NWC24Ipc.c is decompiled
-s32 NWC24iOpenResourceManager(const char *name, const char *path, s32 *fd, u32 flags);
-s32 NWC24iCloseResourceManager(const char *name, s32 fd);
-s32 NWC24iIoctlResourceManager(const char *name, s32 fd, s32 cmd, void *in, s32 inLen, void *out, s32 outLen);
 
 u32 SCCheckStatus(void);
 u32 SCGetCounterBias(void);

@@ -7,6 +7,8 @@
 extern "C" {
 #endif
 
+// PROVISIONAL: DlEntry/DlHeader layouts are only as far as NWC24Download.c uses them; the
+// remaining fields are unidentified and may be renamed or reshaped when the file is linked.
 typedef struct DlEntry {
     u32 used;
     u32 pad[3];

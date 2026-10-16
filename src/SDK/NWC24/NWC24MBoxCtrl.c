@@ -1,33 +1,16 @@
 #include "types.h"
+#include "SDK/NWC24/NWC24Manage.h"
+#include "SDK/NWC24/NWC24FileAPI.h"
+#include "SDK/NWC24/NWC24StdAPI.h"
+#include "SDK/NWC24/NWC24Config.h"
+#include "SDK/NWC24/NWC24MBoxCtrl.h"
 
-typedef struct {
-    u8 data[0x9C];
-} NWC24File;
-
-typedef struct {
-    u32 magic;
-    u32 version;
-    u8 pad[0x78];
-} NWC24MBCHeader;
-
-extern u8 *lbl_80640250;
 extern u32 lbl_80640268[2];
-
-extern void *Mail_memset(void *dst, int val, u32 n);
-extern int Mail_sprintf(char *dst, const char *fmt, ...);
-extern s32 STD_strnlen(const char *s, s32 max);
-extern const char *NWC24GetMBoxDir(void);
-extern s32 NWC24FOpen(NWC24File *file, const char *path, u32 mode);
-extern s32 NWC24FSeek(NWC24File *file, s32 offset, s32 whence);
-extern s32 NWC24FRead(void *buf, u32 size, NWC24File *file);
-extern s32 NWC24FClose(NWC24File *file);
 
 static char sendCtl[] = "/wc24send.ctl";
 static char recvCtl[] = "/wc24recv.ctl";
 static char recvMbx[] = "/wc24recv.mbx";
 static char sendMbx[] = "/wc24send.mbx";
-
-s32 GetCachedMBCHeader(s32 type, NWC24MBCHeader **hdr);
 
 static inline s32 MakeCtlPath(s32 type, char *path)
 {
@@ -57,13 +40,13 @@ s32 NWC24iOpenMBox(void)
     const char *dir;
     s32 err;
 
-    path = (char *)lbl_80640250 + 0x800;
-    Mail_memset(lbl_80640250 + 0x1100, 0, 0x80);
+    path = (char *)NWC24WorkArea + 0x800;
+    Mail_memset(NWC24WorkArea + 0x1100, 0, 0x80);
     err = GetCachedMBCHeader(0, &hdr);
     if (err != 0) {
         return err;
     }
-    Mail_memset(lbl_80640250 + 0x1180, 0, 0x80);
+    Mail_memset(NWC24WorkArea + 0x1180, 0, 0x80);
     err = GetCachedMBCHeader(1, &hdr);
     if (err != 0) {
         return err;
@@ -119,16 +102,16 @@ s32 GetCachedMBCHeader(s32 type, NWC24MBCHeader **hdr)
     s32 r;
 
     if (type == 0) {
-        *hdr = (NWC24MBCHeader *)(lbl_80640250 + 0x1100);
+        *hdr = (NWC24MBCHeader *)(NWC24WorkArea + 0x1100);
     } else if (type == 1) {
-        *hdr = (NWC24MBCHeader *)(lbl_80640250 + 0x1180);
+        *hdr = (NWC24MBCHeader *)(NWC24WorkArea + 0x1180);
     } else {
         *hdr = NULL;
         return -3;
     }
 
     if ((*hdr)->magic != 0x57635466) {
-        path = (char *)lbl_80640250 + 0x800;
+        path = (char *)NWC24WorkArea + 0x800;
         r = MakeCtlPath(type, path);
         if (r != 0) {
             return r;

@@ -1,24 +1,9 @@
 #include "types.h"
 #include "SDK/OS/OS.h"
 #include "SDK/NWC24/NWC24Config.h"
-
-// Owned by other NWC24 files, still asm.
-typedef struct NWC24File {
-    u8 data[0x98];
-} NWC24File;
-
-int NWC24IsMsgLibOpened(void);
-int NWC24IsMsgLibOpenedByTool(void);
-s32 NWC24SuspendScheduler(void);
-s32 NWC24ResumeScheduler(void);
-s32 NWC24BlockOpenMsgLib(s32 block);
-s32 NWC24iRequestGenerateUserId(u64 *userId, s32 *status);
-s32 NWC24FOpen(NWC24File *file, const char *path, u32 mode);
-s32 NWC24FRead(void *buf, u32 len, NWC24File *file);
-s32 NWC24FWrite(void *buf, u32 len, NWC24File *file);
-s32 NWC24FClose(NWC24File *file);
-
-extern u8 *lbl_80640250; // work buffer, owned by NWC24Manage
+#include "SDK/NWC24/NWC24FileAPI.h"
+#include "SDK/NWC24/NWC24Manage.h"
+#include "SDK/NWC24/NWC24Schedule.h"
 
 typedef struct NWC24Config {
     u32 magic;
@@ -43,7 +28,7 @@ static s32 GenerateUserId(u64 *userId)
 {
     s32 ret = 0;
     s32 r;
-    s32 status;
+    u32 status;
 
     r = NWC24BlockOpenMsgLib(1);
     if (r < 0) {
@@ -94,7 +79,7 @@ s32 NWC24GetMyUserId(u64 *userId)
 s32 NWC24iConfigOpen(void)
 {
     sConfigDirty = 0;
-    sConfig = (NWC24Config *)(lbl_80640250 + 0xd00);
+    sConfig = (NWC24Config *)(NWC24WorkArea + 0xd00);
     return NWC24iConfigReload();
 }
 
@@ -104,7 +89,7 @@ s32 NWC24iConfigReload(void)
     s32 result;
     s32 ioResult;
 
-    if (lbl_80640250 == NULL) {
+    if (NWC24WorkArea == NULL) {
         return -9;
     }
 
@@ -160,7 +145,7 @@ s32 NWC24iConfigFlush(void)
     s32 ioResult;
     NWC24Config *cfg;
 
-    if (lbl_80640250 == NULL) {
+    if (NWC24WorkArea == NULL) {
         return -9;
     }
     if (sConfigDirty == 0) {

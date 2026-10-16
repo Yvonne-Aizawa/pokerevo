@@ -2,14 +2,11 @@
 #define POKEREVO_NET_NET_H
 
 #include "types.h"
+#include "SDK/NCD/ncdsystem.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-// NCD (asm/SDK/NCD/ncdsystem.s)
-s32 NCDiGetEnabledConfigList(u32 *a, u32 *b, u32 *c);
-s32 NCDiGetWirelessMacAddress(u8 *addr);
 
 s32 NETGetConnectionType(void);
 s32 NETiGetConnectionTypeFromConfigList(u32 a, u32 b, u32 c);

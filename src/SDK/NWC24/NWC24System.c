@@ -1,13 +1,10 @@
 #include "types.h"
 #include "SDK/OS/OSReset.h"
 #include "SDK/OS/OSStateTM.h"
+#include "SDK/NWC24/NWC24Ipc.h"
+#include "SDK/NWC24/NWC24Manage.h"
+#include "SDK/NWC24/NWC24System.h"
 
-s32 NWC24iPrepareShutdown(void);
-s32 NWC24iRegister(void);
-s32 NWC24iOpenResourceManager(const char *name, const char *path, s32 *fd, u32 flags);
-BOOL NWC24iIsAsyncRequestPending(void);
-s32 NWC24iIoctlResourceManagerAsync(const char *name, s32 fd, u32 cmd, void *in, u32 inLen,
-                                    void *out, u32 outLen, s32 *result);
 u32 SCCheckStatus(void);
 s32 SCGetIdleMode(void *buf);
 
@@ -54,27 +51,27 @@ s32 NWC24iPrepareShutdown(void)
 static BOOL NWC24Shutdown(BOOL final, u32 event)
 {
     if (final) {
-        return 1;
+        return TRUE;
     }
     if (RequestPending) {
         if (NWC24iIsAsyncRequestPending()) {
-            return 0;
+            return FALSE;
         }
         if (RequestResult >= 0) {
-            return 1;
+            return TRUE;
         }
         if (RetryCount > 0) {
-            RequestPending = 0;
+            RequestPending = FALSE;
             RetryCount--;
         } else {
-            return 1;
+            return TRUE;
         }
     } else {
         *(u32 *)RequestBuf = event;
         if (NWC24iIoctlResourceManagerAsync("NWC24iRequestShutdown", ShutdownFd, 0x28, RequestBuf, 0x20,
                                             ReplyBuf, 0x20, &RequestResult) >= 0) {
-            RequestPending = 1;
+            RequestPending = TRUE;
         }
     }
-    return 0;
+    return FALSE;
 }

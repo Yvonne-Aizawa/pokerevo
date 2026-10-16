@@ -2,9 +2,9 @@
 #include "SDK/OS/OSNet.h"
 #include "SDK/OS/OSError.h"
 #include "SDK/OS/OS.h"
+#include "SDK/NWC24/NWC24Schedule.h"
+#include "SDK/NWC24/NWC24System.h"
 
-s32 NWC24iPrepareShutdown(void);
-s32 NWC24SuspendScheduler(void);
 s32 NWC24iSynchronizeRtcCounter(void);
 
 void __OSInitNet(void)

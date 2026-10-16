@@ -3,20 +3,20 @@
 # Continuation of sbss_8063FF48.s after NWC24Config.c's statics (0x80640250).
 	.balign 8
 
-.global lbl_80640250
-lbl_80640250:
+.global NWC24WorkArea
+NWC24WorkArea:
 	.skip 0x4
-.global lbl_80640254
-lbl_80640254:
+.global NWC24LibState
+NWC24LibState:
 	.skip 0x4
-.global lbl_80640258
-lbl_80640258:
+.global NWC24LibFlags
+NWC24LibFlags:
 	.skip 0x4
-.global lbl_8064025C
-lbl_8064025C:
+.global NWC24LastError
+NWC24LastError:
 	.skip 0x4
-.global lbl_80640260
-lbl_80640260:
+.global NWC24VersionRegistered
+NWC24VersionRegistered:
 	.skip 0x8
 .global lbl_80640268
 lbl_80640268:
