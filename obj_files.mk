@@ -624,7 +624,7 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/asm/SDK/NWC24/NWC24Mime.o                                     \
 	$(BUILD_DIR)/asm/SDK/NWC24/NWC24Schedule.o                                     \
 	$(BUILD_DIR)/asm/SDK/NWC24/NWC24FriendList.o                                     \
-	$(BUILD_DIR)/asm/SDK/NWC24/NWC24SecretFList.o                                     \
+	$(BUILD_DIR)/src/SDK/NWC24/NWC24SecretFList.o                                     \
 	$(BUILD_DIR)/asm/SDK/NWC24/NWC24Time.o                                     \
 	$(BUILD_DIR)/asm/SDK/NWC24/NWC24Ipc.o                                     \
 	$(BUILD_DIR)/asm/SDK/NWC24/NWC24Download.o                                     \
