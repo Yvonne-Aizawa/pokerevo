@@ -134,12 +134,3 @@ lbl_8063DF48:
 	.byte 0x00
 	.byte 0x00
 	.byte 0x00
-.global lbl_8063DF50
-lbl_8063DF50:
-	.4byte 0x80446308
-.global lbl_8063DF54
-lbl_8063DF54:
-	.4byte 0x8044631C
-.global lbl_8063DF58
-lbl_8063DF58:
-	.8byte 0x8044633800000000

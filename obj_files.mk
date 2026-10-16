@@ -619,9 +619,10 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/asm/text_9.o                                     \
 	$(BUILD_DIR)/asm/SDK/NWC24/NWC24StdAPI.o                                     \
 	$(BUILD_DIR)/asm/SDK/NWC24/NWC24FileAPI.o                                     \
-	$(BUILD_DIR)/asm/SDK/NWC24/NWC24Config.o                                     \
 	$(BUILD_DIR)/asm/data_80445E00.o \
 	$(BUILD_DIR)/asm/sdata_8063DEC8.o \
+	$(BUILD_DIR)/asm/sbss_8063FF48.o \
+	$(BUILD_DIR)/src/SDK/NWC24/NWC24Config.o                                     \
 	$(BUILD_DIR)/src/SDK/NWC24/NWC24Manage.o                                     \
 	$(BUILD_DIR)/src/SDK/NWC24/NWC24MBoxCtrl.o                                     \
 	$(BUILD_DIR)/src/SDK/NWC24/NWC24Mime.o                                     \
@@ -629,7 +630,7 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/src/SDK/NWC24/NWC24FriendList.o                                     \
 	$(BUILD_DIR)/src/SDK/NWC24/NWC24SecretFList.o                                     \
 	$(BUILD_DIR)/asm/SDK/NWC24/NWC24Time.o                                     \
-	$(BUILD_DIR)/asm/sbss_8063FF48.o \
+	$(BUILD_DIR)/asm/sbss_80640250.o \
 	$(BUILD_DIR)/src/SDK/NWC24/NWC24Ipc.o                                     \
 	$(BUILD_DIR)/asm/SDK/NWC24/NWC24Download.o                                     \
 	$(BUILD_DIR)/asm/data_804464C0.o \

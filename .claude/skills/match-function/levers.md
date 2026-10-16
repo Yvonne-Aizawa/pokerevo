@@ -24,6 +24,12 @@ and add the function. Add new levers through the `record-lesson` skill.
   expression directly, or the helper was `static inline` (OSAlloc.c's list helpers, OSStateFlags.c's
   `CheckSum`). Getter calls that look inlined in the asm mean: write the access directly, or a
   `static inline`.
+- A `b` to the middle of a function where the cleanup code follows (`bge next; b L20` with L20 not the
+  epilogue) is an early `return` inside an inlined static helper: split that stretch into a static
+  function (NWC24Config.c's `GenerateUserId`). A helper with a loop (checksum) that is inlined into a
+  small function can make that function small enough to be auto-inlined into its callers in turn; when
+  the original kept it out of line, `#pragma auto_inline off` / `reset` around that one function does it
+  (the helper then needs `static inline`) (NWC24Config.c's `CheckConfig`). An ASSERT did not stop it there.
 - `tu_diff.py --flags` and `--compiler` test other settings; extra flags go before the include options,
   where MWCC accepts `-ipa`. The Wii compilers in `tools/mwcc_compiler/Wii/` don't match this SDK.
 - A function that is only `b OtherFunction` is a one-line wrapper that tail-calls (OSMutex.c's `OSInitCond`).
