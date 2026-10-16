@@ -30,6 +30,11 @@ and add the function. Add new levers through the `record-lesson` skill.
   small function can make that function small enough to be auto-inlined into its callers in turn; when
   the original kept it out of line, `#pragma auto_inline off` / `reset` around that one function does it
   (the helper then needs `static inline`) (NWC24Config.c's `CheckConfig`). An ASSERT did not stop it there.
+- Tiny global wrappers that tail-call a static (NWC24Schedule.c's `ExecSuspendScheduler`,
+  `ExecResumeScheduler`) get inlined into their callers under `-inline auto`; `#pragma dont_inline on` /
+  `reset` around just those keeps them as `bl` calls. Not around a large function
+  (`ExecTrySuspendScheduler` then stops inlining its own helpers). A bare `;` or `((void)0)` in the body
+  did not stop it.
 - `tu_diff.py --flags` and `--compiler` test other settings; extra flags go before the include options,
   where MWCC accepts `-ipa`. The Wii compilers in `tools/mwcc_compiler/Wii/` don't match this SDK.
 - A function that is only `b OtherFunction` is a one-line wrapper that tail-calls (OSMutex.c's `OSInitCond`).
@@ -143,6 +148,24 @@ and add the function. Add new levers through the `record-lesson` skill.
 - **(bw2)** Early `return FALSE`s go to one shared tail only when the C has one trailing return (an
   `if`/`else if` chain or a result variable).
 
+- `bge L; b END` where yours has a single `blt`: the original returns early from an inlined static helper
+  (`if (ret < 0) return ret;`), and the plain `if (ret >= 0) { ... }` form gives one `blt`
+  (NWC24Download.c's Seek/Read stretch).
+- A branch pair that sets one flag bit in each arm (`ori r0,r30,1` / `ori r0,r30,4` / `mr r30,r0`) is
+  `if (r == -20) f |= 4; else f |= 1;`; `f |= 1; if (r == -20) f |= 4;` gives `ori r30,r30,x`
+  (NWC24Manage.c's `NWC24OpenLibInternal`).
+- A tail where several paths share one `li r3,0` needs one trailing `return 0` after an if/else, with
+  the retry arm written first: `if (n > 0) { pending = 0; n--; } else return 1; return 0;` (NWC24System.c's
+  `NWC24Shutdown`; the store order also fixes r0/r3). In NWC24FriendList.c the early-out of a cached
+  header check only matched as `if (magic != X) { open, read, validate } return 0;`, not
+  `if (magic == X) return 0;`.
+- A path-building switch whose arms return in the middle only matched as a `static inline` helper with
+  `default: return -3;` and one `return 0;` after the switch; assigning to a result variable did not
+  (NWC24MBoxCtrl.c).
+- `if (!OSGetCurrentThread())` gives `cmpwi r3,0`; `== NULL` gives `li r0,0; cmplw` (NWC24Schedule.c,
+  NCD). A signed length helper (`STD_strnlen` returning `s32`, not `u32`) is what gives `cmpwi` instead of
+  `cmplwi` on its result (NWC24MBoxCtrl.c).
+- `(r >= 0) ? r : -1` as the return gives the original's `blt; b` tail (ncdsystem.c).
 - A `switch` whose tree is `cmpwi 0; beq CASE; blt DEFAULT; b DEFAULT` (no compare against 1) came from
   `case 0: ... break; case 1: case 2: default: ...` (OSFont.c's `GetFontEncode`). `case 1: default:`
   alone emits an extra compare against 1.
@@ -197,6 +220,20 @@ and add the function. Add new levers through the `record-lesson` skill.
   function using PlayRecord is emitted first: a non-static helper (inlined into its callers, then
   stripped by the linker). Check the layout with `powerpc-eabi-nm -n` on the object.
 
+- Two locals declared in the other order swap their saved registers (NWC24Download.c's `DeleteDlTask`
+  needed `u16 id;` before `DlTask *buf;`; NWC24MBoxCtrl.c needs the error variable before the `path`
+  pointer to get r31). `s32 err = 0;` declared before `u32 length = 0;` lets the two zeros share a
+  register (NWC24Download.c). A local `u8 handle[0xA0]` is 8-aligned and sits at 0x10 where the original
+  has 0xC: size it to the true 0x9C.
+- A table filled by unrolled straight-line stores comes from range loops over the character code
+  (`for (i = 'A'; i <= 'Z'; i++) t[i] = i - 'A';`, then the same for `a` and `0`), not from per-entry
+  stores or loops over `0..25`; the `-1` fill is a plain 256-iteration loop (NWC24Mime.c).
+- Buffers the original aligns to 0x20 in `.bss` (ioctl request and reply buffers, NCD's `Buffer` and
+  `Vector`) are `__attribute__((aligned(32)))` statics of their own; one struct holding them does not
+  match (NWC24System.c, ncdsystem.c).
+- Literals that must come in a fixed order in `.data` (a path before a function name) match as static
+  non-const `char[]` arrays defined in that order, which land ahead of the pooled literals
+  (NWC24MBoxCtrl.c, NWC24Time.c); a `const` one goes to `.rodata`.
 - In an `asm` function with `fralloc`, a `register` parameter is moved to r31 by the compiler, so
   `mr r31, cb` assembles as `mr r31, r31`. Name the incoming register (`mr r31, r3`) and mark the
   parameter `#pragma unused` (ai.c's `__AICallbackStackSwitch`).

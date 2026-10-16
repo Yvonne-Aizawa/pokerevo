@@ -123,6 +123,19 @@ discoverable while decompiling the code that uses them.
   instruction patching). Don't use them: the user wants only true matches.
   A file that only matches through a patch is parked instead. A per-file
   compiler flag in the Makefile is fine when it's what makes a file match.
+- `tu_diff.py --sdk` applies `-inline auto` to any `src/SDK/` path by itself, so a function can match
+  there while the real build doesn't: a new SDK directory must be in the Makefile's `RVL_SDK_DIRS`
+  (NWC24 and NET were missed at first; the symptom is a DOL checksum failure).
+- A stand-in function or global that exists only to fix data order or the string pool (a dead global
+  that uses a literal first, a stripped function that touches the first bytes of `.bss`) is a fake
+  match: park the file (unlinked, asm kept, `PARKED`/`TODO(match)` header, memory entry) and find the real
+  stripped function later (NWC24Schedule.c, NWC24Time.c).
+- Parallel agents in git worktrees: a worktree lacks the ignored files, so symlink `baserom.dol` and
+  `tools/mwcc_compiler` (and build `elf2dol`) first. Each agent's `split_data.py` edits conflict in
+  `obj_files.mk` and the monolithic data asm files. Integrate the branches that split no data by plain
+  merge; for the rest, take only each branch's C, headers and deleted `.s`, and redo the data cut with
+  `split_data.py` on the merged state, one branch at a time with a clean build and `sha1sum -c` after each.
+  Declarations the agents wrote locally get consolidated into shared headers afterwards.
 - `#pragma force_active on` (reset after) keeps an unreferenced function the original DOL still has
   (NETVersion.c). Without it the linker drops the function and its data, and SDA offsets shift.
 - The linker dead-strips unreferenced functions in C objects (not in asm
