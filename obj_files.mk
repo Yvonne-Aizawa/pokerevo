@@ -592,10 +592,11 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/asm/SDK/MP/mpport.o                                     \
 	$(BUILD_DIR)/asm/SDK/MP/mpbeacon.o                                     \
 	$(BUILD_DIR)/asm/SDK/MPDL/mpdlsystem.o                                     \
-	$(BUILD_DIR)/asm/SDK/NET/neterrorcode.o                                     \
-	$(BUILD_DIR)/asm/SDK/NET/neterrorcode.o                                     \
-	$(BUILD_DIR)/asm/SDK/NET/NETVersion.o                                     \
-	$(BUILD_DIR)/asm/SDK/NET/wireless_macaddr.o                                     \
+	$(BUILD_DIR)/asm/data_80445AA8.o \
+	$(BUILD_DIR)/src/SDK/NET/neterrorcode.o                                     \
+	$(BUILD_DIR)/asm/sdata_8063DEA8.o \
+	$(BUILD_DIR)/src/SDK/NET/NETVersion.o                                     \
+	$(BUILD_DIR)/src/SDK/NET/wireless_macaddr.o                                     \
 	$(BUILD_DIR)/asm/SDK/SO/SOCommon.o                                     \
 	$(BUILD_DIR)/asm/SDK/SO/SOBasic.o                                     \
 	$(BUILD_DIR)/asm/SDK/SO/SOInformation.o                                     \
@@ -619,8 +620,8 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/asm/SDK/NWC24/NWC24StdAPI.o                                     \
 	$(BUILD_DIR)/asm/SDK/NWC24/NWC24FileAPI.o                                     \
 	$(BUILD_DIR)/asm/SDK/NWC24/NWC24Config.o                                     \
-	$(BUILD_DIR)/asm/data_80445AA8.o \
-	$(BUILD_DIR)/asm/sdata_8063DEA8.o \
+	$(BUILD_DIR)/asm/data_80445E00.o \
+	$(BUILD_DIR)/asm/sdata_8063DEC8.o \
 	$(BUILD_DIR)/src/SDK/NWC24/NWC24Manage.o                                     \
 	$(BUILD_DIR)/src/SDK/NWC24/NWC24MBoxCtrl.o                                     \
 	$(BUILD_DIR)/src/SDK/NWC24/NWC24Mime.o                                     \

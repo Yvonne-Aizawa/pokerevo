@@ -123,6 +123,8 @@ discoverable while decompiling the code that uses them.
   instruction patching). Don't use them: the user wants only true matches.
   A file that only matches through a patch is parked instead. A per-file
   compiler flag in the Makefile is fine when it's what makes a file match.
+- `#pragma force_active on` (reset after) keeps an unreferenced function the original DOL still has
+  (NETVersion.c). Without it the linker drops the function and its data, and SDA offsets shift.
 - The linker dead-strips unreferenced functions in C objects (not in asm
   objects, which have no per-function sections), as the original's did. So
   SDK functions missing from an asm file (OSMessage's `OSJamMessage`,

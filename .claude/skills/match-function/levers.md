@@ -227,3 +227,5 @@ and add the function. Add new levers through the `record-lesson` skill.
   line. An end-marker "function" can be a lone `nop` (OSSync.c matched first try).
 - A global label inside an asm function (`__RAS_OSDisableInterrupts_end`) is an `entry NAME` line in its
   body, with `void NAME(void);` declared before the function, or MWCC rejects it (OSInterrupt.c).
+
+- `#pragma auto_inline off` before a function (and `on` after) stops -inline auto from inlining it into an earlier caller while explicit `inline` helpers still inline (NETiGetConnectionTypeFromConfigList: a `static inline` lowest-bit helper with `return` in the loop gives the original 8x unrolled shape; without the pragma the function got inlined into NETGetConnectionType).
