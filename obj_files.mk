@@ -631,7 +631,10 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/asm/sbss_8063FF48.o \
 	$(BUILD_DIR)/src/SDK/NWC24/NWC24Ipc.o                                     \
 	$(BUILD_DIR)/asm/SDK/NWC24/NWC24Download.o                                     \
-	$(BUILD_DIR)/asm/SDK/NWC24/NWC24System.o                                     \
+	$(BUILD_DIR)/asm/data_80446480.o \
+	$(BUILD_DIR)/asm/bss_805157A0.o \
+	$(BUILD_DIR)/asm/sdata_8063DF68.o \
+	$(BUILD_DIR)/src/SDK/NWC24/NWC24System.o                                     \
 	$(BUILD_DIR)/asm/SDK/VF/pf_clib.o                                     \
 	$(BUILD_DIR)/asm/SDK/VF/pf_code.o                                     \
 	$(BUILD_DIR)/asm/SDK/VF/pf_service.o                                     \
@@ -850,10 +853,10 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/asm/code_803D9208.o \
 	$(BUILD_DIR)/asm/text_11_2.o \
 	$(BUILD_DIR)/asm/ctors_2.o \
-	$(BUILD_DIR)/asm/data_80446480.o \
-	$(BUILD_DIR)/asm/bss_805157A0.o \
-	$(BUILD_DIR)/asm/sdata_8063DF68.o \
-	$(BUILD_DIR)/asm/sbss_80640290.o  \
+	$(BUILD_DIR)/asm/data_804465D8.o \
+	$(BUILD_DIR)/asm/bss_8057EA60.o \
+	$(BUILD_DIR)/asm/sdata_8063DF90.o \
+	$(BUILD_DIR)/asm/sbss_806402A0.o  \
     $(BUILD_DIR)/asm/sdata2_80642980.o
 
 

@@ -1,17 +1,8 @@
 	.section .sbss, "wa"  # 0x80474F00 - 0x80643050
 
-# Continuation of sbss_8063FF48.s after NWC24Ipc.c's pending flag (0x80640290).
+# Continuation of sbss_80640290.s after NWC24System.c's statics (0x806402A0).
 	.balign 8
 
-.global lbl_80640290
-lbl_80640290:
-	.skip 0x4
-.global lbl_80640294
-lbl_80640294:
-	.skip 0x4
-.global lbl_80640298
-lbl_80640298:
-	.skip 0x8
 .global lbl_806402A0
 lbl_806402A0:
 	.skip 0x8
