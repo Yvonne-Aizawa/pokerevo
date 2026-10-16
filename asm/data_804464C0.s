@@ -2,33 +2,9 @@
 
 	.section .data, "wa"  # 0x80405D60 - 0x80474F00
 
-# Continuation of data_80445AA8.s after NWC24Manage.c's data (0x80446480).
+# Continuation of data_80446480.s after NWC24MBoxCtrl.c (0x804464C0).
 	.balign 8
 
-.global lbl_80446480
-lbl_80446480:
-	.ascii "/wc24send.ctl"
-	.byte 0x00
-	.byte 0x00
-	.byte 0x00
-.global lbl_80446490
-lbl_80446490:
-	.ascii "/wc24recv.ctl"
-	.byte 0x00
-	.byte 0x00
-	.byte 0x00
-.global lbl_804464A0
-lbl_804464A0:
-	.ascii "/wc24recv.mbx"
-	.byte 0x00
-	.byte 0x00
-	.byte 0x00
-.global lbl_804464B0
-lbl_804464B0:
-	.ascii "/wc24send.mbx"
-	.byte 0x00
-	.byte 0x00
-	.byte 0x00
 .global lbl_804464C0
 lbl_804464C0:
 	.ascii "/dev/net/kd/request"

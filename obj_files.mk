@@ -622,7 +622,7 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/asm/data_80445AA8.o \
 	$(BUILD_DIR)/asm/sdata_8063DEA8.o \
 	$(BUILD_DIR)/src/SDK/NWC24/NWC24Manage.o                                     \
-	$(BUILD_DIR)/asm/SDK/NWC24/NWC24MBoxCtrl.o                                     \
+	$(BUILD_DIR)/src/SDK/NWC24/NWC24MBoxCtrl.o                                     \
 	$(BUILD_DIR)/src/SDK/NWC24/NWC24Mime.o                                     \
 	$(BUILD_DIR)/asm/SDK/NWC24/NWC24Schedule.o                                     \
 	$(BUILD_DIR)/src/SDK/NWC24/NWC24FriendList.o                                     \
@@ -631,9 +631,9 @@ SPLIT_O_FILES := 						                          \
 	$(BUILD_DIR)/asm/sbss_8063FF48.o \
 	$(BUILD_DIR)/src/SDK/NWC24/NWC24Ipc.o                                     \
 	$(BUILD_DIR)/asm/SDK/NWC24/NWC24Download.o                                     \
-	$(BUILD_DIR)/asm/data_80446480.o \
+	$(BUILD_DIR)/asm/data_804464C0.o \
 	$(BUILD_DIR)/asm/bss_805157A0.o \
-	$(BUILD_DIR)/asm/sdata_8063DF68.o \
+	$(BUILD_DIR)/asm/sdata_8063DF70.o \
 	$(BUILD_DIR)/src/SDK/NWC24/NWC24System.o                                     \
 	$(BUILD_DIR)/asm/SDK/VF/pf_clib.o                                     \
 	$(BUILD_DIR)/asm/SDK/VF/pf_code.o                                     \
